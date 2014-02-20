@@ -46,11 +46,11 @@
 
 #include "math/mat3.cpp"
 
-namespace Odin{
-	
-	void init() {
+namespace Odin {
+
+    void init() {
         std::srand(std::time(0));
-		std::cout.precision(16);
+        std::cout.precision(16);
     }
 }
 
