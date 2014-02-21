@@ -4,14 +4,12 @@ using namespace Odin;
 
 
 int main(void) {
-	
-    init();
-	
+
+	init();
+
 	Time.update();
-	
-	Mat3 m;
-	
-	std::cout << m.ToString() << std::endl;
-	
-    return 0;
+
+	GameObject gameObject;
+
+	return 0;
 }

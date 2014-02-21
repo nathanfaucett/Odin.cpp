@@ -29,10 +29,4 @@ namespace Odin {
 #elif __posix
 #define POSIX
 #endif
-
-#ifdef WINDOWS
-
-#elif defined(LINUX) || defined(UNIX)
-
-#endif
 }

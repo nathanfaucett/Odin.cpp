@@ -3,34 +3,34 @@
 
 namespace Odin {
 
-    struct util {
+	struct util {
 
-        private:
+		private:
 
-        public:
+		public:
 
-            inline std::string ToString(int x, int precision = 5) {
-                std::ostringstream convert;
-                convert << std::setprecision(precision) << x;
-                return convert.str();
-            }
-            inline std::string ToString(float x, int precision = 5) {
-                std::ostringstream convert;
-                convert << std::setprecision(precision) << x;
-                return convert.str();
-            }
-            inline std::string ToString(double x, int precision = 5) {
-                std::ostringstream convert;
-                convert << std::setprecision(precision) << x;
-                return convert.str();
-            }
-            inline std::string ToString(bool x, int precision = 5) {
+			inline std::string ToString(int x, int precision = 5) {
+				std::ostringstream convert;
+				convert << std::setprecision(precision) << x;
+				return convert.str();
+			}
+			inline std::string ToString(float x, int precision = 5) {
+				std::ostringstream convert;
+				convert << std::setprecision(precision) << x;
+				return convert.str();
+			}
+			inline std::string ToString(double x, int precision = 5) {
+				std::ostringstream convert;
+				convert << std::setprecision(precision) << x;
+				return convert.str();
+			}
+			inline std::string ToString(bool x, int precision = 5) {
 
-                return x ? "true" : "false";
-            }
-    };
+				return x ? "true" : "false";
+			}
+	};
 
-    util util;
+	util util;
 }
 
 #endif

@@ -3,17 +3,16 @@
 build:
 	g++ -std=c++0x main.cpp
 
-ASTYLE_STYLE = --style=java --style=attach --indent-classes --indent-namespaces -A2
+
+ASTYLE_OPTIONS = --style=attach --suffix=none --indent=tab --indent-classes --indent-modifiers --indent-switches --indent-cases --indent-namespaces \
+	--indent-labels --indent-col1-comments --break-blocks=all --pad-oper --pad-header \
+	--align-pointer=type --align-reference=type --add-brackets
 astyle:
-	astyle $(ASTYLE_STYLE) **/*.h **/*.cpp odin.h
-	$(RM) **/*.orig *.orig
+	astyle $(ASTYLE_OPTIONS) **/*.h **/*.cpp odin.h
 	
 clean:
-	$(RM) main
-	$(RM) **/*.orig
+	$(RM) a.out
 
 all:
 	make build
 	make astyle
-	make clean
-	

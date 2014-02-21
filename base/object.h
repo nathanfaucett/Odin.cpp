@@ -2,41 +2,29 @@
 #define ODIN_OBJECT_H
 
 namespace Odin {
-    unsigned int ODIN_OBJECT_ID = 0;
+	unsigned int ODIN_OBJECT_ID = 0;
 
-    class Object {
+	class Object {
 
-        private:
-            unsigned int m_id;
-            std::string m_name;
+		private:
+			unsigned int m_id;
+			std::string m_name;
 
-        protected:
+		protected:
 
 
-        public:
+		public:
 
-            Object() {
-                m_id = ++ODIN_OBJECT_ID;
-            }
+			Object();
 
-            ~Object() {
-                Destroy();
-            }
+			~Object();
 
-            inline unsigned int GetID() {
+			inline void virtual Deconstructor();
 
-                return m_id;
-            }
+			inline unsigned int GetID();
 
-            inline void virtual Destroy() {
-
-            }
-
-            inline std::string ToString() {
-
-                return m_name;
-            }
-    };
+			inline std::string ToString();
+	};
 }
 
 #endif
