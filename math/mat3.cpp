@@ -152,9 +152,9 @@ namespace Odin {
 	}
 
 	inline Mat3& Mat3::Inverse(const Mat4& m) {
-		float m11 = m.mat[0], m12 = m.mat[4], m13 = m.mat[8],
-		      m21 = m.mat[1], m22 = m.mat[5], m23 = m.mat[9],
-		      m31 = m.mat[2], m32 = m. mat[6], m33 = m.mat[10],
+		float m11 = m[0], m12 = m[4], m13 = m[8],
+		      m21 = m[1], m22 = m[5], m23 = m[9],
+		      m31 = m[2], m32 = m[6], m33 = m[10],
 
 		      m0 = m22 * m33 - m23 * m32,
 		      m3 = m13 * m32 - m12 * m33,
@@ -206,42 +206,42 @@ namespace Odin {
 
 	inline Mat3& Mat3::ExtractRotation(const Mat4& m) {
 		Vec3 vec;
-		float lx = Mathf.V3LengthSq(m.mat[0], m.mat[1], m.mat[2]),
-		      ly = Mathf.V3LengthSq(m.mat[4], m.mat[5], m.mat[6]),
-		      lz = Mathf.V3LengthSq(m.mat[8], m.mat[9], m.mat[10]),
+		float lx = Mathf.V3LengthSq(m[0], m[1], m[2]),
+		      ly = Mathf.V3LengthSq(m[4], m[5], m[6]),
+		      lz = Mathf.V3LengthSq(m[8], m[9], m[10]),
 
 		      scaleX = lx > 0 ? 1 / std::sqrt(lx) : 0,
 		      scaleY = ly > 0 ? 1 / std::sqrt(ly) : 0,
 		      scaleZ = lz > 0 ? 1 / std::sqrt(lz) : 0;
 
-		mat[0] = m.mat[0] * scaleX;
-		mat[1] = m.mat[1] * scaleX;
-		mat[2] = m.mat[2] * scaleX;
+		mat[0] = m[0] * scaleX;
+		mat[1] = m[1] * scaleX;
+		mat[2] = m[2] * scaleX;
 
-		mat[3] = m.mat[4] * scaleY;
-		mat[4] = m.mat[5] * scaleY;
-		mat[5] = m.mat[6] * scaleY;
+		mat[3] = m[4] * scaleY;
+		mat[4] = m[5] * scaleY;
+		mat[5] = m[6] * scaleY;
 
-		mat[6] = m.mat[8] * scaleZ;
-		mat[7] = m.mat[9] * scaleZ;
-		mat[8] = m.mat[10] * scaleZ;
+		mat[6] = m[8] * scaleZ;
+		mat[7] = m[9] * scaleZ;
+		mat[8] = m[10] * scaleZ;
 
 		return *this;
 	}
 
 	inline Mat3& Mat3::ExtractRotationWithScale(const Mat4& m)  {
 
-		mat[0] = m.mat[0];
-		mat[1] = m.mat[1];
-		mat[2] = m.mat[2];
+		mat[0] = m[0];
+		mat[1] = m[1];
+		mat[2] = m[2];
 
-		mat[3] = m.mat[4];
-		mat[4] = m.mat[5];
-		mat[5] = m.mat[6];
+		mat[3] = m[4];
+		mat[4] = m[5];
+		mat[5] = m[6];
 
-		mat[6] = m.mat[8];
-		mat[7] = m.mat[9];
-		mat[8] = m.mat[10];
+		mat[6] = m[8];
+		mat[7] = m[9];
+		mat[8] = m[10];
 
 		return *this;
 	}

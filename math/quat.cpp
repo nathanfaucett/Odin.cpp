@@ -157,15 +157,15 @@ namespace Odin {
 	}
 
 	inline Quat& Quat::FromMatrix(const Mat3& m)  {
-		float m11 = m.mat[0],
-			  m12 = m.mat[3],
-			  m13 = m.mat[6],
-			  m21 = m.mat[1],
-			  m22 = m.mat[4],
-			  m23 = m.mat[7],
-			  m31 = m.mat[2],
-			  m32 = m.mat[5],
-			  m33 = m.mat[8],
+		float m11 = m[0],
+			  m12 = m[3],
+			  m13 = m[6],
+			  m21 = m[1],
+			  m22 = m[4],
+			  m23 = m[7],
+			  m31 = m[2],
+			  m32 = m[5],
+			  m33 = m[8],
 			  trace = m11 + m22 + m33,
 			  s, invS;
 
@@ -209,15 +209,15 @@ namespace Odin {
 	}
 
 	inline Quat& Quat::FromMatrix(const Mat4& m) {
-		float m11 = m.mat[0],
-			  m12 = m.mat[4],
-			  m13 = m.mat[8],
-			  m21 = m.mat[1],
-			  m22 = m.mat[5],
-			  m23 = m.mat[9],
-			  m31 = m.mat[2],
-			  m32 = m.mat[6],
-			  m33 = m.mat[10],
+		float m11 = m[0],
+			  m12 = m[4],
+			  m13 = m[8],
+			  m21 = m[1],
+			  m22 = m[5],
+			  m23 = m[9],
+			  m31 = m[2],
+			  m32 = m[6],
+			  m33 = m[10],
 			  trace = m11 + m22 + m33,
 			  s, invS;
 

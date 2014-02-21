@@ -6,7 +6,6 @@ namespace Odin {
 	struct Mat3 {
 
 		private:
-			friend struct Quat;
 			float mat[9];
 
 		public:
