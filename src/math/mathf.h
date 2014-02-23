@@ -205,7 +205,7 @@ namespace Odin {
 			return a + (b - a) * t;
 		}
 
-		inline float lerpCos(const float a, const float b, const float t) {
+		inline float LerpCos(const float a, const float b, const float t) {
 			float ft = t * PI,
 			      f = (1 - cosf(ft)) * 0.5f;
 

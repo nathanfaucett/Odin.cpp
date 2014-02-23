@@ -4,13 +4,13 @@
 namespace Odin {
 
 	class Time {
-			static constexpr double TIME_DELTA_MIN = 0.000000001, TIME_DELTA_MAX = 1;
 
 		private:
 			double m_start, m_fpsTime, m_fpsLast, m_time, m_last, m_delta;
 			unsigned int m_frameCount, m_frames;
 
 		public:
+			static constexpr double TIME_DELTA_MIN = 0.000000001, TIME_DELTA_MAX = 1;
 			unsigned int frameCount;
 			double delta, fixedDelta, scale, fps, time;
 
@@ -24,7 +24,7 @@ namespace Odin {
 				m_fpsTime = 0;
 				m_fpsLast = -1;
 
-				m_start = stamp();
+				m_start = Stamp();
 				m_time = 0;
 				m_last = -1 / 60;
 				m_delta = 1 / 60;
@@ -32,11 +32,11 @@ namespace Odin {
 
 			~Time(void) {}
 
-			inline void update(void) {
+			inline void Update(void) {
 				frameCount = m_frameCount++;
 
 				m_last = m_time;
-				m_time = now();
+				m_time = Now();
 				m_delta = (m_time - m_last) * scale;
 
 				delta = m_delta < TIME_DELTA_MIN ? TIME_DELTA_MIN : m_delta > TIME_DELTA_MAX ? TIME_DELTA_MAX : m_delta;
@@ -53,12 +53,12 @@ namespace Odin {
 				}
 			}
 
-			inline double now(void) {
+			inline double Now(void) {
 
-				return stamp() - m_start;
+				return Stamp() - m_start;
 			}
 
-			inline double stamp(void) {
+			inline double Stamp(void) {
 
 				return (std::chrono::high_resolution_clock::now().time_since_epoch() / std::chrono::nanoseconds(1)) * 0.000000001;
 			}

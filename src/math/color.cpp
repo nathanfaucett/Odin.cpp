@@ -46,6 +46,12 @@ namespace Odin {
 		b = c.b;
 	}
 
+	inline Color::Color(const Color&& c) {
+		r = std::move(c.r);
+		g = std::move(c.g);
+		b = std::move(c.b);
+	}
+
 	inline Color::~Color(void) {}
 
 	inline Color& Color::Set(const float R, const float G, const float B) {
@@ -222,6 +228,24 @@ namespace Odin {
 		r *= d;
 		g *= d;
 		b *= d;
+	}
+
+	inline Color& Color::operator =(const Color& c) {
+
+		r = c.r;
+		g = c.g;
+		b = c.b;
+
+		return *this;
+	}
+
+	inline Color& Color::operator =(const Color && c) {
+
+		r = std::move(c.r);
+		g = std::move(c.g);
+		b = std::move(c.b);
+
+		return *this;
 	}
 
 	inline bool Color::operator ==(const Color& c) {

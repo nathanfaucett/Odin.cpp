@@ -17,6 +17,7 @@ namespace Odin {
 			    const float m13, const float m23, const float m33
 			);
 			inline Mat3(const Mat3& m);
+			inline Mat3(const Mat3&& m);
 
 			inline ~Mat3(void);
 
@@ -87,6 +88,9 @@ namespace Odin {
 
 			inline Mat3 operator *=(const float s);
 			inline Mat3 operator /=(const float s);
+
+			inline Mat3& operator =(const Mat3& m);
+			inline Mat3& operator =(const Mat3 && m);
 
 			inline bool operator ==(const Mat3& m);
 			inline bool operator !=(const Mat3& m);

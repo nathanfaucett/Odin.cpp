@@ -60,6 +60,15 @@ namespace Odin {
 		mat[5] = m.mat[5];
 	}
 
+	inline Mat32::Mat32(const Mat32&& m) {
+		mat[0] = std::move(m.mat[0]);
+		mat[1] = std::move(m.mat[1]);
+		mat[2] = std::move(m.mat[2]);
+		mat[3] = std::move(m.mat[3]);
+		mat[4] = std::move(m.mat[4]);
+		mat[5] = std::move(m.mat[5]);
+	}
+
 	inline Mat32::~Mat32(void) {}
 
 	inline Mat32& Mat32::Identity(void) {
@@ -316,6 +325,28 @@ namespace Odin {
 		mat[3] *= d;
 		mat[4] *= d;
 		mat[5] *= d;
+	}
+
+	inline Mat32& Mat32::operator =(const Mat32& m) {
+		mat[0] = m.mat[0];
+		mat[1] = m.mat[1];
+		mat[2] = m.mat[2];
+		mat[3] = m.mat[3];
+		mat[4] = m.mat[4];
+		mat[5] = m.mat[5];
+
+		return *this;
+	}
+
+	inline Mat32& Mat32::operator =(const Mat32 && m) {
+		mat[0] = std::move(m.mat[0]);
+		mat[1] = std::move(m.mat[1]);
+		mat[2] = std::move(m.mat[2]);
+		mat[3] = std::move(m.mat[3]);
+		mat[4] = std::move(m.mat[4]);
+		mat[5] = std::move(m.mat[5]);
+
+		return *this;
 	}
 
 	inline bool Mat32::operator ==(const Mat32& m) {

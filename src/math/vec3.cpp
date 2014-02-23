@@ -39,6 +39,24 @@ namespace Odin {
 		z = v.z;
 	}
 
+	inline Vec3::Vec3(const Vec3&& v) {
+		x = std::move(v.x);
+		y = std::move(v.y);
+		z = std::move(v.z);
+	}
+
+	inline Vec3::Vec3(const Vec4& v) {
+		x = v.x;
+		y = v.y;
+		z = v.z;
+	}
+
+	inline Vec3::Vec3(const Color& c) {
+		x = c.r;
+		y = c.g;
+		z = c.b;
+	}
+
 	inline Vec3::~Vec3(void) {}
 
 	inline Vec3& Vec3::Set(const float X, const float Y, const float Z) {
@@ -272,6 +290,22 @@ namespace Odin {
 		x *= d;
 		y *= d;
 		z *= d;
+	}
+
+	inline Vec3& Vec3::operator =(const Vec3& v) {
+		x = v.x;
+		y = v.y;
+		z = v.z;
+
+		return *this;
+	}
+
+	inline Vec3& Vec3::operator =(const Vec3 && v) {
+		x = std::move(v.x);
+		y = std::move(v.y);
+		z = std::move(v.z);
+
+		return *this;
 	}
 
 	inline bool Vec3::operator ==(const Vec3& v) {

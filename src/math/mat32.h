@@ -16,6 +16,7 @@ namespace Odin {
 			inline Mat32(const Mat2& m, const Vec2& v);
 			inline Mat32(const Vec2& v, const float angle);
 			inline Mat32(const Mat32& m);
+			inline Mat32(const Mat32&& m);
 			inline ~Mat32(void);
 
 			inline Mat32& Identity(void);
@@ -42,6 +43,9 @@ namespace Odin {
 
 			inline Mat32 operator *=(const float s);
 			inline Mat32 operator /=(const float s);
+
+			inline Mat32& operator =(const Mat32& m);
+			inline Mat32& operator =(const Mat32 && m);
 
 			inline bool operator ==(const Mat32& m);
 			inline bool operator !=(const Mat32& m);

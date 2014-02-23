@@ -52,6 +52,20 @@ namespace Odin {
 		w = v.w;
 	}
 
+	inline Vec4::Vec4(const Vec4&& v) {
+		x = std::move(v.x);
+		y = std::move(v.y);
+		z = std::move(v.z);
+		w = std::move(v.w);
+	}
+
+	inline Vec4::Vec4(const Color& c) {
+		x = c.r;
+		y = c.g;
+		z = c.b;
+		w = 1.0f;
+	}
+
 	inline Vec4::~Vec4(void) {}
 
 	inline Vec4& Vec4::Set(const float X, const float Y, const float Z) {
@@ -244,6 +258,24 @@ namespace Odin {
 		y *= d;
 		z *= d;
 		w *= d;
+	}
+
+	inline Vec4& Vec4::operator =(const Vec4& v) {
+		x = v.x;
+		y = v.y;
+		z = v.z;
+		w = v.w;
+
+		return *this;
+	}
+
+	inline Vec4& Vec4::operator =(const Vec4 && v) {
+		x = std::move(v.x);
+		y = std::move(v.y);
+		z = std::move(v.z);
+		w = std::move(v.w);
+
+		return *this;
 	}
 
 	inline bool Vec4::operator ==(const Vec4& v) {

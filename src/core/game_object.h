@@ -3,16 +3,18 @@
 
 namespace Odin {
 
-	struct Scene;
+	class Scene;
 
 	class GameObject : public Object {
 
 		private:
 			friend class Scene;
 
-			std::vector<GameObject*> m_children;
+			Array<GameObject*> m_children;
 
 			Scene* m_scene;
+
+			Camera* m_camera;
 
 			GameObject* m_parent;
 			GameObject* m_root;
@@ -21,6 +23,9 @@ namespace Odin {
 
 			inline void m_RemoveParent(void);
 			inline void m_UpdateDepth(unsigned int depth);
+
+			inline void m_AddComponent(const std::string type);
+			inline void m_RemoveComponent(const std::string type);
 
 		protected:
 
@@ -41,13 +46,17 @@ namespace Odin {
 
 			inline void Update(void);
 
+			inline void Destroy(void);
+
 			inline GameObject* operator [] (int i);
+
+			inline void AddComponent(const Component* component);
+			inline void RemoveComponent(const Component* component);
 
 			inline GameObject* GetParent(void) const;
 			inline unsigned int GetDepth(void) const;
 
 			inline void SetParent(GameObject* parent);
-
 			inline void AddChild(GameObject* child);
 			inline void RemoveChild(GameObject* child);
 

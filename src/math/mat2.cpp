@@ -24,6 +24,13 @@ namespace Odin {
 		mat[3] = m.mat[3];
 	}
 
+	inline Mat2::Mat2(const Mat2&& m) {
+		mat[0] = std::move(m.mat[0]);
+		mat[2] = std::move(m.mat[2]);
+		mat[1] = std::move(m.mat[1]);
+		mat[3] = std::move(m.mat[3]);
+	}
+
 	inline Mat2::~Mat2(void) {}
 
 	inline Mat2& Mat2::Identity(void) {
@@ -194,6 +201,26 @@ namespace Odin {
 		mat[1] *= d;
 		mat[2] *= d;
 		mat[3] *= d;
+	}
+
+	inline Mat2& Mat2::operator =(const Mat2& m) {
+
+		mat[0] = m.mat[0];
+		mat[1] = m.mat[1];
+		mat[2] = m.mat[2];
+		mat[3] = m.mat[3];
+
+		return *this;
+	}
+
+	inline Mat2& Mat2::operator =(const Mat2 && m) {
+
+		mat[0] = std::move(m.mat[0]);
+		mat[1] = std::move(m.mat[1]);
+		mat[2] = std::move(m.mat[2]);
+		mat[3] = std::move(m.mat[3]);
+
+		return *this;
 	}
 
 	inline bool Mat2::operator ==(const Mat2& m) {

@@ -14,8 +14,10 @@ namespace Odin {
 		inline explicit Quat(const float X, const float Y, const float Z);
 		inline explicit Quat(const float X, const float Y, const float Z, const float W);
 		inline Quat(const Vec3& v);
+		inline Quat(const Vec3& v, const float angle);
 		inline Quat(const Vec4& v);
 		inline Quat(const Quat& q);
+		inline Quat(const Quat&& q);
 		inline ~Quat(void);
 
 		inline Quat& Set(const float X, const float Y, const float Z);
@@ -98,8 +100,8 @@ namespace Odin {
 		inline Quat& RotateZ(const float angle);
 		inline Quat& Rotate(const float x, const float y, const float z);
 		inline Quat& LookRotation(const Vec3& forward, const Vec3& up);
-		inline Quat& fromAxisAngle(const Vec3& axis, const float angle);
-		inline Quat& fromVec3s(const Vec3& u, const Vec3& v);
+		inline Quat& FromAxisAngle(const Vec3& axis, const float angle);
+		inline Quat& FromVec3s(const Vec3& u, const Vec3& v);
 
 		inline float operator [] (int i) const;
 		inline float& operator [] (int i);
@@ -124,6 +126,9 @@ namespace Odin {
 		inline void operator -=(const float s);
 		inline void operator *=(const float s);
 		inline void operator /=(const float s);
+
+		inline Quat& operator =(const Quat& q);
+		inline Quat& operator =(const Quat && q);
 
 		inline bool operator ==(const Quat& q);
 		inline bool operator !=(const Quat& q);

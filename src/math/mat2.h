@@ -13,6 +13,7 @@ namespace Odin {
 			inline explicit Mat2(void);
 			inline explicit Mat2(const float m11, const float m12, const float m21, const float m22);
 			inline Mat2(const Mat2& m);
+			inline Mat2(const Mat2&& m);
 			inline ~Mat2(void);
 
 			inline Mat2& Identity(void);
@@ -37,6 +38,9 @@ namespace Odin {
 
 			inline Mat2 operator *=(const float s);
 			inline Mat2 operator /=(const float s);
+
+			inline Mat2& operator =(const Mat2& m);
+			inline Mat2& operator =(const Mat2 && m);
 
 			inline bool operator ==(const Mat2& m);
 			inline bool operator !=(const Mat2& m);

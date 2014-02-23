@@ -17,6 +17,7 @@ namespace Odin {
 		inline Color(const Vec3& v);
 		inline Color(const Vec4& v);
 		inline Color(const Color& c);
+		inline Color(const Color&& c);
 
 		inline ~Color(void);
 
@@ -71,6 +72,9 @@ namespace Odin {
 		inline void operator -=(const float s);
 		inline void operator *=(const float s);
 		inline void operator /=(const float s);
+
+		inline Color& operator =(const Color& c);
+		inline Color& operator =(const Color && c);
 
 		inline bool operator ==(const Color& c);
 		inline bool operator !=(const Color& c);

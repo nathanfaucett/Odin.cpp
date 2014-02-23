@@ -23,6 +23,26 @@ namespace Odin {
 		y = v.y;
 	}
 
+	inline Vec2::Vec2(const Vec2&& v) {
+		x = std::move(v.x);
+		y = std::move(v.y);
+	}
+
+	inline Vec2::Vec2(const Vec3& v) {
+		x = v.x;
+		y = v.y;
+	}
+
+	inline Vec2::Vec2(const Vec4& v) {
+		x = v.x;
+		y = v.y;
+	}
+
+	inline Vec2::Vec2(const Color& c) {
+		x = c.r;
+		y = c.g;
+	}
+
 	inline Vec2::~Vec2(void) {}
 
 	inline Vec2& Vec2::Set(const float X, const float Y) {
@@ -236,6 +256,20 @@ namespace Odin {
 
 		x *= d;
 		y *= d;
+	}
+
+	inline Vec2& Vec2::operator =(const Vec2& v) {
+		x = v.x;
+		y = v.y;
+
+		return *this;
+	}
+
+	inline Vec2& Vec2::operator =(const Vec2 && v) {
+		x = std::move(v.x);
+		y = std::move(v.y);
+
+		return *this;
 	}
 
 	inline bool Vec2::operator ==(const Vec2& v) {

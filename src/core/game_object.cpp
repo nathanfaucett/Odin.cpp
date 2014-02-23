@@ -13,9 +13,17 @@ namespace Odin {
 	inline void GameObject::m_UpdateDepth(unsigned int depth) {
 		m_depth = depth;
 
-		for (unsigned i = m_children.size(); i-- > 0;) {
+		for (unsigned int i = m_children.Length(); i-- > 0;) {
 			m_children[i]->m_UpdateDepth(depth + 1);
 		}
+	}
+
+	inline void GameObject::m_AddComponent(const std::string type) {
+
+	}
+
+	inline void GameObject::m_RemoveComponent(const std::string type) {
+
 	}
 
 	inline GameObject::GameObject(void) : Object() {
@@ -34,7 +42,7 @@ namespace Odin {
 	}
 
 	inline void GameObject::Deconstructor(void) {
-		m_children.clear();
+		m_children.Clear();
 		m_parent = NULL;
 		m_root = NULL;
 	}
@@ -56,11 +64,38 @@ namespace Odin {
 
 	inline void GameObject::Update(void) {
 		matrix.Compose(position, scale, rotation);
-		matrixWorld = matrix;
+
+		if (m_parent == NULL) {
+			matrixWorld = matrix;
+
+		} else {
+			Mat4Mul(m_parent->matrixWorld, matrix, matrixWorld);
+		}
+	}
+
+	inline void GameObject::Destroy(void) {
+
+		if (m_scene != NULL) {
+			m_scene->RemoveGameObject(this);
+		}
 	}
 
 	inline GameObject* GameObject::operator [] (int i) {
 		return m_children[i];
+	}
+
+	inline void GameObject::AddComponent(const Component* component) {
+
+		if (component != NULL) {
+
+		}
+	}
+
+	inline void GameObject::RemoveComponent(const Component* component) {
+
+		if (component != NULL) {
+
+		}
 	}
 
 	inline GameObject* GameObject::GetParent(void) const {
@@ -91,7 +126,7 @@ namespace Odin {
 				child->m_parent->RemoveChild(child);
 			}
 
-			m_children.push_back(child);
+			m_children.Push(child);
 			child->m_parent = this;
 
 			GameObject* root = this;
@@ -118,10 +153,10 @@ namespace Odin {
 
 		if (NULL != child) {
 
-			for (unsigned i = m_children.size(); i-- > 0;) {
+			for (unsigned int i = m_children.Length(); i-- > 0;) {
 
 				if (m_children[i] == child) {
-					m_children.erase(m_children.begin() + i);
+					m_children.Splice(i, 1);
 					child->m_RemoveParent();
 
 					if (child->m_scene != m_scene) {
@@ -138,10 +173,10 @@ namespace Odin {
 	inline void GameObject::DetachChildren(void) {
 		GameObject* child;
 
-		for (unsigned i = m_children.size(); i-- > 0;) {
+		for (unsigned int i = m_children.Length(); i-- > 0;) {
 			child = m_children[i];
 
-			m_children.erase(m_children.begin() + i);
+			m_children.Splice(i, 1);
 			child->m_RemoveParent();
 			m_childCount--;
 		}
@@ -151,7 +186,7 @@ namespace Odin {
 
 		if (NULL != child) {
 
-			for (unsigned i = m_children.size(); i-- > 0;) {
+			for (unsigned int i = m_children.Length(); i-- > 0;) {
 
 				if (m_children[i] == child) {
 					return i;

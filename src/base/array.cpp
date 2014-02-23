@@ -3,14 +3,72 @@
 
 namespace Odin {
 
+	template <class Type> inline void Array<Type>::m_QuickSort(std::function<int(const Type a, const Type b)> sortFunction, const int from, const int to) {
+
+		if (from < to) {
+			int j = m_Partition(sortFunction, from, to);
+			m_QuickSort(sortFunction, from, j - 1);
+			m_QuickSort(sortFunction, j + 1, to);
+		}
+	}
+
+	template <class Type> inline int Array<Type>::m_Partition(std::function<int(const Type a, const Type b)> sortFunction, int i, int j) {
+		Type pivot = m_array[j];
+		Type tmp;
+
+		while (i < j) {
+			while (sortFunction(m_array[i], pivot) < 0) {
+				i++;
+			}
+
+			while (sortFunction(m_array[j], pivot) > 0) {
+				j--;
+			}
+
+			if (sortFunction(m_array[i], m_array[j]) == 0) {
+				i++;
+
+			} else if (i < j) {
+				tmp = m_array[i];
+				m_array[i] = m_array[j];
+				m_array[j] = tmp;
+			}
+		}
+
+		return j;
+	}
+
 	template <class Type> inline Array<Type>::Array(void) {
 		m_length = 0;
 		m_array = new Type[m_length];
 	}
 
-	template <class Type> inline Array<Type>::Array(const unsigned int length) {
+	template <class Type> inline Array<Type>::Array(const Array<Type>& other) {
+		unsigned int length = other.m_length,
+		             i = 0;
+
+		Type* array = new Type[length];
+
+		for (; i < length; i++) {
+			array[i] = other.m_array[i];
+		}
+
+		m_array = array;
 		m_length = length;
-		m_array = new Type[m_length];
+	}
+
+	template <class Type> inline Array<Type>::Array(const Array<Type>&& other) {
+		unsigned int length = other.m_length,
+		             i = 0;
+
+		Type* array = new Type[length];
+
+		for (; i < length; i++) {
+			array[i] = std::move(other.m_array[i]);
+		}
+
+		m_array = array;
+		m_length = length;
 	}
 
 	template <class Type> inline Array<Type>::~Array(void) {
@@ -76,6 +134,12 @@ namespace Odin {
 		return item;
 	}
 
+	template <class Type> inline void Array<Type>::Clear(void) {
+		delete []m_array;
+		m_length = 0;
+		m_array = new Type[m_length];
+	}
+
 	template <class Type> inline unsigned int Array<Type>::Length(void) {
 
 		return m_length;
@@ -86,37 +150,38 @@ namespace Odin {
 		m_QuickSort(sortFunction, 0, m_length - 1);
 	}
 
-	template <class Type> inline void Array<Type>::m_QuickSort(std::function<int(const Type a, const Type b)> sortFunction, const int from, const int to) {
+	template <class Type> inline Array<Type>& Array<Type>::operator =(const Array<Type>& other) {
+		unsigned int length = other.m_length,
+		             i = 0;
 
-		if (from < to) {
-			int j = m_Partition(sortFunction, from, to);
-			m_QuickSort(sortFunction, from, j - 1);
-			m_QuickSort(sortFunction, j + 1, to);
+		Type* array = new Type[length];
+
+		for (; i < length; i++) {
+			array[i] = other.m_array[i];
 		}
+
+		delete []m_array;
+		m_array = array;
+		m_length = length;
+
+		return *this;
 	}
 
-	template <class Type> inline int Array<Type>::m_Partition(std::function<int(const Type a, const Type b)> sortFunction, int i, int j) {
-		Type pivot = m_array[(i + j) >> 1];
-		Type tmp;
+	template <class Type> inline Array<Type>& Array<Type>::operator =(const Array<Type>&& other) {
+		unsigned int length = other.m_length,
+		             i = 0;
 
-		while (i < j) {
-			while (sortFunction(m_array[i], pivot) < 0) {
-				i++;
-			}
-			while (sortFunction(m_array[j], pivot) > 0) {
-				j--;
-			}
+		Type* array = new Type[length];
 
-			if (sortFunction(m_array[i], m_array[j]) == 0) {
-				i++;
-			} else if (i < j) {
-				tmp = m_array[i];
-				m_array[i] = m_array[j];
-				m_array[j] = tmp;
-			}
+		for (; i < length; i++) {
+			array[i] = std::move(other.m_array[i]);
 		}
 
-		return j;
+		delete []m_array;
+		m_array = array;
+		m_length = length;
+
+		return *this;
 	}
 }
 #endif

@@ -2,11 +2,12 @@
 #define ODIN_SCENE_H
 
 namespace Odin {
+
 	class Scene : public Object {
 		private:
 			friend class GameObject;
 
-			std::vector <GameObject*> m_gameObjects;
+			Array<GameObject*> m_gameObjects;
 			unsigned int m_gameObjectCount;
 
 			inline void m_AddGameObject (GameObject* gameObject);

@@ -3,9 +3,18 @@
 
 namespace Odin {
 
+	class GameObject;
+
+	enum ComponentType {
+		CameraComponent,
+	};
+
 	class Component : public Object {
 
 		private:
+			friend class GameObject;
+			ComponentType m_type;
+			GameObject* m_gameObject;
 
 		protected:
 
@@ -18,8 +27,10 @@ namespace Odin {
 			inline void virtual Deconstructor(void);
 
 			inline void virtual Update(void);
-			
+
 			inline void Destroy(void);
+
+			inline GameObject* GetGameObject(void);
 	};
 }
 

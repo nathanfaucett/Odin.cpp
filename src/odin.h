@@ -3,13 +3,10 @@
 
 #include <chrono>
 #include <cmath>
-#include <cstdlib>
 #include <cfloat>
 #include <iomanip>
 #include <sstream>
 #include <string>
-#include <vector>
-#include <algorithm>
 #include <functional>
 
 #include "base/array.h"
@@ -30,6 +27,8 @@
 #include "math/vec4.h"
 
 #include "core/components/component.h"
+#include "core/components/camera.h"
+
 #include "core/game_object.h"
 #include "core/scene.h"
 
@@ -48,6 +47,8 @@
 #include "math/vec4.cpp"
 
 #include "core/components/component.cpp"
+#include "core/components/camera.cpp"
+
 #include "core/game_object.cpp"
 #include "core/scene.cpp"
 

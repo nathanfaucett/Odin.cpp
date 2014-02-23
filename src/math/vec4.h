@@ -17,6 +17,8 @@ namespace Odin {
 		inline Vec4(const Vec2& v);
 		inline Vec4(const Vec3& v);
 		inline Vec4(const Vec4& v);
+		inline Vec4(const Vec4&& v);
+		inline Vec4(const Color& v);
 		inline ~Vec4(void);
 
 		inline Vec4& Set(const float X, const float Y, const float Z);
@@ -68,6 +70,9 @@ namespace Odin {
 		inline void operator -=(const float s);
 		inline void operator *=(const float s);
 		inline void operator /=(const float s);
+
+		inline Vec4& operator =(const Vec4& v);
+		inline Vec4& operator =(const Vec4 && v);
 
 		inline bool operator ==(const Vec4& v);
 		inline bool operator !=(const Vec4& v);

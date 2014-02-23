@@ -19,7 +19,8 @@ namespace Odin {
 		public:
 
 			inline explicit Array(void);
-			inline explicit Array(const unsigned int length);
+			inline Array(const Array<Type>& other);
+			inline Array(const Array<Type>&& other);
 			inline ~Array(void);
 
 			inline Type operator [](const unsigned int i);
@@ -29,9 +30,14 @@ namespace Odin {
 			inline Type Push(const Type item);
 			inline Type Unshift(const Type item);
 
+			inline void Clear(void);
+
 			inline unsigned int Length(void);
 
 			inline void Sort(std::function<int(const Type a, const Type b)> sortFunction);
+
+			inline Array<Type>& operator =(const Array<Type>& other);
+			inline Array<Type>& operator =(const Array<Type>&& other);
 	};
 }
 #endif

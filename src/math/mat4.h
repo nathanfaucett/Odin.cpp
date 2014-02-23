@@ -20,6 +20,7 @@ namespace Odin {
 			    const float m14, const float m24, const float m34, const float m44
 			);
 			inline Mat4(const Mat4& m);
+			inline Mat4(const Mat4&& m);
 			inline ~Mat4(void);
 
 			inline Mat4& Identity(void);
@@ -145,6 +146,9 @@ namespace Odin {
 
 			inline Mat4 operator *=(const float s);
 			inline Mat4 operator /=(const float s);
+
+			inline Mat4& operator =(const Mat4& m);
+			inline Mat4& operator =(const Mat4 && m);
 
 			inline bool operator ==(const Mat4& m);
 			inline bool operator !=(const Mat4& m);

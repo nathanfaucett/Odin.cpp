@@ -10,13 +10,6 @@ int sort(const int* a, const int* b) {
 int main(void) {
 
 	Init();
-
-	Time.update();
-
-	Vec2 a(10.f, 5.f);
-	Vec2 b(10.f, 5.f);
-	
-	Vec2 c = a + b;
 	
 	Scene* scene = new Scene();
 	GameObject* gameObject1 = new GameObject();
@@ -26,23 +19,19 @@ int main(void) {
 	
 	scene->AddGameObject(gameObject1);
 	
-	gameObject1->DetachChildren();
+	Camera* camera = new Camera();
 	
-	Array<int*> array(0);
-	int n1 = 124,
-		n2 = 23,
-		n3 = 245,
-		n4 = 51;
-	
-	array.Push(&n1);
-	array.Push(&n2);
-	array.Push(&n3);
-	array.Push(&n4);
-	
-	array.Sort(sort);
+	unsigned int times = 100000,
+		i;
 
-	for (unsigned int i = 0, il = array.Length(); i < il; i++) {
-		std::cout << *array[i] << std::endl;
+	while(1) {
+		Time.Update();
+		
+		for (i = times; i-- > 0;) {
+			scene->Update();
+		}
+		
+		std::cout << Time.fps << std::endl;
 	}
 	
 	return 0;

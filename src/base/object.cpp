@@ -37,6 +37,11 @@ namespace Odin {
 		return m_id;
 	}
 
+	inline void Object::SetName(std::string name) {
+
+		m_name = name;
+	}
+
 	inline std::string Object::ToString(void) {
 
 		return m_name;

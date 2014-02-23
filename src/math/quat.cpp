@@ -31,6 +31,16 @@ namespace Odin {
 		w = 1.0f;
 	}
 
+	inline Quat::Quat(const Vec3& axis, const float angle) {
+		float halfAngle = angle * 0.5f,
+		      s = sinf(halfAngle);
+
+		x = axis.x * s;
+		y = axis.y * s;
+		z = axis.z * s;
+		w = cosf(halfAngle);
+	}
+
 	inline Quat::Quat(const Vec4& v) {
 		x = v.x;
 		y = v.y;
@@ -43,6 +53,13 @@ namespace Odin {
 		y = q.y;
 		z = q.z;
 		w = q.w;
+	}
+
+	inline Quat::Quat(const Quat&& q) {
+		x = std::move(q.x);
+		y = std::move(q.y);
+		z = std::move(q.z);
+		w = std::move(q.w);
 	}
 
 	inline Quat::~Quat(void) {}
@@ -390,7 +407,7 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Quat& Quat::fromAxisAngle(const Vec3& axis, const float angle) {
+	inline Quat& Quat::FromAxisAngle(const Vec3& axis, const float angle) {
 		float halfAngle = angle * 0.5f,
 		      s = sinf(halfAngle);
 
@@ -402,7 +419,7 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Quat& Quat::fromVec3s(const Vec3& u, const Vec3& v) {
+	inline Quat& Quat::FromVec3s(const Vec3& u, const Vec3& v) {
 		Vec3 a = Vec3::Cross(u, v);
 		float ux = u.x,
 		      uy = u.y,
@@ -571,6 +588,24 @@ namespace Odin {
 		y *= d;
 		z *= d;
 		w *= d;
+	}
+
+	inline Quat& Quat::operator =(const Quat& q) {
+		x = q.x;
+		y = q.y;
+		z = q.z;
+		w = q.w;
+
+		return *this;
+	}
+
+	inline Quat& Quat::operator =(const Quat && q) {
+		x = std::move(q.x);
+		y = std::move(q.y);
+		z = std::move(q.z);
+		w = std::move(q.w);
+
+		return *this;
 	}
 
 	inline bool Quat::operator ==(const Quat& q) {

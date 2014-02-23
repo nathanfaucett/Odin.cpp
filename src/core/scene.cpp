@@ -5,10 +5,10 @@ namespace Odin {
 
 	inline void Scene::m_AddGameObject (GameObject* gameObject) {
 
-		m_gameObjects.push_back(gameObject);
+		m_gameObjects.Push(gameObject);
 		gameObject->m_scene = this;
 
-		for (unsigned i = gameObject->m_children.size(); i-- > 0;) {
+		for (unsigned int i = gameObject->m_children.Length(); i-- > 0;) {
 			GameObject* child = gameObject->m_children[i];
 
 			if (child->m_scene != this) {
@@ -20,15 +20,16 @@ namespace Odin {
 	}
 
 	inline void Scene::m_RemoveGameObject (GameObject* gameObject) {
+		unsigned int i, j;
 
-		for (unsigned i = m_gameObjects.size(); i-- > 0;) {
+		for (i = m_gameObjects.Length(); i-- > 0;) {
 
 			if (m_gameObjects[i] == gameObject) {
-				m_gameObjects.erase(m_gameObjects.begin() + i);
+				m_gameObjects.Splice(i, 1);
 				gameObject->m_scene = NULL;
 
-				for (unsigned i = gameObject->m_children.size(); i-- > 0;) {
-					GameObject* child = gameObject->m_children[i];
+				for (j = gameObject->m_children.Length(); j-- > 0;) {
+					GameObject* child = gameObject->m_children[j];
 
 					if (child->m_scene == this) {
 						RemoveGameObject(child);
@@ -50,11 +51,11 @@ namespace Odin {
 	}
 
 	inline void Scene::Deconstructor (void) {
-		m_gameObjects.clear();
+		m_gameObjects.Clear();
 	}
 
 	inline void Scene::Update (void) {
-		for (unsigned i = m_gameObjects.size(); i-- > 0;) {
+		for (unsigned int i = m_gameObjects.Length(); i-- > 0;) {
 			m_gameObjects[i]->Update();
 		}
 	}
@@ -90,7 +91,7 @@ namespace Odin {
 
 		if (gameObject != NULL) {
 
-			for (unsigned i = m_gameObjects.size(); i-- > 0;) {
+			for (unsigned int i = m_gameObjects.Length(); i-- > 0;) {
 
 				if (m_gameObjects[i] == gameObject) {
 					return i;

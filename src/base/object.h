@@ -26,6 +26,7 @@ namespace Odin {
 
 			inline unsigned int GetID(void);
 
+			inline void SetName(std::string name);
 			inline std::string ToString(void);
 	};
 }

@@ -43,6 +43,18 @@ namespace Odin {
 		mat[8] = m.mat[8];
 	}
 
+	inline Mat3::Mat3(const Mat3&& m) {
+		mat[0] = std::move(m.mat[0]);
+		mat[3] = std::move(m.mat[3]);
+		mat[6] = std::move(m.mat[6]);
+		mat[1] = std::move(m.mat[1]);
+		mat[4] = std::move(m.mat[4]);
+		mat[7] = std::move(m.mat[7]);
+		mat[2] = std::move(m.mat[2]);
+		mat[5] = std::move(m.mat[5]);
+		mat[8] = std::move(m.mat[8]);
+	}
+
 	inline Mat3::~Mat3(void) {}
 
 	inline Mat3& Mat3::Identity(void) {
@@ -402,6 +414,36 @@ namespace Odin {
 		mat[6] *= d;
 		mat[7] *= d;
 		mat[8] *= d;
+	}
+
+	inline Mat3& Mat3::operator =(const Mat3& m) {
+
+		mat[0] = m.mat[0];
+		mat[1] = m.mat[1];
+		mat[2] = m.mat[2];
+		mat[3] = m.mat[3];
+		mat[4] = m.mat[4];
+		mat[5] = m.mat[5];
+		mat[6] = m.mat[6];
+		mat[7] = m.mat[7];
+		mat[8] = m.mat[8];
+
+		return *this;
+	}
+
+	inline Mat3& Mat3::operator =(const Mat3 && m) {
+
+		mat[0] = std::move(m.mat[0]);
+		mat[1] = std::move(m.mat[1]);
+		mat[2] = std::move(m.mat[2]);
+		mat[3] = std::move(m.mat[3]);
+		mat[4] = std::move(m.mat[4]);
+		mat[5] = std::move(m.mat[5]);
+		mat[6] = std::move(m.mat[6]);
+		mat[7] = std::move(m.mat[7]);
+		mat[8] = std::move(m.mat[8]);
+
+		return *this;
 	}
 
 	inline bool Mat3::operator ==(const Mat3& m) {
