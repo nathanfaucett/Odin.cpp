@@ -8,7 +8,7 @@ ASTYLE_OPTIONS = --style=attach --suffix=none --indent=tab --indent-classes --in
 	--indent-labels --indent-col1-comments --break-blocks=all --pad-oper --pad-header \
 	--align-pointer=type --align-reference=type --add-brackets
 astyle:
-	astyle $(ASTYLE_OPTIONS) **/*.h **/*.cpp odin.h
+	astyle $(ASTYLE_OPTIONS) src/**/*.h src/**/*.cpp src/odin.h
 	
 clean:
 	$(RM) a.out
