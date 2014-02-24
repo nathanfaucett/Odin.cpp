@@ -20,7 +20,7 @@ int main(void) {
 	scene->AddGameObject(gameObject1);
 
 	Camera* camera = new Camera();
-
+	
 	unsigned int times = 100000,
 		i;
 	while(true) {

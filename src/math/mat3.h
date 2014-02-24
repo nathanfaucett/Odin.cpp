@@ -33,6 +33,8 @@ namespace Odin {
 			inline Mat3& Inverse(const Mat3& m);
 			inline Mat3& Inverse(const Mat4& m);
 
+			inline Mat3& Transpose(void);
+
 			inline Mat3& ExtractRotation(const Mat3& m);
 			inline Mat3& ExtractRotation(const Mat4& m);
 			inline Mat3& ExtractRotationWithScale(const Mat4& m);

@@ -12,7 +12,7 @@ namespace Odin {
 		mat[5] = 0.0f;
 	}
 
-	inline Mat32::Mat32(const float m11, const float m12, const float m21, const float m22, const float m31, const float m32) {
+	inline Mat32::Mat32(const float m11, const float m21, const float m31, const float m12, const float m22, const float m32) {
 		mat[0] = m11;
 		mat[2] = m21;
 		mat[4] = m31;
@@ -166,6 +166,16 @@ namespace Odin {
 
 		mat[4] = (m12 * m32 - m22 * m31) * det;
 		mat[5] = (m21 * m31 - m11 * m32) * det;
+
+		return *this;
+	}
+
+	inline Mat32& Mat32::Transpose(void) {
+		float tmp;
+
+		tmp = mat[1];
+		mat[1] = mat[2];
+		mat[2] = tmp;
 
 		return *this;
 	}

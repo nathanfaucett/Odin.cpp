@@ -11,7 +11,7 @@ namespace Odin {
 		public:
 
 			inline explicit Mat2(void);
-			inline explicit Mat2(const float m11, const float m12, const float m21, const float m22);
+			inline explicit Mat2(const float m11, const float m21, const float m12, const float m22);
 			inline Mat2(const Mat2& m);
 			inline Mat2(const Mat2&& m);
 			inline ~Mat2(void);
@@ -22,6 +22,8 @@ namespace Odin {
 			inline Mat2& operator -();
 			inline Mat2& Inverse(void);
 			inline Mat2& Inverse(const Mat2& m);
+
+			inline Mat2& Transpose(void);
 
 			inline Mat2& SetRotation(const float a);
 

@@ -191,6 +191,22 @@ namespace Odin {
 		return *this;
 	}
 
+	inline Mat3& Mat3::Transpose(void) {
+		float tmp;
+
+		tmp = mat[1];
+		mat[1] = mat[3];
+		mat[3] = tmp;
+		tmp = mat[2];
+		mat[2] = mat[6];
+		mat[6] = tmp;
+		tmp = mat[5];
+		mat[5] = mat[7];
+		mat[7] = tmp;
+
+		return *this;
+	}
+
 	inline Mat3& Mat3::ExtractRotation(const Mat3& m) {
 		Vec3 vec;
 		float lx = Vec3LengthSq(m.mat[0], m.mat[1], m.mat[2]),

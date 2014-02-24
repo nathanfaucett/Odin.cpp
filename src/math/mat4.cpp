@@ -227,6 +227,32 @@ namespace Odin {
 		return *this;
 	}
 
+	inline Mat4& Mat4::Transpose(void) {
+		float tmp;
+
+		tmp = mat[1];
+		mat[1] = mat[4];
+		mat[4] = tmp;
+		tmp = mat[2];
+		mat[2] = mat[8];
+		mat[8] = tmp;
+		tmp = mat[6];
+		mat[6] = mat[9];
+		mat[9] = tmp;
+
+		tmp = mat[3];
+		mat[3] = mat[12];
+		mat[12] = tmp;
+		tmp = mat[7];
+		mat[7] = mat[13];
+		mat[13] = tmp;
+		tmp = mat[11];
+		mat[11] = mat[14];
+		mat[14] = tmp;
+
+		return *this;
+	}
+
 	inline Mat4& Mat4::Compose(const Vec3& position, const Vec3& scale, const Quat& rotation) {
 		float x = rotation.x,
 		      y = rotation.y,

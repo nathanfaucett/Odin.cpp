@@ -32,6 +32,8 @@ namespace Odin {
 			inline Mat4& Inverse(void);
 			inline Mat4& Inverse(const Mat4& m);
 
+			inline Mat4& Transpose(void);
+
 			inline Mat4& Compose(const Vec3& position, const Vec3& scale, const Quat& rotation);
 			inline Mat4& Decompose(Vec3& position, Vec3& scale, Quat& rotation);
 

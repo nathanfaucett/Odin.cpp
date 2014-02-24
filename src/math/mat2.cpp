@@ -10,7 +10,7 @@ namespace Odin {
 		mat[3] = 1.0f;
 	}
 
-	inline Mat2::Mat2(const float m11, const float m12, const float m21, const float m22) {
+	inline Mat2::Mat2(const float m11, const float m21, const float m12, const float m22) {
 		mat[0] = m11;
 		mat[2] = m21;
 		mat[1] = m12;
@@ -108,6 +108,16 @@ namespace Odin {
 		mat[2] = -a12 * det;
 		mat[1] = -a21 * det;
 		mat[3] = a11 * det;
+
+		return *this;
+	}
+
+	inline Mat2& Mat2::Transpose(void) {
+		float tmp;
+
+		tmp = mat[1];
+		mat[1] = mat[2];
+		mat[2] = tmp;
 
 		return *this;
 	}

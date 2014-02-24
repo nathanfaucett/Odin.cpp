@@ -11,7 +11,7 @@ namespace Odin {
 		public:
 
 			inline explicit Mat32(void);
-			inline explicit Mat32(const float m11, const float m12, const float m21, const float m22, const float m31, const float m32);
+			inline explicit Mat32(const float m11, const float m21, const float m31, const float m12, const float m22, const float m32);
 			inline Mat32(const Mat2& m);
 			inline Mat32(const Mat2& m, const Vec2& v);
 			inline Mat32(const Vec2& v, const float angle);
@@ -25,6 +25,8 @@ namespace Odin {
 			inline Mat32& operator -();
 			inline Mat32& Inverse(void);
 			inline Mat32& Inverse(const Mat32& m);
+
+			inline Mat32& Transpose(void);
 
 			inline Mat32& Compose(const Vec2& position, const Vec2& scale, const float angle);
 			inline Mat32& Decompose(Vec2& position, Vec2& scale, float& angle);
