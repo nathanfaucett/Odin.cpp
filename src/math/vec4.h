@@ -21,6 +21,7 @@ namespace Odin {
 		inline Vec4(const Color& v);
 		inline ~Vec4(void);
 
+		inline Vec4& Set(const float X, const float Y);
 		inline Vec4& Set(const float X, const float Y, const float Z);
 		inline Vec4& Set(const float X, const float Y, const float Z, const float W);
 		inline Vec4& Zero(void);
@@ -30,6 +31,45 @@ namespace Odin {
 		inline float Length(void);
 		inline float Normalize(void);
 		inline Vec4& Lerp(const Vec4& v, const float t);
+
+		inline Vec4& Min(const Vec4& v);
+		inline Vec4& Max(const Vec4& v);
+
+		inline static Vec4 Min(const Vec4& a, const Vec4& b) {
+			float ax = a.x,
+			      ay = a.y,
+			      az = a.z,
+			      aw = a.w,
+			      bx = b.x,
+			      by = b.y,
+			      bz = b.z,
+			      bw = b.w;
+
+			return Vec4(
+			           bx < ax ? bx : ax,
+			           by < ay ? by : ay,
+			           bz < az ? bz : az,
+			           bw < aw ? bw : aw
+			       );
+		}
+
+		inline static Vec4 Max(const Vec4& a, const Vec4& b) {
+			float ax = a.x,
+			      ay = a.y,
+			      az = a.z,
+			      aw = a.w,
+			      bx = b.x,
+			      by = b.y,
+			      bz = b.z,
+			      bw = b.w;
+
+			return Vec4(
+			           bx > ax ? bx : ax,
+			           by > ay ? by : ay,
+			           bz > az ? bz : az,
+			           bw < aw ? bw : aw
+			       );
+		}
 
 		inline static Vec4 Lerp(const Vec4& a, const Vec4& b, const float t) {
 

@@ -10,24 +10,24 @@ namespace Odin {
 			unsigned int m_frameCount, m_frames;
 
 		public:
-			static constexpr double TIME_DELTA_MIN = 0.000000001, TIME_DELTA_MAX = 1;
+			static constexpr double TIME_DELTA_MIN = 0.000000001, TIME_DELTA_MAX = 1.0;
 			unsigned int frameCount;
 			double delta, fixedDelta, scale, fps, time;
 
 			Time(void) {
-				fixedDelta = 1 / 60;
-				delta = 1 / 60;
-				fps = 60;
-				scale = 1;
-				time = 0;
+				fixedDelta = 1.0 / 60.0;
+				delta = 1.0 / 60.0;
+				fps = 60.0;
+				scale = 1.0;
+				time = 0.0;
 
-				m_fpsTime = 0;
-				m_fpsLast = -1;
+				m_fpsTime = 0.0;
+				m_fpsLast = -1.0;
 
 				m_start = Stamp();
-				m_time = 0;
-				m_last = -1 / 60;
-				m_delta = 1 / 60;
+				m_time = 0.0;
+				m_last = -1.0 / 60.0;
+				m_delta = 1.0 / 60.0;
 			}
 
 			~Time(void) {}
@@ -45,11 +45,11 @@ namespace Odin {
 				m_fpsTime = m_time;
 				m_frames++;
 
-				if (m_fpsLast + 1 < m_fpsTime) {
+				if (m_fpsLast + 1.0 < m_fpsTime) {
 					fps = (m_frames) / (m_fpsTime - m_fpsLast);
 
 					m_fpsLast = m_fpsTime;
-					m_frames = 0;
+					m_frames = 0.0;
 				}
 			}
 

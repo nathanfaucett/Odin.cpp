@@ -29,6 +29,33 @@ namespace Odin {
 
 		inline Vec2& Lerp(const Vec2& v, const float t);
 
+		inline Vec2& Min(const Vec2& v);
+		inline Vec2& Max(const Vec2& v);
+
+		inline static Vec2 Min(const Vec2& a, const Vec2& b) {
+			float ax = a.x,
+			      ay = a.y,
+			      bx = b.x,
+			      by = b.y;
+
+			return Vec2(
+			           bx < ax ? bx : ax,
+			           by < ay ? by : ay
+			       );
+		}
+
+		inline static Vec2 Max(const Vec2& a, const Vec2& b) {
+			float ax = a.x,
+			      ay = a.y,
+			      bx = b.x,
+			      by = b.y;
+
+			return Vec2(
+			           bx > ax ? bx : ax,
+			           by > ay ? by : ay
+			       );
+		}
+
 		inline static Vec2 Lerp(const Vec2& a, const Vec2& b, const float t) {
 
 			return Vec2(

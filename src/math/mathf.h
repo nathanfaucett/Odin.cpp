@@ -3,6 +3,8 @@
 
 namespace Odin {
 
+	struct AABB2;
+	struct AABB3;
 	struct Color;
 	struct Mat2;
 	struct Mat32;
@@ -12,6 +14,15 @@ namespace Odin {
 	struct Vec2;
 	struct Vec3;
 	struct Vec4;
+
+
+	constexpr float Infinity = INFINITY;
+	constexpr float POS_Infinity = INFINITY;
+	constexpr float NEG_Infinity = -INFINITY;
+
+	constexpr float MAX_NUMBER = FLT_MAX;
+	constexpr float MIN_NUMBER = FLT_MIN;
+
 
 	inline float Vec2LengthSq(const float x, const float y) {
 
@@ -53,16 +64,10 @@ namespace Odin {
 		static constexpr float TWO_PI = M_PI * 2.0f;
 
 		static constexpr float Epsilon = FLT_EPSILON;
-		static constexpr float Infinity = FLT_MAX;
-		static constexpr float POS_Infinity = FLT_MAX;
-		static constexpr float NEG_Infinity = -FLT_MAX;
 
 		static constexpr float E = 2.71828182845904523536f;
 		static constexpr float SQRT_TWO = 1.41421356237309504880f;
 		static constexpr float SQRT_THREE = 1.73205080756887729352f;
-
-		static constexpr float MAX_NUMBER = FLT_MAX;
-		static constexpr float MIN_NUMBER = FLT_MIN;
 
 		static constexpr float TO_DEGS = 180.0f / M_PI;
 		static constexpr float TO_RADS = M_PI / 180.0f;

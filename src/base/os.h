@@ -1,4 +1,5 @@
-
+#ifndef ODIN_OS_H
+#define ODIN_OS_H
 
 namespace Odin {
 #ifdef __WINDOWS__
@@ -30,3 +31,5 @@ namespace Odin {
 #define POSIX
 #endif
 }
+
+#endif

@@ -21,6 +21,7 @@ namespace Odin {
 		inline Vec3(const Color& v);
 		inline ~Vec3(void);
 
+		inline Vec3& Set(const float X, const float Y);
 		inline Vec3& Set(const float X, const float Y, const float Z);
 		inline Vec3& Zero(void);
 
@@ -32,6 +33,39 @@ namespace Odin {
 		inline float Normalize(void);
 
 		inline Vec3& Lerp(const Vec3& v, const float t);
+
+		inline Vec3& Min(const Vec3& v);
+		inline Vec3& Max(const Vec3& v);
+
+		inline static Vec3 Min(const Vec3& a, const Vec3& b) {
+			float ax = a.x,
+			      ay = a.y,
+			      az = a.z,
+			      bx = b.x,
+			      by = b.y,
+			      bz = b.z;
+
+			return Vec3(
+			           bx < ax ? bx : ax,
+			           by < ay ? by : ay,
+			           bz < az ? bz : az
+			       );
+		}
+
+		inline static Vec3 Max(const Vec3& a, const Vec3& b) {
+			float ax = a.x,
+			      ay = a.y,
+			      az = a.z,
+			      bx = b.x,
+			      by = b.y,
+			      bz = b.z;
+
+			return Vec3(
+			           bx > ax ? bx : ax,
+			           by > ay ? by : ay,
+			           bz > az ? bz : az
+			       );
+		}
 
 		inline static Vec3 Lerp(const Vec3& a, const Vec3& b, const float t) {
 

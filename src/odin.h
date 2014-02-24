@@ -25,6 +25,8 @@
 #include "math/vec2.h"
 #include "math/vec3.h"
 #include "math/vec4.h"
+#include "math/aabb2.h"
+#include "math/aabb3.h"
 
 #include "core/components/component.h"
 #include "core/components/camera.h"
@@ -45,6 +47,8 @@
 #include "math/vec2.cpp"
 #include "math/vec3.cpp"
 #include "math/vec4.cpp"
+#include "math/aabb2.cpp"
+#include "math/aabb3.cpp"
 
 #include "core/components/component.cpp"
 #include "core/components/camera.cpp"

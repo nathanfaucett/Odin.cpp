@@ -91,12 +91,7 @@ namespace Odin {
 
 		if (gameObject != NULL) {
 
-			for (unsigned int i = m_gameObjects.Length(); i-- > 0;) {
-
-				if (m_gameObjects[i] == gameObject) {
-					return i;
-				}
-			}
+			return m_gameObjects.IndexOf(gameObject);
 		}
 
 		return -1;

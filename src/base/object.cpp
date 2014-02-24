@@ -4,11 +4,11 @@
 namespace Odin {
 
 	inline Object::Object(void) {
-		m_id = ++ODIN_OBJECT_ID;
+		m_id = ObjectID.GenerateID();
 	}
 
 	inline Object::Object(const Object& other) {
-		m_id = ++ODIN_OBJECT_ID;
+		m_id = ObjectID.GenerateID();
 		Copy(other);
 	}
 
@@ -27,7 +27,7 @@ namespace Odin {
 
 	inline Object& Object::Copy(const Object& other) {
 
-		m_name = other.m_name;
+		name = other.name;
 
 		return *this;
 	}
@@ -37,14 +37,9 @@ namespace Odin {
 		return m_id;
 	}
 
-	inline void Object::SetName(std::string name) {
-
-		m_name = name;
-	}
-
 	inline std::string Object::ToString(void) {
 
-		return m_name;
+		return name;
 	}
 }
 

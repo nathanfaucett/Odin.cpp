@@ -164,9 +164,9 @@ namespace Odin {
 	}
 
 	inline Mat3& Mat3::Inverse(const Mat4& m) {
-		float m11 = m[0], m12 = m[4], m13 = m[8],
-		      m21 = m[1], m22 = m[5], m23 = m[9],
-		      m31 = m[2], m32 = m[6], m33 = m[10],
+		float m11 = m.mat[0], m12 = m.mat[4], m13 = m.mat[8],
+		      m21 = m.mat[1], m22 = m.mat[5], m23 = m.mat[9],
+		      m31 = m.mat[2], m32 = m.mat[6], m33 = m.mat[10],
 
 		      m0 = m22 * m33 - m23 * m32,
 		      m3 = m13 * m32 - m12 * m33,
@@ -471,6 +471,86 @@ namespace Odin {
 		           "  " + util.ToString(mat[2], p) + ", " + util.ToString(mat[5], p) + ", " + util.ToString(mat[8], p) + "\n" +
 		           "]"
 		       );
+	}
+
+	inline Mat3& Mat3Inverse(const Mat3& a, Mat3& out) {
+		float m11 = a.mat[0], m12 = a.mat[3], m13 = a.mat[6],
+		      m21 = a.mat[1], m22 = a.mat[4], m23 = a.mat[7],
+		      m31 = a.mat[2], m32 = a.mat[5], m33 = a.mat[8],
+
+		      m0 = m22 * m33 - m23 * m32,
+		      m3 = m13 * m32 - m12 * m33,
+		      m6 = m12 * m23 - m13 * m22,
+
+		      det = m11 * m0 + m21 * m3 + m31 * m6;
+
+		det = det != 0.0f ? 1.0f / det : 1.0f;
+
+		out.mat[0] = m0 * det;
+		out.mat[1] = (m23 * m31 - m21 * m33) * det;
+		out.mat[2] = (m21 * m32 - m22 * m31) * det;
+
+		out.mat[3] = m3 * det;
+		out.mat[4] = (m11 * m33 - m13 * m31) * det;
+		out.mat[5] = (m12 * m31 - m11 * m32) * det;
+
+		out.mat[6] = m6 * det;
+		out.mat[7] = (m13 * m21 - m11 * m23) * det;
+		out.mat[8] = (m11 * m22 - m12 * m21) * det;
+
+		return out;
+	}
+
+	inline Mat3& Mat3InverseMat4(const Mat4& a, Mat3& out) {
+		float m11 = a.mat[0], m12 = a.mat[4], m13 = a.mat[8],
+		      m21 = a.mat[1], m22 = a.mat[5], m23 = a.mat[9],
+		      m31 = a.mat[2], m32 = a.mat[6], m33 = a.mat[10],
+
+		      m0 = m22 * m33 - m23 * m32,
+		      m3 = m13 * m32 - m12 * m33,
+		      m6 = m12 * m23 - m13 * m22,
+
+		      det = m11 * m0 + m21 * m3 + m31 * m6;
+
+		det = det != 0.0f ? 1.0f / det : 1.0f;
+
+		out.mat[0] = m0 * det;
+		out.mat[1] = (m23 * m31 - m21 * m33) * det;
+		out.mat[2] = (m21 * m32 - m22 * m31) * det;
+
+		out.mat[3] = m3 * det;
+		out.mat[4] = (m11 * m33 - m13 * m31) * det;
+		out.mat[5] = (m12 * m31 - m11 * m32) * det;
+
+		out.mat[6] = m6 * det;
+		out.mat[7] = (m13 * m21 - m11 * m23) * det;
+		out.mat[8] = (m11 * m22 - m12 * m21) * det;
+
+		return out;
+	}
+
+	inline Mat3& Mat3Mul(const Mat3& a, const Mat3& b, Mat3& out) {
+		float a11 = a.mat[0], a12 = a.mat[3], a13 = a.mat[6],
+		      a21 = a.mat[1], a22 = a.mat[4], a23 = a.mat[7],
+		      a31 = a.mat[2], a32 = a.mat[5], a33 = a.mat[8],
+
+		      b11 = b.mat[0], b12 = b.mat[3], b13 = b.mat[6],
+		      b21 = b.mat[1], b22 = b.mat[4], b23 = b.mat[7],
+		      b31 = b.mat[2], b32 = b.mat[5], b33 = b.mat[8];
+
+		out.mat[0] = a11 * b11 + a21 * b12 + a31 * b13;
+		out.mat[3] = a12 * b11 + a22 * b12 + a32 * b13;
+		out.mat[6] = a13 * b11 + a23 * b12 + a33 * b13;
+
+		out.mat[1] = a11 * b21 + a21 * b22 + a31 * b23;
+		out.mat[4] = a12 * b21 + a22 * b22 + a32 * b23;
+		out.mat[7] = a13 * b21 + a23 * b22 + a33 * b23;
+
+		out.mat[2] = a11 * b31 + a21 * b32 + a31 * b33;
+		out.mat[5] = a12 * b31 + a22 * b32 + a32 * b33;
+		out.mat[8] = a13 * b31 + a23 * b32 + a33 * b33;
+
+		return out;
 	}
 }
 

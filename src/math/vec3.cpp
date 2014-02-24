@@ -59,6 +59,13 @@ namespace Odin {
 
 	inline Vec3::~Vec3(void) {}
 
+	inline Vec3& Vec3::Set(const float X, const float Y) {
+		x = X;
+		y = Y;
+
+		return *this;
+	}
+
 	inline Vec3& Vec3::Set(const float X, const float Y, const float Z) {
 		x = X;
 		y = Y;
@@ -120,6 +127,30 @@ namespace Odin {
 		x = Mathf.Lerp(x, v.x, t);
 		y = Mathf.Lerp(y, v.y, t);
 		z = Mathf.Lerp(z, v.z, t);
+
+		return *this;
+	}
+
+	inline Vec3& Vec3::Min(const Vec3& v) {
+		float vx = v.x,
+		      vy = v.y,
+		      vz = v.z;
+
+		x = vx < x ? vx : x;
+		y = vy < y ? vy : y;
+		z = vz < z ? vz : z;
+
+		return *this;
+	}
+
+	inline Vec3& Vec3::Max(const Vec3& v) {
+		float vx = v.x,
+		      vy = v.y,
+		      vz = v.z;
+
+		x = vx > x ? vx : x;
+		y = vy > y ? vy : y;
+		z = vz > z ? vz : z;
 
 		return *this;
 	}

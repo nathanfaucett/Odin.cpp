@@ -2,32 +2,31 @@
 #include "src/odin.h"
 using namespace Odin;
 
-int sort(const int* a, const int* b) {
+float sort(Vec3* a, Vec3* b) {
 	
-	return *b - *a;
+	return a->LengthSq() - b->LengthSq();
 }
 
 int main(void) {
 
 	Init();
-	
+
 	Scene* scene = new Scene();
 	GameObject* gameObject1 = new GameObject();
 	GameObject* gameObject2 = new GameObject();
 	
 	gameObject1->AddChild(gameObject2);
-	
+
 	scene->AddGameObject(gameObject1);
-	
+
 	Camera* camera = new Camera();
-	
+
 	unsigned int times = 100000,
 		i;
-
-	while(1) {
+	while(true) {
 		Time.Update();
 		
-		for (i = times; i-- > 0;) {
+		for (i = 0; i < times; i++) {
 			scene->Update();
 		}
 		

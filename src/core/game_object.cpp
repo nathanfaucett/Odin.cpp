@@ -159,10 +159,6 @@ namespace Odin {
 					m_children.Splice(i, 1);
 					child->m_RemoveParent();
 
-					if (child->m_scene != m_scene) {
-						m_scene->RemoveGameObject(child);
-					}
-
 					m_childCount--;
 					break;
 				}
@@ -186,12 +182,7 @@ namespace Odin {
 
 		if (NULL != child) {
 
-			for (unsigned int i = m_children.Length(); i-- > 0;) {
-
-				if (m_children[i] == child) {
-					return i;
-				}
-			}
+			return m_children.IndexOf(child);
 		}
 
 		return -1;

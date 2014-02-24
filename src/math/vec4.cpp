@@ -68,6 +68,13 @@ namespace Odin {
 
 	inline Vec4::~Vec4(void) {}
 
+	inline Vec4& Vec4::Set(const float X, const float Y) {
+		x = X;
+		y = Y;
+
+		return *this;
+	}
+
 	inline Vec4& Vec4::Set(const float X, const float Y, const float Z) {
 		x = X;
 		y = Y;
@@ -133,6 +140,34 @@ namespace Odin {
 		y = Mathf.Lerp(y, v.y, t);
 		z = Mathf.Lerp(z, v.z, t);
 		w = Mathf.Lerp(w, v.w, t);
+
+		return *this;
+	}
+
+	inline Vec4& Vec4::Min(const Vec4& v) {
+		float vx = v.x,
+		      vy = v.y,
+		      vz = v.z,
+		      vw = v.w;
+
+		x = vx < x ? vx : x;
+		y = vy < y ? vy : y;
+		z = vz < z ? vz : z;
+		w = vw > w ? vw : w;
+
+		return *this;
+	}
+
+	inline Vec4& Vec4::Max(const Vec4& v) {
+		float vx = v.x,
+		      vy = v.y,
+		      vz = v.z,
+		      vw = v.w;
+
+		x = vx > x ? vx : x;
+		y = vy > y ? vy : y;
+		z = vz > z ? vz : z;
+		w = vw > w ? vw : w;
 
 		return *this;
 	}

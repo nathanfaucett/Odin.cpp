@@ -102,6 +102,26 @@ namespace Odin {
 		return *this;
 	}
 
+	inline Vec2& Vec2::Min(const Vec2& v) {
+		float vx = v.x,
+		      vy = v.y;
+
+		x = vx < x ? vx : x;
+		y = vy < y ? vy : y;
+
+		return *this;
+	}
+
+	inline Vec2& Vec2::Max(const Vec2& v) {
+		float vx = v.x,
+		      vy = v.y;
+
+		x = vx > x ? vx : x;
+		y = vy > y ? vy : y;
+
+		return *this;
+	}
+
 	inline Vec2& Vec2::operator -() {
 		x = -x;
 		y = -y;

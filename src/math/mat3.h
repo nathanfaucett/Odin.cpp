@@ -6,6 +6,10 @@ namespace Odin {
 	struct Mat3 {
 
 		private:
+			friend inline Mat3& Mat3Inverse(const Mat3& a, Mat3& out);
+			friend inline Mat3& Mat3InverseMat4(const Mat4& a, Mat3& out);
+			friend inline Mat3& Mat3Mul(const Mat3& a, const Mat3& b, Mat3& out);
+			friend struct Mat4;
 			float mat[9];
 
 		public:
