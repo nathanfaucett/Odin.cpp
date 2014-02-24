@@ -8,7 +8,11 @@
 #include <sstream>
 #include <string>
 #include <functional>
-#include <assert.h> 
+#include <assert.h>
+
+/*===============================
+ * Headers
+ *===============================*/
 
 #include "base/array.h"
 #include "base/os.h"
@@ -35,6 +39,10 @@
 #include "core/game_object.h"
 #include "core/scene.h"
 
+
+/*===============================
+ * Source Files
+ *===============================*/
 
 #include "base/array.cpp"
 #include "base/object.cpp"

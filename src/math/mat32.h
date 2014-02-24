@@ -31,9 +31,45 @@ namespace Odin {
 
 			inline Mat32& SetRotation(const float a);
 			inline float GetRotation(void);
+
 			inline Mat32& SetPosition(const Vec2& v);
 			inline Vec2 GetPosition(void);
+
 			inline Mat32& Rotate(const float a);
+
+			inline static Mat32 MakeTranslation(const float x, const float y) {
+
+				return Mat32(
+				           0.0f, 0.0f, x,
+				           0.0f, 0.0f, y
+				       );
+			}
+
+			inline static Mat32 MakeScale(const float x, const float y) {
+
+				return Mat32(
+				           x, 0.0f, 0.0f,
+				           0.0f, y, 0.0f
+				       );
+			}
+
+			inline static Mat32 MakeRotation(const float angle) {
+				float c = cosf(angle),
+				      s = sinf(angle);
+
+				return Mat32(
+				           c, -s, 0.0f,
+				           s, c, 0.0f
+				       );
+			}
+
+			inline static Mat32 MakeOrthographic(const float left, const float right, const float top, const float bottom) {
+				Mat32 m;
+
+				return m.Orthographic(left, right, top, bottom);
+			}
+
+			inline Mat32& Orthographic(const float left, const float right, const float top, const float bottom);
 
 			inline const float operator [] (int i) const;
 			inline float& operator [] (int i);

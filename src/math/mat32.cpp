@@ -216,6 +216,7 @@ namespace Odin {
 	}
 
 	inline float Mat32::GetRotation(void) {
+
 		return atan2f(mat[2], mat[0]);
 	}
 
@@ -243,6 +244,23 @@ namespace Odin {
 		mat[2] = a12 * c + a22 * s;
 		mat[1] = a11 * -s + a21 * c;
 		mat[3] = a12 * -s + a22 * c;
+
+		return *this;
+	}
+
+	inline Mat32& Mat32::Orthographic(const float left, const float right, const float top, const float bottom) {
+		float w = right - left,
+		      h = top - bottom,
+
+		      x = (right + left) / w,
+		      y = (top + bottom) / h;
+
+		mat[0] = 2 / w;
+		mat[1] = 0;
+		mat[2] = 0;
+		mat[3] = 2 / h;
+		mat[4] = -x;
+		mat[5] = -y;
 
 		return *this;
 	}
