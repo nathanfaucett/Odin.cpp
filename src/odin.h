@@ -8,6 +8,7 @@
 #include <sstream>
 #include <string>
 #include <functional>
+#include <assert.h> 
 
 #include "base/array.h"
 #include "base/os.h"
