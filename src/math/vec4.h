@@ -1,123 +1,136 @@
-#ifndef ODIN_VEC4_H
-#define ODIN_VEC4_H
+#ifndef _ODIN_VEC4_H
+#define _ODIN_VEC4_H
 
 namespace Odin {
 
-	struct Vec4 {
+	class Vec4 {
 
-		float x;
-		float y;
-		float z;
-		float w;
+		public:
 
-		inline explicit Vec4(void);
-		inline explicit Vec4(const float X);
-		inline explicit Vec4(const float X, const float Y, const float Z);
-		inline explicit Vec4(const float X, const float Y, const float Z, const float W);
-		inline Vec4(const Vec2& v);
-		inline Vec4(const Vec3& v);
-		inline Vec4(const Vec4& v);
-		inline Vec4(const Vec4&& v);
-		inline Vec4(const Color& v);
-		inline ~Vec4(void);
+			float32 x;
+			float32 y;
+			float32 z;
+			float32 w;
 
-		inline Vec4& Set(const float X, const float Y);
-		inline Vec4& Set(const float X, const float Y, const float Z);
-		inline Vec4& Set(const float X, const float Y, const float Z, const float W);
-		inline Vec4& Zero(void);
+			inline explicit Vec4(void);
+			inline explicit Vec4(float32 X);
+			inline explicit Vec4(float32 X, float32 Y, float32 Z);
+			inline explicit Vec4(float32 X, float32 Y, float32 Z, float32 W);
+			inline Vec4(const Vec2& v);
+			inline Vec4(const Vec3& v);
+			inline Vec4(const Vec4& v);
+			inline Vec4(const Vec4&& v);
+			inline Vec4(const Color& v);
+			inline ~Vec4(void);
 
-		inline float Dot(const Vec4 v);
-		inline float LengthSq(void);
-		inline float Length(void);
-		inline float Normalize(void);
-		inline Vec4& Lerp(const Vec4& v, const float t);
+			inline Vec4& Set(float32 X, float32 Y);
+			inline Vec4& Set(float32 X, float32 Y, float32 Z);
+			inline Vec4& Set(float32 X, float32 Y, float32 Z, float32 W);
+			inline Vec4& Zero(void);
 
-		inline Vec4& Min(const Vec4& v);
-		inline Vec4& Max(const Vec4& v);
+			inline float32 Dot(const Vec4 v);
+			inline float32 LengthSq(void);
+			inline float32 Length(void);
+			inline float32 Normalize(void);
+			inline Vec4& Lerp(const Vec4& v, float32 t);
 
-		inline static Vec4 Min(const Vec4& a, const Vec4& b) {
-			float ax = a.x,
-			      ay = a.y,
-			      az = a.z,
-			      aw = a.w,
-			      bx = b.x,
-			      by = b.y,
-			      bz = b.z,
-			      bw = b.w;
+			inline Vec4& Min(const Vec4& v);
+			inline Vec4& Max(const Vec4& v);
 
-			return Vec4(
-			           bx < ax ? bx : ax,
-			           by < ay ? by : ay,
-			           bz < az ? bz : az,
-			           bw < aw ? bw : aw
-			       );
-		}
+			inline static Vec4 Min(const Vec4& a, const Vec4& b) {
+				float32 ax = a.x,
+				        ay = a.y,
+				        az = a.z,
+				        aw = a.w,
+				        bx = b.x,
+				        by = b.y,
+				        bz = b.z,
+				        bw = b.w;
 
-		inline static Vec4 Max(const Vec4& a, const Vec4& b) {
-			float ax = a.x,
-			      ay = a.y,
-			      az = a.z,
-			      aw = a.w,
-			      bx = b.x,
-			      by = b.y,
-			      bz = b.z,
-			      bw = b.w;
+				return Vec4(
+				           bx < ax ? bx : ax,
+				           by < ay ? by : ay,
+				           bz < az ? bz : az,
+				           bw < aw ? bw : aw
+				       );
+			}
 
-			return Vec4(
-			           bx > ax ? bx : ax,
-			           by > ay ? by : ay,
-			           bz > az ? bz : az,
-			           bw < aw ? bw : aw
-			       );
-		}
+			inline static Vec4 Max(const Vec4& a, const Vec4& b) {
+				float32 ax = a.x,
+				        ay = a.y,
+				        az = a.z,
+				        aw = a.w,
+				        bx = b.x,
+				        by = b.y,
+				        bz = b.z,
+				        bw = b.w;
 
-		inline static Vec4 Lerp(const Vec4& a, const Vec4& b, const float t) {
+				return Vec4(
+				           bx > ax ? bx : ax,
+				           by > ay ? by : ay,
+				           bz > az ? bz : az,
+				           bw < aw ? bw : aw
+				       );
+			}
 
-			return Vec4(
-			           Mathf.Lerp(a.x, b.x, t),
-			           Mathf.Lerp(a.y, b.y, t),
-			           Mathf.Lerp(a.z, b.z, t),
-			           Mathf.Lerp(a.w, b.w, t)
-			       );
-		}
+			inline static Vec4 Lerp(const Vec4& a, const Vec4& b, float32 t) {
 
-		inline static float Dot(const Vec4& a, const Vec4& b) {
+				return Vec4(
+				           Mathf.Lerp(a.x, b.x, t),
+				           Mathf.Lerp(a.y, b.y, t),
+				           Mathf.Lerp(a.z, b.z, t),
+				           Mathf.Lerp(a.w, b.w, t)
+				       );
+			}
 
-			return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
-		}
+			inline static float32 Dot(const Vec4& a, const Vec4& b) {
 
-		inline Vec4 operator -();
+				return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
+			}
 
-		inline float operator [] (int i) const;
-		inline float& operator [] (int i);
+			static const Vec4 ZERO;
+			static const Vec4 UNIT_X;
+			static const Vec4 UNIT_Y;
+			static const Vec4 UNIT_Z;
+			static const Vec4 UNIT_W;
+			static const Vec4 NEGATIVE_UNIT_X;
+			static const Vec4 NEGATIVE_UNIT_Y;
+			static const Vec4 NEGATIVE_UNIT_Z;
+			static const Vec4 NEGATIVE_UNIT_W;
+			static const Vec4 UNIT_SCALE;
 
-		inline Vec4 operator +(const Vec4& v);
-		inline Vec4 operator -(const Vec4& v);
-		inline Vec4 operator *(const Vec4& v);
-		inline Vec4 operator /(const Vec4& v);
+			inline Vec4& operator -();
 
-		inline void operator +=(const Vec4& v);
-		inline void operator -=(const Vec4& v);
-		inline void operator *=(const Vec4& v);
-		inline void operator /=(const Vec4& v);
+			inline float32 operator [] (int32 i) const;
+			inline float32& operator [] (int32 i);
 
-		inline Vec4 operator +(const float s);
-		inline Vec4 operator -(const float s);
-		inline Vec4 operator *(const float s);
-		inline Vec4 operator /(const float s);
+			inline Vec4 operator +(const Vec4& v);
+			inline Vec4 operator -(const Vec4& v);
+			inline Vec4 operator *(const Vec4& v);
+			inline Vec4 operator /(const Vec4& v);
 
-		inline void operator +=(const float s);
-		inline void operator -=(const float s);
-		inline void operator *=(const float s);
-		inline void operator /=(const float s);
+			inline void operator +=(const Vec4& v);
+			inline void operator -=(const Vec4& v);
+			inline void operator *=(const Vec4& v);
+			inline void operator /=(const Vec4& v);
 
-		inline Vec4& operator =(const Vec4& v);
-		inline Vec4& operator =(const Vec4 && v);
+			inline Vec4 operator +(float32 s);
+			inline Vec4 operator -(float32 s);
+			inline Vec4 operator *(float32 s);
+			inline Vec4 operator /(float32 s);
 
-		inline bool operator ==(const Vec4& v);
-		inline bool operator !=(const Vec4& v);
+			inline void operator +=(float32 s);
+			inline void operator -=(float32 s);
+			inline void operator *=(float32 s);
+			inline void operator /=(float32 s);
 
-		inline std::string ToString(int p = 5);
+			inline Vec4& operator =(const Vec4& v);
+			inline Vec4& operator =(const Vec4 && v);
+
+			inline bool operator ==(const Vec4& v);
+			inline bool operator !=(const Vec4& v);
+
+			inline std::string ToString(int32 p = 5);
 	};
 };
 

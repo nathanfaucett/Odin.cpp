@@ -1,5 +1,5 @@
-#ifndef ODIN_AABB3_CPP
-#define ODIN_AABB3_CPP
+#ifndef _ODIN_AABB3_CPP
+#define _ODIN_AABB3_CPP
 
 
 namespace Odin {
@@ -47,17 +47,17 @@ namespace Odin {
 		return *this;
 	}
 
-	inline AABB3& AABB3::FromPoints(Vec3* points[], const unsigned int length) {
-		float minx = Infinity,
-		      miny = Infinity,
-		      minz = Infinity,
-		      maxx = -Infinity,
-		      maxy = -Infinity,
-		      maxz = -Infinity,
-		      x, y, z;
+	inline AABB3& AABB3::FromPoints(Vec3* points[], uint32 length) {
+		float32 minx = Infinity,
+		        miny = Infinity,
+		        minz = Infinity,
+		        maxx = -Infinity,
+		        maxy = -Infinity,
+		        maxz = -Infinity,
+		        x, y, z;
 
 		Vec3* v;
-		unsigned int i = length;
+		uint32 i = length;
 
 		while (i--) {
 			v = points[i];
@@ -86,16 +86,16 @@ namespace Odin {
 	}
 
 	inline AABB3& AABB3::FromPoints(Array<Vec3*> points) {
-		float minx = Infinity,
-		      miny = Infinity,
-		      minz = Infinity,
-		      maxx = -Infinity,
-		      maxy = -Infinity,
-		      maxz = -Infinity,
-		      x, y, z;
+		float32 minx = Infinity,
+		        miny = Infinity,
+		        minz = Infinity,
+		        maxx = -Infinity,
+		        maxy = -Infinity,
+		        maxz = -Infinity,
+		        x, y, z;
 
 		Vec3* v;
-		unsigned int i = points.Length();
+		uint32 i = points.Length();
 
 		while (i--) {
 			v = points[i];
@@ -124,12 +124,12 @@ namespace Odin {
 	}
 
 	inline AABB3& AABB3::FromCenterSize(const Vec3& center, const Vec3& size) {
-		float x = center.x,
-		      y = center.y,
-		      z = center.z,
-		      hx = size.x * 0.5f,
-		      hy = size.y * 0.5f,
-		      hz = size.z * 0.5f;
+		float32 x = center.x,
+		        y = center.y,
+		        z = center.z,
+		        hx = size.x * 0.5f,
+		        hy = size.y * 0.5f,
+		        hz = size.z * 0.5f;
 
 		min.x = x - hx;
 		min.y = y - hy;
@@ -143,9 +143,9 @@ namespace Odin {
 	}
 
 	inline bool AABB3::Contains(const Vec3& point) {
-		float px = point.x,
-		      py = point.y,
-		      pz = point.z;
+		float32 px = point.x,
+		        py = point.y,
+		        pz = point.z;
 
 		return !(
 		           px < min.x || px > max.x ||
@@ -163,7 +163,7 @@ namespace Odin {
 		       );
 	}
 
-	inline AABB3 AABB3::operator -() {
+	inline void AABB3::operator -() {
 		-min;
 		-max;
 	}
@@ -192,7 +192,7 @@ namespace Odin {
 		       );
 	}
 
-	inline AABB3 AABB3::operator +(const float s) {
+	inline AABB3 AABB3::operator +(float32 s) {
 
 		return AABB3(
 		           min + s,
@@ -200,7 +200,7 @@ namespace Odin {
 		       );
 	}
 
-	inline AABB3 AABB3::operator -(const float s) {
+	inline AABB3 AABB3::operator -(float32 s) {
 
 		return AABB3(
 		           min - s,
@@ -208,7 +208,7 @@ namespace Odin {
 		       );
 	}
 
-	inline AABB3 AABB3::operator *(const float s) {
+	inline AABB3 AABB3::operator *(float32 s) {
 
 		return AABB3(
 		           min * s,
@@ -216,8 +216,8 @@ namespace Odin {
 		       );
 	}
 
-	inline AABB3 AABB3::operator /(const float s) {
-		float d = s == 0.0f ? 0.0f : 1.0f / s;
+	inline AABB3 AABB3::operator /(float32 s) {
+		float32 d = s == 0.0f ? 0.0f : 1.0f / s;
 
 		return AABB3(
 		           min * d,
@@ -240,23 +240,23 @@ namespace Odin {
 		max -= v;
 	}
 
-	inline void AABB3::operator +=(const float s) {
+	inline void AABB3::operator +=(float32 s) {
 		min += s;
 		max += s;
 	}
 
-	inline void AABB3::operator -=(const float s) {
+	inline void AABB3::operator -=(float32 s) {
 		min -= s;
 		max -= s;
 	}
 
-	inline void AABB3::operator *=(const float s) {
+	inline void AABB3::operator *=(float32 s) {
 		min *= s;
 		max *= s;
 	}
 
-	inline void AABB3::operator /=(const float s) {
-		float d = s == 0.0f ? 0.0f : 1.0f / s;
+	inline void AABB3::operator /=(float32 s) {
+		float32 d = s == 0.0f ? 0.0f : 1.0f / s;
 
 		min *= d;
 		max *= d;
@@ -286,7 +286,7 @@ namespace Odin {
 		return min != other.min || max != other.max;
 	}
 
-	inline std::string AABB3::ToString(int p) {
+	inline std::string AABB3::ToString(int32 p) {
 
 		return "AABB3( min: " + min.ToString(p) + ", max: " + max.ToString(p) + ")";
 	}

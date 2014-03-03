@@ -1,5 +1,5 @@
-#ifndef ODIN_QUAT_CPP
-#define ODIN_QUAT_CPP
+#ifndef _ODIN_QUAT_CPP
+#define _ODIN_QUAT_CPP
 
 namespace Odin {
 
@@ -10,14 +10,14 @@ namespace Odin {
 		w = 1.0f;
 	}
 
-	inline Quat::Quat(const float X, const float Y, const float Z) {
+	inline Quat::Quat(float32 X, float32 Y, float32 Z) {
 		x = X;
 		y = Y;
 		z = Z;
 		w = 1.0f;
 	}
 
-	inline Quat::Quat(const float X, const float Y, const float Z, const float W) {
+	inline Quat::Quat(float32 X, float32 Y, float32 Z, float32 W) {
 		x = X;
 		y = Y;
 		z = Z;
@@ -31,9 +31,9 @@ namespace Odin {
 		w = 1.0f;
 	}
 
-	inline Quat::Quat(const Vec3& axis, const float angle) {
-		float halfAngle = angle * 0.5f,
-		      s = sinf(halfAngle);
+	inline Quat::Quat(const Vec3& axis, float32 angle) {
+		float32 halfAngle = angle * 0.5f,
+		        s = sinf(halfAngle);
 
 		x = axis.x * s;
 		y = axis.y * s;
@@ -64,7 +64,7 @@ namespace Odin {
 
 	inline Quat::~Quat(void) {}
 
-	inline Quat& Quat::Set(const float X, const float Y, const float Z) {
+	inline Quat& Quat::Set(float32 X, float32 Y, float32 Z) {
 		x = X;
 		y = Y;
 		z = Z;
@@ -72,7 +72,7 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Quat& Quat::Set(const float X, const float Y, const float Z, const float W) {
+	inline Quat& Quat::Set(float32 X, float32 Y, float32 Z, float32 W) {
 		x = X;
 		y = Y;
 		z = Z;
@@ -90,31 +90,31 @@ namespace Odin {
 		return *this;
 	}
 
-	inline float Quat::Dot(const Quat q) {
+	inline float32 Quat::Dot(const Quat q) {
 
 		return x * q.x + y * q.y + z * q.z + w * q.w;
 	}
 
-	inline float Quat::LengthSq(void) {
+	inline float32 Quat::LengthSq(void) {
 
 		return x * x + y * y + z * z + w * w;
 	}
 
-	inline float Quat::Length(void) {
-		float lenSq = x * x + y * y + z * z + w * w;
+	inline float32 Quat::Length(void) {
+		float32 lenSq = x * x + y * y + z * z + w * w;
 
 		return lenSq == 0.0f ? 0.0f : sqrtf(lenSq);
 	}
 
-	inline float Quat::Normalize(void) {
-		float lenSq = x * x + y * y + z * z + w * w;
+	inline float32 Quat::Normalize(void) {
+		float32 lenSq = x * x + y * y + z * z + w * w;
 
 		if (lenSq == 0.0f) {
 			return 0.0f;
 		}
 
-		float len = sqrtf(lenSq),
-		      invLen = 1.0f / len;
+		float32 len = sqrtf(lenSq),
+		        invLen = 1.0f / len;
 
 		x *= invLen;
 		y *= invLen;
@@ -124,7 +124,7 @@ namespace Odin {
 		return len;
 	}
 
-	inline Quat Quat::Lerp(const Quat& q, const float t) {
+	inline Quat Quat::Lerp(const Quat& q, float32 t) {
 		x = Mathf.Lerp(x, q.x, t);
 		y = Mathf.Lerp(y, q.y, t);
 		z = Mathf.Lerp(z, q.z, t);
@@ -133,18 +133,18 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Quat& Quat::Slerp(const Quat& q, const float t) {
-		float ax = x,
-		      ay = y,
-		      az = z,
-		      aw = w,
-		      bx = q.x,
-		      by = q.y,
-		      bz = q.z,
-		      bw = q.w,
+	inline Quat& Quat::Slerp(const Quat& q, float32 t) {
+		float32 ax = x,
+		        ay = y,
+		        az = z,
+		        aw = w,
+		        bx = q.x,
+		        by = q.y,
+		        bz = q.z,
+		        bw = q.w,
 
-		      omega, sinom, scale0, scale1,
-		      cosom = ax * bx + ay * by + az * bz + aw * bw;
+		        omega, sinom, scale0, scale1,
+		        cosom = ax * bx + ay * by + az * bz + aw * bw;
 
 		if (cosom < 0.0f) {
 			cosom *= -1.0f;
@@ -174,17 +174,17 @@ namespace Odin {
 	}
 
 	inline Quat& Quat::FromMatrix(const Mat3& m)  {
-		float m11 = m[0],
-		      m12 = m[3],
-		      m13 = m[6],
-		      m21 = m[1],
-		      m22 = m[4],
-		      m23 = m[7],
-		      m31 = m[2],
-		      m32 = m[5],
-		      m33 = m[8],
-		      trace = m11 + m22 + m33,
-		      s, invS;
+		float32 m11 = m[0],
+		        m12 = m[3],
+		        m13 = m[6],
+		        m21 = m[1],
+		        m22 = m[4],
+		        m23 = m[7],
+		        m31 = m[2],
+		        m32 = m[5],
+		        m33 = m[8],
+		        trace = m11 + m22 + m33,
+		        s, invS;
 
 		if (trace > 0.0f) {
 			s = 0.5f / sqrt(trace + 1.0f);
@@ -226,17 +226,17 @@ namespace Odin {
 	}
 
 	inline Quat& Quat::FromMatrix(const Mat4& m) {
-		float m11 = m[0],
-		      m12 = m[4],
-		      m13 = m[8],
-		      m21 = m[1],
-		      m22 = m[5],
-		      m23 = m[9],
-		      m31 = m[2],
-		      m32 = m[6],
-		      m33 = m[10],
-		      trace = m11 + m22 + m33,
-		      s, invS;
+		float32 m11 = m[0],
+		        m12 = m[4],
+		        m13 = m[8],
+		        m21 = m[1],
+		        m22 = m[5],
+		        m23 = m[9],
+		        m31 = m[2],
+		        m32 = m[6],
+		        m33 = m[10],
+		        trace = m11 + m22 + m33,
+		        s, invS;
 
 		if (trace > 0.0f) {
 			s = 0.5f / sqrt(trace + 1.0f);
@@ -278,7 +278,7 @@ namespace Odin {
 	}
 
 	inline Quat& Quat::operator -() {
-		float lenSq = x * x + y * y + z * z + w * w;
+		float32 lenSq = x * x + y * y + z * z + w * w;
 
 		if (lenSq == 0.0f || lenSq == 1.0f) {
 			x = -x;
@@ -287,8 +287,8 @@ namespace Odin {
 			return *this;
 		}
 
-		float len = sqrtf(lenSq),
-		      invLen = 1.0f / len;
+		float32 len = sqrtf(lenSq),
+		        invLen = 1.0f / len;
 
 		x *= -invLen;
 		y *= -invLen;
@@ -299,14 +299,14 @@ namespace Odin {
 	}
 
 	inline Quat Quat::Inverse(void) {
-		float lenSq = x * x + y * y + z * z + w * w;
+		float32 lenSq = x * x + y * y + z * z + w * w;
 
 		if (lenSq == 0.0f || lenSq == 1.0f) {
 			return Quat(-x, -y, -z, w);
 		}
 
-		float len = sqrtf(lenSq),
-		      invLen = 1.0f / len;
+		float32 len = sqrtf(lenSq),
+		        invLen = 1.0f / len;
 
 		return Quat(
 		           -x * invLen,
@@ -323,14 +323,14 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Quat& Quat::RotateX(const float angle) {
-		float halfAngle = angle * 0.5f,
-		      ax = x,
-		      ay = y,
-		      az = z,
-		      aw = w,
-		      s = sinf(halfAngle),
-		      c = cosf(halfAngle);
+	inline Quat& Quat::RotateX(float32 angle) {
+		float32 halfAngle = angle * 0.5f,
+		        ax = x,
+		        ay = y,
+		        az = z,
+		        aw = w,
+		        s = sinf(halfAngle),
+		        c = cosf(halfAngle);
 
 		x = ax * c + aw * s;
 		y = ay * c + az * s;
@@ -340,14 +340,14 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Quat& Quat::RotateY(const float angle) {
-		float halfAngle = angle * 0.5f,
-		      ax = x,
-		      ay = y,
-		      az = z,
-		      aw = w,
-		      s = sinf(halfAngle),
-		      c = cosf(halfAngle);
+	inline Quat& Quat::RotateY(float32 angle) {
+		float32 halfAngle = angle * 0.5f,
+		        ax = x,
+		        ay = y,
+		        az = z,
+		        aw = w,
+		        s = sinf(halfAngle),
+		        c = cosf(halfAngle);
 
 		x = ax * c - az * s;
 		y = ay * c + aw * s;
@@ -357,14 +357,14 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Quat& Quat::RotateZ(const float angle) {
-		float halfAngle = angle * 0.5f,
-		      ax = x,
-		      ay = y,
-		      az = z,
-		      aw = w,
-		      s = sinf(halfAngle),
-		      c = cosf(halfAngle);
+	inline Quat& Quat::RotateZ(float32 angle) {
+		float32 halfAngle = angle * 0.5f,
+		        ax = x,
+		        ay = y,
+		        az = z,
+		        aw = w,
+		        s = sinf(halfAngle),
+		        c = cosf(halfAngle);
 
 		x = ax * c + ay * s;
 		y = ay * c - ax * s;
@@ -374,7 +374,7 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Quat& Quat::Rotate(const float x, const float y, const float z) {
+	inline Quat& Quat::Rotate(float32 x, float32 y, float32 z) {
 
 		RotateZ(z);
 		RotateX(x);
@@ -384,20 +384,20 @@ namespace Odin {
 	}
 
 	inline Quat& Quat::LookRotation(const Vec3& forward, const Vec3& up) {
-		float fx = forward.x,
-		      fy = forward.y,
-		      fz = forward.z,
-		      ux = up.x,
-		      uy = up.y,
-		      uz = up.z,
+		float32 fx = forward.x,
+		        fy = forward.y,
+		        fz = forward.z,
+		        ux = up.x,
+		        uy = up.y,
+		        uz = up.z,
 
-		      ax = uy * fz - uz * fy,
-		      ay = uz * fx - ux * fz,
-		      az = ux * fy - uy * fx,
+		        ax = uy * fz - uz * fy,
+		        ay = uz * fx - ux * fz,
+		        az = ux * fy - uy * fx,
 
-		      d = (1.0f + ux * fx + uy * fy + uz * fz) * 2.0f,
-		      dsq = d * d,
-		      s = 1.0f / dsq;
+		        d = (1.0f + ux * fx + uy * fy + uz * fz) * 2.0f,
+		        dsq = d * d,
+		        s = 1.0f / dsq;
 
 		x = ax * s;
 		y = ay * s;
@@ -407,9 +407,9 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Quat& Quat::FromAxisAngle(const Vec3& axis, const float angle) {
-		float halfAngle = angle * 0.5f,
-		      s = sinf(halfAngle);
+	inline Quat& Quat::FromAxisAngle(const Vec3& axis, float32 angle) {
+		float32 halfAngle = angle * 0.5f,
+		        s = sinf(halfAngle);
 
 		x = axis.x * s;
 		y = axis.y * s;
@@ -421,15 +421,15 @@ namespace Odin {
 
 	inline Quat& Quat::FromVec3s(const Vec3& u, const Vec3& v) {
 		Vec3 a = Vec3::Cross(u, v);
-		float ux = u.x,
-		      uy = u.y,
-		      uz = u.z,
+		float32 ux = u.x,
+		        uy = u.y,
+		        uz = u.z,
 
-		      vx = v.x,
-		      vy = v.y,
-		      vz = v.z,
+		        vx = v.x,
+		        vy = v.y,
+		        vz = v.z;
 
-		      x = a.x;
+		x = a.x;
 		y = a.y;
 		z = a.z;
 		w = sqrtf((ux * ux + uy * uy + uz * uz) * (vx * vx + vy * vy + vz * vz)) + (ux * vx + uy * vy + uz * vz);
@@ -438,11 +438,11 @@ namespace Odin {
 		return *this;
 	}
 
-	inline float Quat::operator [] (int i) const {
+	inline float32 Quat::operator [] (int32 i) const {
 		return (&x)[i];
 	}
 
-	inline float& Quat::operator [] (int i) {
+	inline float32& Quat::operator [] (int32 i) {
 		return (&x)[i];
 	}
 
@@ -457,14 +457,14 @@ namespace Odin {
 	}
 
 	inline Quat Quat::operator *(const Quat& q) {
-		float ax = x,
-		      ay = y,
-		      az = z,
-		      aw = w,
-		      bx = q.x,
-		      by = q.y,
-		      bz = q.z,
-		      bw = q.w;
+		float32 ax = x,
+		        ay = y,
+		        az = z,
+		        aw = w,
+		        bx = q.x,
+		        by = q.y,
+		        bz = q.z,
+		        bw = q.w;
 
 		return Quat(
 		           ax * bw + aw * bx + ay * bz - az * by,
@@ -475,14 +475,14 @@ namespace Odin {
 	}
 
 	inline Quat Quat::operator /(const Quat& q) {
-		float ax = x,
-		      ay = y,
-		      az = z,
-		      aw = w,
-		      bx = -q.x,
-		      by = -q.y,
-		      bz = -q.z,
-		      bw = q.w;
+		float32 ax = x,
+		        ay = y,
+		        az = z,
+		        aw = w,
+		        bx = -q.x,
+		        by = -q.y,
+		        bz = -q.z,
+		        bw = q.w;
 
 		return Quat(
 		           ax * bw + aw * bx + ay * bz - az * by,
@@ -507,14 +507,14 @@ namespace Odin {
 	}
 
 	inline void Quat::operator *=(const Quat& q) {
-		float ax = x,
-		      ay = y,
-		      az = z,
-		      aw = w,
-		      bx = q.x,
-		      by = q.y,
-		      bz = q.z,
-		      bw = q.w;
+		float32 ax = x,
+		        ay = y,
+		        az = z,
+		        aw = w,
+		        bx = q.x,
+		        by = q.y,
+		        bz = q.z,
+		        bw = q.w;
 
 		x = ax * bw + aw * bx + ay * bz - az * by;
 		y = ay * bw + aw * by + az * bx - ax * bz;
@@ -523,14 +523,14 @@ namespace Odin {
 	}
 
 	inline void Quat::operator /=(const Quat& q) {
-		float ax = x,
-		      ay = y,
-		      az = z,
-		      aw = w,
-		      bx = -q.x,
-		      by = -q.y,
-		      bz = -q.z,
-		      bw = q.w;
+		float32 ax = x,
+		        ay = y,
+		        az = z,
+		        aw = w,
+		        bx = -q.x,
+		        by = -q.y,
+		        bz = -q.z,
+		        bw = q.w;
 
 		x = ax * bw + aw * bx + ay * bz - az * by;
 		y = ay * bw + aw * by + az * bx - ax * bz;
@@ -539,50 +539,50 @@ namespace Odin {
 	}
 
 
-	inline Quat Quat::operator +(const float s) {
+	inline Quat Quat::operator +(float32 s) {
 
 		return Quat(x + s, y + s, z + s, w + s);
 	}
 
-	inline Quat Quat::operator -(const float s) {
+	inline Quat Quat::operator -(float32 s) {
 
 		return Quat(x - s, y - s, z - s, w - s);
 	}
 
-	inline Quat Quat::operator *(const float s) {
+	inline Quat Quat::operator *(float32 s) {
 
 		return Quat(x * s, y * s, z * s, w * s);
 	}
 
-	inline Quat Quat::operator /(const float s) {
-		float d = s != 0.0f ? 1.0f / s : 0.0f;
+	inline Quat Quat::operator /(float32 s) {
+		float32 d = s != 0.0f ? 1.0f / s : 0.0f;
 
 		return Quat(x * d, y * d, z * d, w * d);
 	}
 
-	inline void Quat::operator +=(const float s) {
+	inline void Quat::operator +=(float32 s) {
 		x += s;
 		y += s;
 		z += s;
 		w += s;
 	}
 
-	inline void Quat::operator -=(const float s) {
+	inline void Quat::operator -=(float32 s) {
 		x -= s;
 		y -= s;
 		z -= s;
 		w -= s;
 	}
 
-	inline void Quat::operator *=(const float s) {
+	inline void Quat::operator *=(float32 s) {
 		x *= s;
 		y *= s;
 		z *= s;
 		w *= s;
 	}
 
-	inline void Quat::operator /=(const float s) {
-		float d = s != 0.0f ? 1.0f / s : 0.0f;
+	inline void Quat::operator /=(float32 s) {
+		float32 d = s != 0.0f ? 1.0f / s : 0.0f;
 
 		x *= d;
 		y *= d;
@@ -618,7 +618,7 @@ namespace Odin {
 		return x != q.x || y != q.y || z != q.z || w != q.w;
 	}
 
-	inline std::string Quat::ToString(int p) {
+	inline std::string Quat::ToString(int32 p) {
 
 		return "Quat(" + util.ToString(x, p) + ", " + util.ToString(y, p) + ", " + util.ToString(z, p) + ", " + util.ToString(w, p) + ")";
 	}

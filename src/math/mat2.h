@@ -1,23 +1,23 @@
-#ifndef ODIN_MAT2_H
-#define ODIN_MAT2_H
+#ifndef _ODIN_MAT2_H
+#define _ODIN_MAT2_H
 
 namespace Odin {
 
-	struct Mat2 {
+	class Mat2 {
 
 		private:
-			float mat[4];
+			float32 m_mat[4];
 
 		public:
 
 			inline explicit Mat2(void);
-			inline explicit Mat2(const float m11, const float m21, const float m12, const float m22);
+			inline explicit Mat2(float32 m11, float32 m21, float32 m12, float32 m22);
 			inline Mat2(const Mat2& m);
 			inline Mat2(const Mat2&& m);
 			inline ~Mat2(void);
 
 			inline Mat2& Identity(void);
-			inline Mat2& SetTrace(const float x, const float y);
+			inline Mat2& SetTrace(float32 x, float32 y);
 
 			inline Mat2& operator -();
 			inline Mat2& Inverse(void);
@@ -25,21 +25,21 @@ namespace Odin {
 
 			inline Mat2& Transpose(void);
 
-			inline Mat2& SetRotation(const float a);
+			inline Mat2& SetRotation(float32 a);
 
-			inline float GetRotation(void);
+			inline float32 GetRotation(void);
 
-			inline Mat2& Rotate(const float a);
+			inline Mat2& Rotate(float32 a);
 
-			inline const float operator [] (int i) const;
+			inline float32 operator [] (int32 i) const;
 
-			inline float& operator [] (int i);
+			inline float32& operator [] (int32 i);
 
 			inline Mat2 operator *(const Mat2& m);
 			inline void operator *=(const Mat2& m);
 
-			inline Mat2 operator *=(const float s);
-			inline Mat2 operator /=(const float s);
+			inline void operator *=(float32 s);
+			inline void operator /=(float32 s);
 
 			inline Mat2& operator =(const Mat2& m);
 			inline Mat2& operator =(const Mat2 && m);
@@ -47,7 +47,7 @@ namespace Odin {
 			inline bool operator ==(const Mat2& m);
 			inline bool operator !=(const Mat2& m);
 
-			inline std::string ToString(int p = 5);
+			inline std::string ToString(int32 p = 5);
 	};
 }
 

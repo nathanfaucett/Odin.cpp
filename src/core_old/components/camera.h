@@ -1,5 +1,5 @@
-#ifndef ODIN_CAMERA_H
-#define ODIN_CAMERA_H
+#ifndef _ODIN_CAMERA_H
+#define _ODIN_CAMERA_H
 
 namespace Odin {
 
@@ -7,16 +7,16 @@ namespace Odin {
 
 		private:
 			bool m_needsUpdate, m_active;
-			float m_width, m_height, m_invWidth, m_invHeight;
+			float32 m_width, m_height, m_invWidth, m_invHeight;
 
 			Color m_background;
 
-			float m_aspect, m_fov;
-			float m_near, m_far;
+			float32 m_aspect, m_fov;
+			float32 m_near, m_far;
 
 			bool m_orthographic;
-			float m_orthographicSize;
-			float m_minOrthographicSize, m_maxOrthographicSize;
+			float32 m_orthographicSize;
+			float32 m_minOrthographicSize, m_maxOrthographicSize;
 
 			Mat4 m_projection, m_view;
 

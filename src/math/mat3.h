@@ -1,24 +1,24 @@
-#ifndef ODIN_MAT3_H
-#define ODIN_MAT3_H
+#ifndef _ODIN_MAT3_H
+#define _ODIN_MAT3_H
 
 namespace Odin {
 
-	struct Mat3 {
+	class Mat3 {
 
 		private:
 			friend inline Mat3& Mat3Inverse(const Mat3& a, Mat3& out);
 			friend inline Mat3& Mat3InverseMat4(const Mat4& a, Mat3& out);
 			friend inline Mat3& Mat3Mul(const Mat3& a, const Mat3& b, Mat3& out);
-			friend struct Mat4;
-			float mat[9];
+			friend class Mat4;
+			float32 m_mat[9];
 
 		public:
 
 			inline explicit Mat3(void);
 			inline explicit Mat3(
-			    const float m11, const float m21, const float m31,
-			    const float m12, const float m22, const float m32,
-			    const float m13, const float m23, const float m33
+			    float32 m11, float32 m21, float32 m31,
+			    float32 m12, float32 m22, float32 m32,
+			    float32 m13, float32 m23, float32 m33
 			);
 			inline Mat3(const Mat3& m);
 			inline Mat3(const Mat3&& m);
@@ -26,7 +26,7 @@ namespace Odin {
 			inline ~Mat3(void);
 
 			inline Mat3& Identity(void);
-			inline Mat3& SetTrace(const float x, const float y, const float z);
+			inline Mat3& SetTrace(float32 x, float32 y, float32 z);
 
 			inline Mat3& operator -();
 			inline Mat3& Inverse(void);
@@ -44,7 +44,7 @@ namespace Odin {
 			inline Mat3& Scale(const Vec4& v);
 			inline Mat3& FromQuat(const Quat& q);
 
-			inline static Mat3 MakeScale(const float x, const float y, const float z) {
+			inline static Mat3 MakeScale(float32 x, float32 y, float32 z) {
 
 				return Mat3(
 				           x, 0.0f, 0.0f,
@@ -53,9 +53,9 @@ namespace Odin {
 				       );
 			}
 
-			inline static Mat3 MakeRotationX(const float angle) {
-				float c = cosf(angle),
-				      s = sinf(angle);
+			inline static Mat3 MakeRotationX(float32 angle) {
+				float32 c = cosf(angle),
+				        s = sinf(angle);
 
 				return Mat3(
 				           1, 0.0f, 0.0f,
@@ -64,9 +64,9 @@ namespace Odin {
 				       );
 			}
 
-			inline static Mat3 MakeRotationY(const float angle) {
-				float c = cosf(angle),
-				      s = sinf(angle);
+			inline static Mat3 MakeRotationY(float32 angle) {
+				float32 c = cosf(angle),
+				        s = sinf(angle);
 
 				return Mat3(
 				           c, 0.0f, s,
@@ -75,9 +75,9 @@ namespace Odin {
 				       );
 			}
 
-			inline static Mat3 MakeRotationZ(const float angle) {
-				float c = cosf(angle),
-				      s = sinf(angle);
+			inline static Mat3 MakeRotationZ(float32 angle) {
+				float32 c = cosf(angle),
+				        s = sinf(angle);
 
 				return Mat3(
 				           c, -s, 0.0f,
@@ -86,14 +86,14 @@ namespace Odin {
 				       );
 			}
 
-			inline const float operator [] (int i) const;
-			inline float& operator [] (int i);
+			inline float32 operator [] (int32 i) const;
+			inline float32& operator [] (int32 i);
 
 			inline Mat3 operator *(const Mat3& m);
 			inline void operator *=(const Mat3& m);
 
-			inline Mat3 operator *=(const float s);
-			inline Mat3 operator /=(const float s);
+			inline void operator *=(float32 s);
+			inline void operator /=(float32 s);
 
 			inline Mat3& operator =(const Mat3& m);
 			inline Mat3& operator =(const Mat3 && m);
@@ -101,7 +101,7 @@ namespace Odin {
 			inline bool operator ==(const Mat3& m);
 			inline bool operator !=(const Mat3& m);
 
-			inline std::string ToString(int p = 5);
+			inline std::string ToString(int32 p = 5);
 	};
 }
 

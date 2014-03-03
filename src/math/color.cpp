@@ -1,5 +1,5 @@
-#ifndef ODIN_COLOR_CPP
-#define ODIN_COLOR_CPP
+#ifndef _ODIN_COLOR_CPP
+#define _ODIN_COLOR_CPP
 
 
 namespace Odin {
@@ -10,13 +10,13 @@ namespace Odin {
 		b = 0.0f;
 	}
 
-	inline Color::Color(const float X) {
+	inline Color::Color(float32 X) {
 		r = X;
 		g = X;
 		b = X;
 	}
 
-	inline Color::Color(const float R, const float G, const float B) {
+	inline Color::Color(float32 R, float32 G, float32 B) {
 		r = R;
 		g = G;
 		b = B;
@@ -54,7 +54,7 @@ namespace Odin {
 
 	inline Color::~Color(void) {}
 
-	inline Color& Color::Set(const float R, const float G, const float B) {
+	inline Color& Color::Set(float32 R, float32 G, float32 B) {
 		r = R;
 		g = G;
 		b = B;
@@ -70,30 +70,30 @@ namespace Odin {
 		return *this;
 	}
 
-	inline float Color::Dot(const Color c) {
+	inline float32 Color::Dot(const Color c) {
 
 		return r * c.r + g * c.g + b * c.b;
 	}
 
-	inline float Color::LengthSq(void) {
+	inline float32 Color::LengthSq(void) {
 
 		return r * r + g * g + b * b;
 	}
 
-	inline float Color::Length(void) {
-		float lenSq = r * r + g * g + b * b;
+	inline float32 Color::Length(void) {
+		float32 lenSq = r * r + g * g + b * b;
 
 		return lenSq == 0.0f ? 0.0f : sqrtf(lenSq);
 	}
 
-	inline float Color::Normalize(void) {
-		float lenSq = r * r + g * g + b * b;
+	inline float32 Color::Normalize(void) {
+		float32 lenSq = r * r + g * g + b * b;
 
 		if (lenSq == 0.0f) {
 			return 0.0f;
 		}
 
-		float len = sqrtf(lenSq), invLen = 1 / len;
+		float32 len = sqrtf(lenSq), invLen = 1.0f / len;
 
 		r *= invLen;
 		g *= invLen;
@@ -109,7 +109,7 @@ namespace Odin {
 		b = b > 1.0f ? 1.0f : b < 0.0f ? 0.0f : b;
 	}
 
-	inline Color& Color::Lerp(const Color& c, const float t) {
+	inline Color& Color::Lerp(const Color& c, float32 t) {
 		r = Mathf.Lerp(r, c.r, t);
 		g = Mathf.Lerp(g, c.g, t);
 		b = Mathf.Lerp(b, c.b, t);
@@ -117,17 +117,19 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Color Color::operator -() {
+	inline Color& Color::operator -() {
 		r = 1.0f - r;
 		g = 1.0f - g;
 		b = 1.0f - b;
+
+		return *this;
 	}
 
-	inline float Color::operator [] (int i) const {
+	inline float32 Color::operator [] (int32 i) const {
 		return (&r)[i];
 	}
 
-	inline float& Color::operator [] (int i) {
+	inline float32& Color::operator [] (int32 i) {
 		return (&r)[i];
 	}
 
@@ -147,7 +149,7 @@ namespace Odin {
 	}
 
 	inline Color Color::operator /(const Color& c) {
-		float cx = c.r, cy = c.g, cz = c.g;
+		float32 cx = c.r, cy = c.g, cz = c.g;
 
 		cx = cx != 0.0f ? 1.0f / cx : 0.0f;
 		cy = cy != 0.0f ? 1.0f / cy : 0.0f;
@@ -175,7 +177,7 @@ namespace Odin {
 	}
 
 	inline void Color::operator /=(const Color& c) {
-		float cx = c.r, cy = c.g, cz = c.b;
+		float32 cx = c.r, cy = c.g, cz = c.b;
 
 		r *= cx != 0.0f ? 1.0f / cx : 0.0f;
 		g *= cy != 0.0f ? 1.0f / cy : 0.0f;
@@ -183,47 +185,47 @@ namespace Odin {
 	}
 
 
-	inline Color Color::operator +(const float s) {
+	inline Color Color::operator +(float32 s) {
 
 		return Color(r + s, g + s, b + s);
 	}
 
-	inline Color Color::operator -(const float s) {
+	inline Color Color::operator -(float32 s) {
 
 		return Color(r - s, g - s, b - s);
 	}
 
-	inline Color Color::operator *(const float s) {
+	inline Color Color::operator *(float32 s) {
 
 		return Color(r * s, g * s, b * s);
 	}
 
-	inline Color Color::operator /(const float s) {
-		float d = s != 0.0f ? 1.0f / s : 0.0f;
+	inline Color Color::operator /(float32 s) {
+		float32 d = s != 0.0f ? 1.0f / s : 0.0f;
 
 		return Color(r * d, g * d, b * d);
 	}
 
-	inline void Color::operator +=(const float s) {
+	inline void Color::operator +=(float32 s) {
 		r += s;
 		g += s;
 		b += s;
 	}
 
-	inline void Color::operator -=(const float s) {
+	inline void Color::operator -=(float32 s) {
 		r -= s;
 		g -= s;
 		b -= s;
 	}
 
-	inline void Color::operator *=(const float s) {
+	inline void Color::operator *=(float32 s) {
 		r *= s;
 		g *= s;
 		b *= s;
 	}
 
-	inline void Color::operator /=(const float s) {
-		float d = s != 0.0f ? 1.0f / s : 0.0f;
+	inline void Color::operator /=(float32 s) {
+		float32 d = s != 0.0f ? 1.0f / s : 0.0f;
 
 		r *= d;
 		g *= d;
@@ -258,7 +260,7 @@ namespace Odin {
 		return r != c.r || g != c.g || b != c.b;
 	}
 
-	inline std::string Color::ToString(int p) {
+	inline std::string Color::ToString(int32 p) {
 
 		return "Color(" + util.ToString(r, p) + ", " + util.ToString(g, p) + ", " + util.ToString(b, p) + ")";
 	}

@@ -1,5 +1,5 @@
-#ifndef ODIN_CAMERA_CPP
-#define ODIN_CAMERA_CPP
+#ifndef _ODIN_CAMERA_CPP
+#define _ODIN_CAMERA_CPP
 
 namespace Odin {
 
@@ -45,7 +45,7 @@ namespace Odin {
 			} else {
 				m_orthographicSize = Mathf.Clamp(m_orthographicSize, m_minOrthographicSize, m_maxOrthographicSize);
 
-				float orthographicSize = m_orthographicSize,
+				float32 orthographicSize = m_orthographicSize,
 				      right = orthographicSize * m_aspect,
 				      left = -right,
 				      top = orthographicSize,

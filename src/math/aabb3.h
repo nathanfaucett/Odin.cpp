@@ -1,78 +1,80 @@
-#ifndef ODIN_AABB3_H
-#define ODIN_AABB3_H
+#ifndef _ODIN_AABB3_H
+#define _ODIN_AABB3_H
 
 
 namespace Odin {
 
-	struct AABB3 {
+	class AABB3 {
 
-		Vec3 min;
-		Vec3 max;
+		public:
 
-		inline explicit AABB3(void);
-		inline AABB3(const Vec3& MIN, const Vec3& MAX);
-		inline AABB3(const AABB3& other);
-		inline AABB3(const AABB3&& other);
+			Vec3 min;
+			Vec3 max;
 
-		inline ~AABB3(void);
+			inline explicit AABB3(void);
+			inline AABB3(const Vec3& MIN, const Vec3& MAX);
+			inline AABB3(const AABB3& other);
+			inline AABB3(const AABB3&& other);
 
-		inline AABB3& Set(const Vec3& MIN, const Vec3& MAX);
-		inline AABB3& Zero(void);
-		inline AABB3& Clear(void);
-		inline AABB3& FromPoints(Vec3* points[], const unsigned int length);
-		inline AABB3& FromPoints(Array<Vec3*> points);
-		inline AABB3& FromCenterSize(const Vec3& center, const Vec3& size);
+			inline ~AABB3(void);
 
-		inline bool Contains(const Vec3& point);
-		inline bool Intersects(const AABB3& other);
+			inline AABB3& Set(const Vec3& MIN, const Vec3& MAX);
+			inline AABB3& Zero(void);
+			inline AABB3& Clear(void);
+			inline AABB3& FromPoints(Vec3* points[], uint32 length);
+			inline AABB3& FromPoints(Array<Vec3*> points);
+			inline AABB3& FromCenterSize(const Vec3& center, const Vec3& size);
 
-		inline static bool Contains(const AABB3& aabb, const Vec3& point) {
-			float px = point.x,
-			      py = point.y;
+			inline bool Contains(const Vec3& point);
+			inline bool Intersects(const AABB3& other);
 
-			return !(
-			           px < aabb.min.x || px > aabb.max.x ||
-			           py < aabb.min.y || py > aabb.max.y
-			       );
-		}
+			inline static bool Contains(const AABB3& aabb, const Vec3& point) {
+				float32 px = point.x,
+				        py = point.y;
 
-		inline static bool Intersects(const AABB3& a, const AABB3& b) {
+				return !(
+				           px < aabb.min.x || px > aabb.max.x ||
+				           py < aabb.min.y || py > aabb.max.y
+				       );
+			}
 
-			return !(
-			           b.max.x < a.min.x || b.min.x > a.max.x ||
-			           b.max.y < a.min.y || b.min.y > a.max.y
-			       );
-		}
+			inline static bool Intersects(const AABB3& a, const AABB3& b) {
 
-		inline AABB3 operator -();
+				return !(
+				           b.max.x < a.min.x || b.min.x > a.max.x ||
+				           b.max.y < a.min.y || b.min.y > a.max.y
+				       );
+			}
 
-		inline AABB3 operator +(const AABB3& other);
+			inline void operator -();
 
-		inline AABB3 operator +(const Vec3& v);
-		inline AABB3 operator -(const Vec3& v);
+			inline AABB3 operator +(const AABB3& other);
 
-		inline AABB3 operator +(const float s);
-		inline AABB3 operator -(const float s);
-		inline AABB3 operator *(const float s);
-		inline AABB3 operator /(const float s);
+			inline AABB3 operator +(const Vec3& v);
+			inline AABB3 operator -(const Vec3& v);
 
-		inline void operator +=(const AABB3& other);
+			inline AABB3 operator +(float32 s);
+			inline AABB3 operator -(float32 s);
+			inline AABB3 operator *(float32 s);
+			inline AABB3 operator /(float32 s);
 
-		inline void operator +=(const Vec3& v);
-		inline void operator -=(const Vec3& v);
+			inline void operator +=(const AABB3& other);
 
-		inline void operator +=(const float s);
-		inline void operator -=(const float s);
-		inline void operator *=(const float s);
-		inline void operator /=(const float s);
+			inline void operator +=(const Vec3& v);
+			inline void operator -=(const Vec3& v);
 
-		inline AABB3& operator =(const AABB3& other);
-		inline AABB3& operator =(const AABB3 && other);
+			inline void operator +=(float32 s);
+			inline void operator -=(float32 s);
+			inline void operator *=(float32 s);
+			inline void operator /=(float32 s);
 
-		inline bool operator ==(const AABB3& other);
-		inline bool operator !=(const AABB3& other);
+			inline AABB3& operator =(const AABB3& other);
+			inline AABB3& operator =(const AABB3 && other);
 
-		inline std::string ToString(int p = 5);
+			inline bool operator ==(const AABB3& other);
+			inline bool operator !=(const AABB3& other);
+
+			inline std::string ToString(int32 p = 5);
 	};
 }
 

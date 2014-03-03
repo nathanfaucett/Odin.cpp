@@ -1,5 +1,5 @@
-#ifndef ODIN_SCENE_CPP
-#define ODIN_SCENE_CPP
+#ifndef _ODIN_SCENE_CPP
+#define _ODIN_SCENE_CPP
 
 namespace Odin {
 
@@ -8,7 +8,7 @@ namespace Odin {
 		m_gameObjects.Push(gameObject);
 		gameObject->m_scene = this;
 
-		for (unsigned int i = gameObject->m_children.Length(); i-- > 0;) {
+		for (uint32 i = gameObject->m_children.Length(); i-- > 0;) {
 			GameObject* child = gameObject->m_children[i];
 
 			if (child->m_scene != this) {
@@ -20,7 +20,7 @@ namespace Odin {
 	}
 
 	inline void Scene::m_RemoveGameObject (GameObject* gameObject) {
-		unsigned int i, j;
+		uint32 i, j;
 
 		for (i = m_gameObjects.Length(); i-- > 0;) {
 
@@ -55,12 +55,12 @@ namespace Odin {
 	}
 
 	inline void Scene::Update (void) {
-		for (unsigned int i = m_gameObjects.Length(); i-- > 0;) {
+		for (uint32 i = m_gameObjects.Length(); i-- > 0;) {
 			m_gameObjects[i]->Update();
 		}
 	}
 
-	inline GameObject* Scene::operator [] (int i) {
+	inline GameObject* Scene::operator [] (int32 i) {
 		return m_gameObjects[i];
 	}
 
@@ -82,12 +82,12 @@ namespace Odin {
 		}
 	}
 
-	inline unsigned int Scene::GameObjectCount (void) const {
+	inline uint32 Scene::GameObjectCount (void) const {
 
 		return m_gameObjectCount;
 	}
 
-	inline int Scene::IndexOf (GameObject* gameObject) {
+	inline int32 Scene::IndexOf (GameObject* gameObject) {
 
 		if (gameObject != NULL) {
 

@@ -1,103 +1,103 @@
-#ifndef ODIN_MAT32_CPP
-#define ODIN_MAT32_CPP
+#ifndef _ODIN_MAT32_CPP
+#define _ODIN_MAT32_CPP
 
 namespace Odin {
 
 	inline Mat32::Mat32(void) {
-		mat[0] = 1.0f;
-		mat[2] = 0.0f;
-		mat[4] = 0.0f;
-		mat[1] = 0.0f;
-		mat[3] = 1.0f;
-		mat[5] = 0.0f;
+		m_mat[0] = 1.0f;
+		m_mat[2] = 0.0f;
+		m_mat[4] = 0.0f;
+		m_mat[1] = 0.0f;
+		m_mat[3] = 1.0f;
+		m_mat[5] = 0.0f;
 	}
 
-	inline Mat32::Mat32(const float m11, const float m21, const float m31, const float m12, const float m22, const float m32) {
-		mat[0] = m11;
-		mat[2] = m21;
-		mat[4] = m31;
-		mat[1] = m12;
-		mat[3] = m22;
-		mat[5] = m32;
+	inline Mat32::Mat32(float32 m11, float32 m21, float32 m31, float32 m12, float32 m22, float32 m32) {
+		m_mat[0] = m11;
+		m_mat[2] = m21;
+		m_mat[4] = m31;
+		m_mat[1] = m12;
+		m_mat[3] = m22;
+		m_mat[5] = m32;
 	}
 
 	inline Mat32::Mat32(const Mat2& m) {
-		mat[0] = m[0];
-		mat[2] = m[1];
-		mat[4] = 0.0f;
-		mat[1] = m[2];
-		mat[3] = m[3];
-		mat[5] = 0.0f;
+		m_mat[0] = m[0];
+		m_mat[2] = m[1];
+		m_mat[4] = 0.0f;
+		m_mat[1] = m[2];
+		m_mat[3] = m[3];
+		m_mat[5] = 0.0f;
 	}
 
 	inline Mat32::Mat32(const Mat2& m, const Vec2& v) {
-		mat[0] = m[0];
-		mat[2] = m[2];
-		mat[4] = v.x;
-		mat[1] = m[1];
-		mat[3] = m[3];
-		mat[5] = v.y;
+		m_mat[0] = m[0];
+		m_mat[2] = m[2];
+		m_mat[4] = v.x;
+		m_mat[1] = m[1];
+		m_mat[3] = m[3];
+		m_mat[5] = v.y;
 	}
 
-	inline Mat32::Mat32(const Vec2& v, const float angle) {
-		float c = cosf(angle),
-		      s = sinf(angle);
+	inline Mat32::Mat32(const Vec2& v, float32 angle) {
+		float32 c = cosf(angle),
+		        s = sinf(angle);
 
-		mat[0] = c;
-		mat[2] = -s;
-		mat[4] = v.x;
-		mat[1] = s;
-		mat[3] = c;
-		mat[5] = v.y;
+		m_mat[0] = c;
+		m_mat[2] = -s;
+		m_mat[4] = v.x;
+		m_mat[1] = s;
+		m_mat[3] = c;
+		m_mat[5] = v.y;
 	}
 
 	inline Mat32::Mat32(const Mat32& m) {
-		mat[0] = m.mat[0];
-		mat[2] = m.mat[2];
-		mat[4] = m.mat[4];
-		mat[1] = m.mat[1];
-		mat[3] = m.mat[3];
-		mat[5] = m.mat[5];
+		m_mat[0] = m.m_mat[0];
+		m_mat[2] = m.m_mat[2];
+		m_mat[4] = m.m_mat[4];
+		m_mat[1] = m.m_mat[1];
+		m_mat[3] = m.m_mat[3];
+		m_mat[5] = m.m_mat[5];
 	}
 
 	inline Mat32::Mat32(const Mat32&& m) {
-		mat[0] = std::move(m.mat[0]);
-		mat[1] = std::move(m.mat[1]);
-		mat[2] = std::move(m.mat[2]);
-		mat[3] = std::move(m.mat[3]);
-		mat[4] = std::move(m.mat[4]);
-		mat[5] = std::move(m.mat[5]);
+		m_mat[0] = std::move(m.m_mat[0]);
+		m_mat[1] = std::move(m.m_mat[1]);
+		m_mat[2] = std::move(m.m_mat[2]);
+		m_mat[3] = std::move(m.m_mat[3]);
+		m_mat[4] = std::move(m.m_mat[4]);
+		m_mat[5] = std::move(m.m_mat[5]);
 	}
 
 	inline Mat32::~Mat32(void) {}
 
 	inline Mat32& Mat32::Identity(void) {
-		mat[0] = 1.0f;
-		mat[2] = 0.0f;
-		mat[4] = 0.0f;
-		mat[1] = 0.0f;
-		mat[3] = 1.0f;
-		mat[5] = 0.0f;
+		m_mat[0] = 1.0f;
+		m_mat[2] = 0.0f;
+		m_mat[4] = 0.0f;
+		m_mat[1] = 0.0f;
+		m_mat[3] = 1.0f;
+		m_mat[5] = 0.0f;
 
 		return *this;
 	}
 
-	inline Mat32& Mat32::SetTrace(const float x, const float y) {
-		mat[0] = x;
-		mat[3] = y;
+	inline Mat32& Mat32::SetTrace(float32 x, float32 y) {
+		m_mat[0] = x;
+		m_mat[3] = y;
 
 		return *this;
 	}
 
 	inline Mat32& Mat32::operator -() {
-		float m11 = mat[0],
-		      m12 = mat[1],
-		      m21 = mat[2],
-		      m22 = mat[3],
-		      m31 = mat[4],
-		      m32 = mat[5],
+		float32 m11 = m_mat[0],
+		        m12 = m_mat[1],
+		        m21 = m_mat[2],
+		        m22 = m_mat[3],
+		        m31 = m_mat[4],
+		        m32 = m_mat[5],
 
-		      det = m11 * m22 - m12 * m21;
+		        det = m11 * m22 - m12 * m21;
 
 		if (det == 0.0f) {
 			return Identity();
@@ -105,26 +105,26 @@ namespace Odin {
 
 		det = 1.0f / det;
 
-		mat[0] = m22 * det;
-		mat[2] = -m12 * det;
-		mat[1] = -m21 * det;
-		mat[3] = m11 * det;
+		m_mat[0] = m22 * det;
+		m_mat[2] = -m12 * det;
+		m_mat[1] = -m21 * det;
+		m_mat[3] = m11 * det;
 
-		mat[4] = (m12 * m32 - m22 * m31) * det;
-		mat[5] = (m21 * m31 - m11 * m32) * det;
+		m_mat[4] = (m12 * m32 - m22 * m31) * det;
+		m_mat[5] = (m21 * m31 - m11 * m32) * det;
 
 		return *this;
 	}
 
 	inline Mat32& Mat32::Inverse(void) {
-		float m11 = mat[0],
-		      m12 = mat[1],
-		      m21 = mat[2],
-		      m22 = mat[3],
-		      m31 = mat[4],
-		      m32 = mat[5],
+		float32 m11 = m_mat[0],
+		        m12 = m_mat[1],
+		        m21 = m_mat[2],
+		        m22 = m_mat[3],
+		        m31 = m_mat[4],
+		        m32 = m_mat[5],
 
-		      det = m11 * m22 - m12 * m21;
+		        det = m11 * m22 - m12 * m21;
 
 		if (det == 0.0f) {
 			return Identity();
@@ -132,26 +132,26 @@ namespace Odin {
 
 		det = 1.0f / det;
 
-		mat[0] = m22 * det;
-		mat[2] = -m12 * det;
-		mat[1] = -m21 * det;
-		mat[3] = m11 * det;
+		m_mat[0] = m22 * det;
+		m_mat[2] = -m12 * det;
+		m_mat[1] = -m21 * det;
+		m_mat[3] = m11 * det;
 
-		mat[4] = (m12 * m32 - m22 * m31) * det;
-		mat[5] = (m21 * m31 - m11 * m32) * det;
+		m_mat[4] = (m12 * m32 - m22 * m31) * det;
+		m_mat[5] = (m21 * m31 - m11 * m32) * det;
 
 		return *this;
 	}
 
 	inline Mat32& Mat32::Inverse(const Mat32& m) {
-		float m11 = m.mat[0],
-		      m12 = m.mat[1],
-		      m21 = m.mat[2],
-		      m22 = m.mat[3],
-		      m31 = m.mat[4],
-		      m32 = m.mat[5],
+		float32 m11 = m.m_mat[0],
+		        m12 = m.m_mat[1],
+		        m21 = m.m_mat[2],
+		        m22 = m.m_mat[3],
+		        m31 = m.m_mat[4],
+		        m32 = m.m_mat[5],
 
-		      det = m11 * m22 - m12 * m21;
+		        det = m11 * m22 - m12 * m21;
 
 		if (det == 0.0f) {
 			return Identity();
@@ -159,52 +159,52 @@ namespace Odin {
 
 		det = 1.0f / det;
 
-		mat[0] = m22 * det;
-		mat[2] = -m12 * det;
-		mat[1] = -m21 * det;
-		mat[3] = m11 * det;
+		m_mat[0] = m22 * det;
+		m_mat[2] = -m12 * det;
+		m_mat[1] = -m21 * det;
+		m_mat[3] = m11 * det;
 
-		mat[4] = (m12 * m32 - m22 * m31) * det;
-		mat[5] = (m21 * m31 - m11 * m32) * det;
+		m_mat[4] = (m12 * m32 - m22 * m31) * det;
+		m_mat[5] = (m21 * m31 - m11 * m32) * det;
 
 		return *this;
 	}
 
 	inline Mat32& Mat32::Transpose(void) {
-		float tmp;
+		float32 tmp;
 
-		tmp = mat[1];
-		mat[1] = mat[2];
-		mat[2] = tmp;
-
-		return *this;
-	}
-
-	inline Mat32& Mat32::Compose(const Vec2& position, const Vec2& scale, const float angle) {
-		float sx = scale.x,
-		      sy = scale.y,
-		      c = cosf(angle),
-		      s = sinf(angle);
-
-		mat[0] = c * sx;
-		mat[1] = s * sx;
-		mat[2] = -s * sy;
-		mat[3] = c * sy;
-
-		mat[4] = position.x;
-		mat[5] = position.y;
+		tmp = m_mat[1];
+		m_mat[1] = m_mat[2];
+		m_mat[2] = tmp;
 
 		return *this;
 	}
 
-	inline Mat32& Mat32::Decompose(Vec2& position, Vec2& scale, float& angle) {
-		float m11 = mat[0],
-		      m12 = mat[1],
-		      sx = scale.Set(m11, m12).Length(),
-		      sy = scale.Set(mat[2], mat[3]).Length();
+	inline Mat32& Mat32::Compose(const Vec2& position, const Vec2& scale, float32 angle) {
+		float32 sx = scale.x,
+		        sy = scale.y,
+		        c = cosf(angle),
+		        s = sinf(angle);
 
-		position.x = mat[4];
-		position.y = mat[5];
+		m_mat[0] = c * sx;
+		m_mat[1] = s * sx;
+		m_mat[2] = -s * sy;
+		m_mat[3] = c * sy;
+
+		m_mat[4] = position.x;
+		m_mat[5] = position.y;
+
+		return *this;
+	}
+
+	inline Mat32& Mat32::Decompose(Vec2& position, Vec2& scale, float32& angle) {
+		float32 m11 = m_mat[0],
+		        m12 = m_mat[1],
+		        sx = scale.Set(m11, m12).Length(),
+		        sy = scale.Set(m_mat[2], m_mat[3]).Length();
+
+		position.x = m_mat[4];
+		position.y = m_mat[5];
 
 		scale.x = sx;
 		scale.y = sy;
@@ -214,89 +214,89 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Mat32& Mat32::SetRotation(const float a) {
-		float s = sinf(a), c = cosf(a);
+	inline Mat32& Mat32::SetRotation(float32 a) {
+		float32 s = sinf(a), c = cosf(a);
 
-		mat[0] = c;
-		mat[2] = -s;
-		mat[1] = s;
-		mat[3] = c;
+		m_mat[0] = c;
+		m_mat[2] = -s;
+		m_mat[1] = s;
+		m_mat[3] = c;
 
 		return *this;
 	}
 
-	inline float Mat32::GetRotation(void) {
+	inline float32 Mat32::GetRotation(void) {
 
-		return atan2f(mat[2], mat[0]);
+		return atan2f(m_mat[2], m_mat[0]);
 	}
 
 	inline Mat32& Mat32::SetPosition(const Vec2& v) {
 
-		mat[4] = v.x;
-		mat[5] = v.y;
+		m_mat[4] = v.x;
+		m_mat[5] = v.y;
 
 		return *this;
 	}
 
 	inline Vec2 Mat32::GetPosition(void) {
 
-		return Vec2(mat[4], mat[5]);
+		return Vec2(m_mat[4], m_mat[5]);
 	}
 
-	inline Mat32& Mat32::Rotate(const float a) {
-		float a11 = mat[0],
-		      a12 = mat[1],
-		      a21 = mat[2],
-		      a22 = mat[3],
-		      s = sinf(a), c = cosf(a);
+	inline Mat32& Mat32::Rotate(float32 a) {
+		float32 a11 = m_mat[0],
+		        a12 = m_mat[1],
+		        a21 = m_mat[2],
+		        a22 = m_mat[3],
+		        s = sinf(a), c = cosf(a);
 
-		mat[0] = a11 * c + a21 * s;
-		mat[2] = a12 * c + a22 * s;
-		mat[1] = a11 * -s + a21 * c;
-		mat[3] = a12 * -s + a22 * c;
+		m_mat[0] = a11 * c + a21 * s;
+		m_mat[2] = a12 * c + a22 * s;
+		m_mat[1] = a11 * -s + a21 * c;
+		m_mat[3] = a12 * -s + a22 * c;
 
 		return *this;
 	}
 
-	inline Mat32& Mat32::Orthographic(const float left, const float right, const float top, const float bottom) {
-		float w = right - left,
-		      h = top - bottom,
+	inline Mat32& Mat32::Orthographic(float32 left, float32 right, float32 top, float32 bottom) {
+		float32 w = right - left,
+		        h = top - bottom,
 
-		      x = (right + left) / w,
-		      y = (top + bottom) / h;
+		        x = (right + left) / w,
+		        y = (top + bottom) / h;
 
-		mat[0] = 2 / w;
-		mat[1] = 0;
-		mat[2] = 0;
-		mat[3] = 2 / h;
-		mat[4] = -x;
-		mat[5] = -y;
+		m_mat[0] = 2 / w;
+		m_mat[1] = 0;
+		m_mat[2] = 0;
+		m_mat[3] = 2 / h;
+		m_mat[4] = -x;
+		m_mat[5] = -y;
 
 		return *this;
 	}
 
-	inline const float Mat32::operator [] (int i) const {
-		return mat[i];
+	inline float32 Mat32::operator [] (int32 i) const {
+		return m_mat[i];
 	}
 
-	inline float& Mat32::operator [] (int i) {
-		return mat[i];
+	inline float32& Mat32::operator [] (int32 i) {
+		return m_mat[i];
 	}
 
 	inline Mat32 Mat32::operator *(const Mat32& m) {
-		float a11 = mat[0],
-		      a12 = mat[1],
-		      a13 = mat[2],
-		      a21 = mat[3],
-		      a22 = mat[4],
-		      a23 = mat[5],
+		float32 a11 = m_mat[0],
+		        a12 = m_mat[1],
+		        a13 = m_mat[2],
+		        a21 = m_mat[3],
+		        a22 = m_mat[4],
+		        a23 = m_mat[5],
 
-		      b11 = m.mat[0],
-		      b12 = m.mat[1],
-		      b13 = m.mat[2],
-		      b21 = m.mat[3],
-		      b22 = m.mat[4],
-		      b23 = m.mat[5];
+		        b11 = m.m_mat[0],
+		        b12 = m.m_mat[1],
+		        b13 = m.m_mat[2],
+		        b21 = m.m_mat[3],
+		        b22 = m.m_mat[4],
+		        b23 = m.m_mat[5];
 
 		return Mat32(
 		           a11 * b11 + a21 * b12,
@@ -311,92 +311,92 @@ namespace Odin {
 	}
 
 	inline void Mat32::operator *=(const Mat32& m) {
-		float a11 = mat[0],
-		      a12 = mat[1],
-		      a13 = mat[2],
-		      a21 = mat[3],
-		      a22 = mat[4],
-		      a23 = mat[5],
+		float32 a11 = m_mat[0],
+		        a12 = m_mat[1],
+		        a13 = m_mat[2],
+		        a21 = m_mat[3],
+		        a22 = m_mat[4],
+		        a23 = m_mat[5],
 
-		      b11 = m.mat[0],
-		      b12 = m.mat[1],
-		      b13 = m.mat[2],
-		      b21 = m.mat[3],
-		      b22 = m.mat[4],
-		      b23 = m.mat[5];
+		        b11 = m.m_mat[0],
+		        b12 = m.m_mat[1],
+		        b13 = m.m_mat[2],
+		        b21 = m.m_mat[3],
+		        b22 = m.m_mat[4],
+		        b23 = m.m_mat[5];
 
-		mat[0] = a11 * b11 + a21 * b12;
-		mat[1] = a12 * b11 + a22 * b12;
+		m_mat[0] = a11 * b11 + a21 * b12;
+		m_mat[1] = a12 * b11 + a22 * b12;
 
-		mat[3] = a11 * b21 + a21 * b22;
-		mat[4] = a12 * b21 + a22 * b22;
+		m_mat[3] = a11 * b21 + a21 * b22;
+		m_mat[4] = a12 * b21 + a22 * b22;
 
-		mat[2] = a11 * b13 + a12 * b23 + a13;
-		mat[5] = a21 * b13 + a22 * b23 + a23;
+		m_mat[2] = a11 * b13 + a12 * b23 + a13;
+		m_mat[5] = a21 * b13 + a22 * b23 + a23;
 	}
 
-	inline Mat32 Mat32::operator *=(const float s) {
-		mat[0] *= s;
-		mat[1] *= s;
-		mat[2] *= s;
-		mat[3] *= s;
-		mat[4] *= s;
-		mat[5] *= s;
+	inline void Mat32::operator *=(float32 s) {
+		m_mat[0] *= s;
+		m_mat[1] *= s;
+		m_mat[2] *= s;
+		m_mat[3] *= s;
+		m_mat[4] *= s;
+		m_mat[5] *= s;
 	}
 
-	inline Mat32 Mat32::operator /=(const float s) {
-		float d = s != 0.0f ? 1.0f / s : 0.0f;
+	inline void Mat32::operator /=(float32 s) {
+		float32 d = s != 0.0f ? 1.0f / s : 0.0f;
 
-		mat[0] *= d;
-		mat[1] *= d;
-		mat[2] *= d;
-		mat[3] *= d;
-		mat[4] *= d;
-		mat[5] *= d;
+		m_mat[0] *= d;
+		m_mat[1] *= d;
+		m_mat[2] *= d;
+		m_mat[3] *= d;
+		m_mat[4] *= d;
+		m_mat[5] *= d;
 	}
 
 	inline Mat32& Mat32::operator =(const Mat32& m) {
-		mat[0] = m.mat[0];
-		mat[1] = m.mat[1];
-		mat[2] = m.mat[2];
-		mat[3] = m.mat[3];
-		mat[4] = m.mat[4];
-		mat[5] = m.mat[5];
+		m_mat[0] = m.m_mat[0];
+		m_mat[1] = m.m_mat[1];
+		m_mat[2] = m.m_mat[2];
+		m_mat[3] = m.m_mat[3];
+		m_mat[4] = m.m_mat[4];
+		m_mat[5] = m.m_mat[5];
 
 		return *this;
 	}
 
 	inline Mat32& Mat32::operator =(const Mat32 && m) {
-		mat[0] = std::move(m.mat[0]);
-		mat[1] = std::move(m.mat[1]);
-		mat[2] = std::move(m.mat[2]);
-		mat[3] = std::move(m.mat[3]);
-		mat[4] = std::move(m.mat[4]);
-		mat[5] = std::move(m.mat[5]);
+		m_mat[0] = std::move(m.m_mat[0]);
+		m_mat[1] = std::move(m.m_mat[1]);
+		m_mat[2] = std::move(m.m_mat[2]);
+		m_mat[3] = std::move(m.m_mat[3]);
+		m_mat[4] = std::move(m.m_mat[4]);
+		m_mat[5] = std::move(m.m_mat[5]);
 
 		return *this;
 	}
 
 	inline bool Mat32::operator ==(const Mat32& m) {
 		return !(
-		           mat[0] != m.mat[0] || mat[2] != m.mat[2] || mat[4] != m.mat[4] ||
-		           mat[1] != m.mat[1] || mat[3] != m.mat[3] || mat[5] != m.mat[5]
+		           m_mat[0] != m.m_mat[0] || m_mat[2] != m.m_mat[2] || m_mat[4] != m.m_mat[4] ||
+		           m_mat[1] != m.m_mat[1] || m_mat[3] != m.m_mat[3] || m_mat[5] != m.m_mat[5]
 		       );
 	}
 
 	inline bool Mat32::operator !=(const Mat32& m) {
 		return (
-		           mat[0] != m.mat[0] || mat[2] != m.mat[2] || mat[4] != m.mat[4] ||
-		           mat[1] != m.mat[1] || mat[3] != m.mat[3] || mat[5] != m.mat[5]
+		           m_mat[0] != m.m_mat[0] || m_mat[2] != m.m_mat[2] || m_mat[4] != m.m_mat[4] ||
+		           m_mat[1] != m.m_mat[1] || m_mat[3] != m.m_mat[3] || m_mat[5] != m.m_mat[5]
 		       );
 	}
 
-	inline std::string Mat32::ToString(int p) {
+	inline std::string Mat32::ToString(int32 p) {
 
 		return (
 		           "Mat32[\n"
-		           "  " + util.ToString(mat[0], p) + ", " + util.ToString(mat[2], p) + ", " + util.ToString(mat[4], p) + ",\n" +
-		           "  " + util.ToString(mat[1], p) + ", " + util.ToString(mat[3], p) + ", " + util.ToString(mat[5], p) + ",\n" +
+		           "  " + util.ToString(m_mat[0], p) + ", " + util.ToString(m_mat[2], p) + ", " + util.ToString(m_mat[4], p) + ",\n" +
+		           "  " + util.ToString(m_mat[1], p) + ", " + util.ToString(m_mat[3], p) + ", " + util.ToString(m_mat[5], p) + ",\n" +
 		           "]"
 		       );
 	}

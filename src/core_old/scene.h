@@ -1,5 +1,5 @@
-#ifndef ODIN_SCENE_H
-#define ODIN_SCENE_H
+#ifndef _ODIN_SCENE_H
+#define _ODIN_SCENE_H
 
 namespace Odin {
 
@@ -8,7 +8,7 @@ namespace Odin {
 			friend class GameObject;
 
 			Array<GameObject*> m_gameObjects;
-			unsigned int m_gameObjectCount;
+			uint32 m_gameObjectCount;
 
 			inline void m_AddGameObject (GameObject* gameObject);
 			inline void m_RemoveGameObject (GameObject* gameObject);
@@ -23,14 +23,14 @@ namespace Odin {
 
 			inline void Update(void);
 
-			inline GameObject* operator [](int i);
+			inline GameObject* operator [](int32 i);
 
 			inline void AddGameObject(GameObject* gameObject);
 			inline void RemoveGameObject(GameObject* gameObject);
 
-			inline unsigned int GameObjectCount(void) const;
+			inline uint32 GameObjectCount(void) const;
 
-			inline int IndexOf(GameObject* gameObject);
+			inline int32 IndexOf(GameObject* gameObject);
 	};
 }
 #endif

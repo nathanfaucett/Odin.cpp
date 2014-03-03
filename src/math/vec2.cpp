@@ -1,19 +1,26 @@
-#ifndef ODIN_VEC2_CPP
-#define ODIN_VEC2_CPP
+#ifndef _ODIN_VEC2_CPP
+#define _ODIN_VEC2_CPP
 
 namespace Odin {
+
+	const Vec2 Vec2::ZERO(0.0f, 0.0f);
+	const Vec2 Vec2::UNIT_X(1.0f, 0.0f);
+	const Vec2 Vec2::UNIT_Y(0.0f, 1.0f);
+	const Vec2 Vec2::NEGATIVE_UNIT_X(-1.0f, 0.0f);
+	const Vec2 Vec2::NEGATIVE_UNIT_Y(0.0f, -1.0f);
+	const Vec2 Vec2::UNIT_SCALE(1.0f, 1.0f);
 
 	inline Vec2::Vec2(void) {
 		x = 0.0f;
 		y = 0.0f;
 	}
 
-	inline Vec2::Vec2(const float X) {
+	inline Vec2::Vec2(float32 X) {
 		x = X;
 		y = X;
 	}
 
-	inline Vec2::Vec2(const float X, const float Y) {
+	inline Vec2::Vec2(float32 X, float32 Y) {
 		x = X;
 		y = Y;
 	}
@@ -45,7 +52,7 @@ namespace Odin {
 
 	inline Vec2::~Vec2(void) {}
 
-	inline Vec2& Vec2::Set(const float X, const float Y) {
+	inline Vec2& Vec2::Set(float32 X, float32 Y) {
 		x = X;
 		y = Y;
 
@@ -59,35 +66,35 @@ namespace Odin {
 		return *this;
 	}
 
-	inline float Vec2::Dot(const Vec2& v) {
+	inline float32 Vec2::Dot(const Vec2& v) {
 
 		return x * v.x + y * v.y;
 	}
 
-	inline float Vec2::Cross(const Vec2& v) {
+	inline float32 Vec2::Cross(const Vec2& v) {
 
 		return x * v.y - y * v.x;
 	}
 
-	inline float Vec2::LengthSq(void) {
+	inline float32 Vec2::LengthSq(void) {
 
 		return x * x + y * y;
 	}
 
-	inline float Vec2::Length(void) {
-		float lenSq = x * x + y * y;
+	inline float32 Vec2::Length(void) {
+		float32 lenSq = x * x + y * y;
 
 		return lenSq == 0.0f ? 0.0f : sqrtf(lenSq);
 	}
 
-	inline float Vec2::Normalize(void) {
-		float lenSq = x * x + y * y;
+	inline float32 Vec2::Normalize(void) {
+		float32 lenSq = x * x + y * y;
 
 		if (lenSq == 0.0f) {
 			return 0.0f;
 		}
 
-		float len = sqrtf(lenSq), invLen = 1 / len;
+		float32 len = sqrtf(lenSq), invLen = 1.0f / len;
 
 		x *= invLen;
 		y *= invLen;
@@ -95,7 +102,7 @@ namespace Odin {
 		return len;
 	}
 
-	inline Vec2& Vec2::Lerp(const Vec2& v, const float t) {
+	inline Vec2& Vec2::Lerp(const Vec2& v, float32 t) {
 		x = Mathf.Lerp(x, v.x, t);
 		y = Mathf.Lerp(y, v.y, t);
 
@@ -103,8 +110,8 @@ namespace Odin {
 	}
 
 	inline Vec2& Vec2::Min(const Vec2& v) {
-		float vx = v.x,
-		      vy = v.y;
+		float32 vx = v.x,
+		        vy = v.y;
 
 		x = vx < x ? vx : x;
 		y = vy < y ? vy : y;
@@ -113,8 +120,8 @@ namespace Odin {
 	}
 
 	inline Vec2& Vec2::Max(const Vec2& v) {
-		float vx = v.x,
-		      vy = v.y;
+		float32 vx = v.x,
+		        vy = v.y;
 
 		x = vx > x ? vx : x;
 		y = vy > y ? vy : y;
@@ -129,11 +136,11 @@ namespace Odin {
 		return *this;
 	}
 
-	inline float Vec2::operator [] (int i) const {
+	inline float32 Vec2::operator [] (int32 i) const {
 		return (&x)[i];
 	}
 
-	inline float& Vec2::operator [] (int i) {
+	inline float32& Vec2::operator [] (int32 i) {
 		return (&x)[i];
 	}
 
@@ -146,7 +153,7 @@ namespace Odin {
 	}
 
 	inline Vec2& Vec2::operator *=(const Mat2& m) {
-		float tx = x, ty = y;
+		float32 tx = x, ty = y;
 
 		x = tx * m[0] + ty * m[2];
 		y = tx * m[1] + ty * m[3];
@@ -163,7 +170,7 @@ namespace Odin {
 	}
 
 	inline Vec2& Vec2::operator *=(const Mat32& m) {
-		float tx = x, ty = y;
+		float32 tx = x, ty = y;
 
 		x = tx * m[0] + ty * m[2] + m[4];
 		y = tx * m[1] + ty * m[3] + m[5];
@@ -180,7 +187,7 @@ namespace Odin {
 	}
 
 	inline Vec2& Vec2::operator *=(const Mat4& m) {
-		float tx = x, ty = y;
+		float32 tx = x, ty = y;
 
 		x = tx * m[0] + ty * m[4] + m[12];
 		y = tx * m[1] + ty * m[5] + m[13];
@@ -204,7 +211,7 @@ namespace Odin {
 	}
 
 	inline Vec2 Vec2::operator /(const Vec2& v) {
-		float vx = v.x, vy = v.y;
+		float32 vx = v.x, vy = v.y;
 
 		vx = vx != 0.0f ? 1.0f / vx : 0.0f;
 		vy = vy != 0.0f ? 1.0f / vy : 0.0f;
@@ -228,51 +235,51 @@ namespace Odin {
 	}
 
 	inline void Vec2::operator /=(const Vec2& v) {
-		float vx = v.x, vy = v.y;
+		float32 vx = v.x, vy = v.y;
 
 		x *= vx != 0.0f ? 1.0f / vx : 0.0f;
 		y *= vy != 0.0f ? 1.0f / vy : 0.0f;
 	}
 
 
-	inline Vec2 Vec2::operator +(const float s) {
+	inline Vec2 Vec2::operator +(float32 s) {
 
 		return Vec2(x + s, y + s);
 	}
 
-	inline Vec2 Vec2::operator -(const float s) {
+	inline Vec2 Vec2::operator -(float32 s) {
 
 		return Vec2(x - s, y - s);
 	}
 
-	inline Vec2 Vec2::operator *(const float s) {
+	inline Vec2 Vec2::operator *(float32 s) {
 
 		return Vec2(x * s, y * s);
 	}
 
-	inline Vec2 Vec2::operator /(const float s) {
-		float d = s != 0.0f ? 1.0f / s : 0.0f;
+	inline Vec2 Vec2::operator /(float32 s) {
+		float32 d = s != 0.0f ? 1.0f / s : 0.0f;
 
 		return Vec2(x * d, y * d);
 	}
 
-	inline void Vec2::operator +=(const float s) {
+	inline void Vec2::operator +=(float32 s) {
 		x += s;
 		y += s;
 	}
 
-	inline void Vec2::operator -=(const float s) {
+	inline void Vec2::operator -=(float32 s) {
 		x -= s;
 		y -= s;
 	}
 
-	inline void Vec2::operator *=(const float s) {
+	inline void Vec2::operator *=(float32 s) {
 		x *= s;
 		y *= s;
 	}
 
-	inline void Vec2::operator /=(const float s) {
-		float d = s != 0.0f ? 1.0f / s : 0.0f;
+	inline void Vec2::operator /=(float32 s) {
+		float32 d = s != 0.0f ? 1.0f / s : 0.0f;
 
 		x *= d;
 		y *= d;
@@ -302,7 +309,7 @@ namespace Odin {
 		return x != v.x || y != v.y;
 	}
 
-	inline std::string Vec2::ToString(int p) {
+	inline std::string Vec2::ToString(int32 p) {
 
 		return "Vec2(" + util.ToString(x, p) + ", " + util.ToString(y, p) + ")";
 	}

@@ -1,5 +1,5 @@
-#ifndef ODIN_COMPONENT_CPP
-#define ODIN_COMPONENT_CPP
+#ifndef _ODIN_COMPONENT_CPP
+#define _ODIN_COMPONENT_CPP
 
 namespace Odin {
 

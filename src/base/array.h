@@ -1,19 +1,16 @@
-#ifndef ODIN_ARRAY_H
-#define ODIN_ARRAY_H
+#ifndef _ODIN_ARRAY_H
+#define _ODIN_ARRAY_H
 
 namespace Odin {
 
-	template <class Type> class Array {
+	template <typename Type> class Array {
 
 		private:
 			Type* m_array;
-			unsigned int m_length;
+			uint32 m_length;
 
-			inline void m_QuickSort(std::function<float(const Type a, const Type b)> sortFunction, const int from, const int to);
-			inline int m_Partition(std::function<float(const Type a, const Type b)> sortFunction, int i, int j);
-
-		protected:
-
+			inline void m_QuickSort(std::function<float32(const Type a, const Type b)> sortFunction, int32 from, int32 to);
+			inline int32 m_Partition(std::function<float32(const Type a, const Type b)> sortFunction, int32 i, int32 j);
 
 		public:
 
@@ -22,21 +19,21 @@ namespace Odin {
 			inline Array(const Array<Type>&& other);
 			inline ~Array(void);
 
-			inline Type operator [] (unsigned int index) const;
-			inline Type& operator [] (unsigned int index);
+			inline Type operator [] (uint32 index) const;
+			inline Type& operator [] (uint32 index);
 
-			inline Type Splice(const unsigned int index, const unsigned int count);
-			inline Type Splice(const unsigned int index, const unsigned int count, const Type item);
+			inline Type Splice(uint32 index, int32 count);
+			inline Type Splice(uint32 index, int32 count, const Type item);
 
 			inline Type Push(const Type item);
 			inline Type Unshift(const Type item);
 
 			inline void Clear(void);
 
-			inline int IndexOf(const Type& item);
-			inline unsigned int Length(void);
+			inline int32 IndexOf(const Type& item);
+			inline uint32 Length(void);
 
-			inline void Sort(std::function<int(const Type a, const Type b)> sortFunction);
+			inline void Sort(std::function<int32(const Type a, const Type b)> sortFunction);
 
 			inline Array<Type>& operator =(const Array<Type>& other);
 			inline Array<Type>& operator =(const Array<Type> && other);

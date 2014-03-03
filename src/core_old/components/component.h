@@ -1,5 +1,5 @@
-#ifndef ODIN_COMPONENT_H
-#define ODIN_COMPONENT_H
+#ifndef _ODIN_COMPONENT_H
+#define _ODIN_COMPONENT_H
 
 namespace Odin {
 

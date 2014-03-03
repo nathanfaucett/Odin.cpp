@@ -1,26 +1,32 @@
-#ifndef ODIN_H
-#define ODIN_H
+#ifndef _ODIN_H
+#define _ODIN_H
 
 #include <chrono>
 #include <cmath>
 #include <cfloat>
 #include <iomanip>
 #include <sstream>
+#include <cstdio>
 #include <string>
 #include <functional>
 #include <assert.h>
+
+#include <SFML/Window.hpp>
 
 /*===============================
  * Headers
  *===============================*/
 
-#include "base/array.h"
-#include "base/os.h"
-#include "base/object.h"
-#include "base/time.h"
-#include "base/util.h"
+#include "base/typedefs.hpp"
 
-#include "math/mathf.h"
+#include "base/os.hpp"
+#include "base/time.hpp"
+#include "base/util.hpp"
+
+#include "base/array.h"
+#include "base/object.h"
+
+#include "math/mathf.hpp"
 #include "math/color.h"
 #include "math/mat2.h"
 #include "math/mat3.h"
@@ -33,11 +39,11 @@
 #include "math/aabb2.h"
 #include "math/aabb3.h"
 
-#include "core/components/component.h"
-#include "core/components/camera.h"
+#include "core/game/base_game.h"
+
+#include "core/renderer/renderer.h"
 
 #include "core/game_object.h"
-#include "core/scene.h"
 
 
 /*===============================
@@ -59,17 +65,16 @@
 #include "math/aabb2.cpp"
 #include "math/aabb3.cpp"
 
-#include "core/components/component.cpp"
-#include "core/components/camera.cpp"
+#include "core/game/base_game.cpp"
+
+#include "core/renderer/renderer.cpp"
 
 #include "core/game_object.cpp"
-#include "core/scene.cpp"
 
 namespace Odin {
 
 	void Init() {
-		std::srand(std::time(0));
-		std::cout.precision(16);
+		Mathf.Init();
 	}
 }
 

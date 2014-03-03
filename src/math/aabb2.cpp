@@ -1,5 +1,5 @@
-#ifndef ODIN_AABB2_CPP
-#define ODIN_AABB2_CPP
+#ifndef _ODIN_AABB2_CPP
+#define _ODIN_AABB2_CPP
 
 
 namespace Odin {
@@ -47,15 +47,15 @@ namespace Odin {
 		return *this;
 	}
 
-	inline AABB2& AABB2::FromPoints(Vec2* points[], const unsigned int length) {
-		float minx = Infinity,
-		      miny = Infinity,
-		      maxx = -Infinity,
-		      maxy = -Infinity,
-		      x, y;
+	inline AABB2& AABB2::FromPoints(Vec2* points[], uint32 length) {
+		float32 minx = Infinity,
+		        miny = Infinity,
+		        maxx = -Infinity,
+		        maxy = -Infinity,
+		        x, y;
 
 		Vec2* v;
-		unsigned int i = length;
+		uint32 i = length;
 
 		while (i--) {
 			v = points[i];
@@ -79,14 +79,14 @@ namespace Odin {
 	}
 
 	inline AABB2& AABB2::FromPoints(Array<Vec2*> points) {
-		float minx = Infinity,
-		      miny = Infinity,
-		      maxx = -Infinity,
-		      maxy = -Infinity,
-		      x, y;
+		float32 minx = Infinity,
+		        miny = Infinity,
+		        maxx = -Infinity,
+		        maxy = -Infinity,
+		        x, y;
 
 		Vec2* v;
-		unsigned int i = points.Length();
+		uint32 i = points.Length();
 
 		while (i--) {
 			v = points[i];
@@ -110,10 +110,10 @@ namespace Odin {
 	}
 
 	inline AABB2& AABB2::FromCenterSize(const Vec2& center, const Vec2& size) {
-		float x = center.x,
-		      y = center.y,
-		      hx = size.x * 0.5f,
-		      hy = size.y * 0.5f;
+		float32 x = center.x,
+		        y = center.y,
+		        hx = size.x * 0.5f,
+		        hy = size.y * 0.5f;
 
 		min.x = x - hx;
 		min.y = y - hy;
@@ -125,8 +125,8 @@ namespace Odin {
 	}
 
 	inline bool AABB2::Contains(const Vec2& point) {
-		float px = point.x,
-		      py = point.y;
+		float32 px = point.x,
+		        py = point.y;
 
 		return !(
 		           px < min.x || px > max.x ||
@@ -142,7 +142,7 @@ namespace Odin {
 		       );
 	}
 
-	inline AABB2 AABB2::operator -() {
+	inline void AABB2::operator -() {
 		-min;
 		-max;
 	}
@@ -171,7 +171,7 @@ namespace Odin {
 		       );
 	}
 
-	inline AABB2 AABB2::operator +(const float s) {
+	inline AABB2 AABB2::operator +(float32 s) {
 
 		return AABB2(
 		           min + s,
@@ -179,7 +179,7 @@ namespace Odin {
 		       );
 	}
 
-	inline AABB2 AABB2::operator -(const float s) {
+	inline AABB2 AABB2::operator -(float32 s) {
 
 		return AABB2(
 		           min - s,
@@ -187,7 +187,7 @@ namespace Odin {
 		       );
 	}
 
-	inline AABB2 AABB2::operator *(const float s) {
+	inline AABB2 AABB2::operator *(float32 s) {
 
 		return AABB2(
 		           min * s,
@@ -195,8 +195,8 @@ namespace Odin {
 		       );
 	}
 
-	inline AABB2 AABB2::operator /(const float s) {
-		float d = s == 0.0f ? 0.0f : 1.0f / s;
+	inline AABB2 AABB2::operator /(float32 s) {
+		float32 d = s == 0.0f ? 0.0f : 1.0f / s;
 
 		return AABB2(
 		           min * d,
@@ -219,23 +219,23 @@ namespace Odin {
 		max -= v;
 	}
 
-	inline void AABB2::operator +=(const float s) {
+	inline void AABB2::operator +=(float32 s) {
 		min += s;
 		max += s;
 	}
 
-	inline void AABB2::operator -=(const float s) {
+	inline void AABB2::operator -=(float32 s) {
 		min -= s;
 		max -= s;
 	}
 
-	inline void AABB2::operator *=(const float s) {
+	inline void AABB2::operator *=(float32 s) {
 		min *= s;
 		max *= s;
 	}
 
-	inline void AABB2::operator /=(const float s) {
-		float d = s == 0.0f ? 0.0f : 1.0f / s;
+	inline void AABB2::operator /=(float32 s) {
+		float32 d = s == 0.0f ? 0.0f : 1.0f / s;
 
 		min *= d;
 		max *= d;
@@ -265,7 +265,7 @@ namespace Odin {
 		return min != other.min || max != other.max;
 	}
 
-	inline std::string AABB2::ToString(int p) {
+	inline std::string AABB2::ToString(int32 p) {
 
 		return "AABB2( min: " + min.ToString(p) + ", max: " + max.ToString(p) + ")";
 	}
