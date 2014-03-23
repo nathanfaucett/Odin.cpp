@@ -4,7 +4,7 @@
 namespace Odin {
 
 	inline Component::Component(void) : Object() {
-
+		
 	}
 
 	inline Component::~Component(void) {

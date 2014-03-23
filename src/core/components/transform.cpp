@@ -7,7 +7,7 @@ namespace Odin {
 		m_matricesNeedsUpdate = true;
 		scale.Set(1.0f, 1.0f, 1.0f);
 
-		p_updateOrder = 9999;
+		p_updateOrder = -9999;
 	}
 
 	inline Transform::~Transform(void) {

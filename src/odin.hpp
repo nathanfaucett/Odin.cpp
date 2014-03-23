@@ -51,6 +51,7 @@
 
 #include "core/components/component.h"
 #include "core/components/transform.h"
+#include "core/components/camera.h"
 
 #include "core/game_object.h"
 #include "core/scene.h"
@@ -81,6 +82,7 @@
 
 #include "core/components/component.cpp"
 #include "core/components/transform.cpp"
+#include "core/components/camera.cpp"
 
 #include "core/game_object.cpp"
 #include "core/scene.cpp"
