@@ -104,19 +104,16 @@ namespace Odin {
 		}
 
 		const std::type_info* type = &typeid(*component);
-		Array<Component*>* types;
+		Array<Component*>* types = m_components[type];
 		int32 index;
-
-		if (m_components.count(type) == 0) {
+		bool isNew = false;
+		
+		if (types == NULL) {
 			types = new Array<Component*>;
 
 			m_components[type] = types;
 			m_componentsTypes.Push(types);
-
-			m_componentsTypes.Sort(m_SortComponentTypes);
-
-		} else {
-			types = m_components[type];
+			isNew = true;
 		}
 
 		index = types->IndexOf(component);
@@ -129,6 +126,10 @@ namespace Odin {
 			}
 
 			types->Sort(m_SortComponents);
+			
+			if (isNew) {
+				m_componentsTypes.Sort(m_SortComponentTypes);
+			}
 		}
 	}
 
@@ -138,8 +139,8 @@ namespace Odin {
 	}
 
 	inline float32 Scene::m_SortComponentTypes(Array<Component*>* a, Array<Component*>* b) {
-
-		return (*a)[0]->p_updateOrder - (*b)[0]->p_updateOrder;
+	
+		return float32((*a)[0]->p_updateOrder) - float32((*b)[0]->p_updateOrder);
 	}
 
 	inline void Scene::SortType(Component* component) {

@@ -10,8 +10,10 @@ namespace Odin {
 			friend class GameObject;
 
 			Array<GameObject*> m_gameObjects;
+			
 			Array<Array<Component*>*> m_componentsTypes;
 			std::unordered_map<const std::type_info*, Array<Component*>*> m_components;
+			
 			uint32 m_count;
 
 			inline void m_AddComponent(Component* component);

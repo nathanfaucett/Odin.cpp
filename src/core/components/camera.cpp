@@ -22,7 +22,7 @@ namespace Odin {
 		m_orthographic = false;
 		m_orthographicSize = 2.0f;
 
-		m_minOrthographicSize = Mathf.EPSILON;
+		m_minOrthographicSize = Mathf.Epsilon;
 		m_maxOrthographicSize = 1024.0f;
 	}
 
@@ -56,7 +56,7 @@ namespace Odin {
 		if (m_needsUpdate) {
 
 			if (!m_orthographic) {
-				m_projection.Perspective(Mathf.ToRads(m_fov), m_aspect, m_near, m_far);
+				projection.Perspective(Mathf.ToRads(m_fov), m_aspect, m_near, m_far);
 			} else {
 				m_orthographicSize = Mathf.Clamp(m_orthographicSize, m_minOrthographicSize, m_maxOrthographicSize);
 
@@ -65,13 +65,13 @@ namespace Odin {
 						top = m_orthographicSize,
 						bottom = -top;
 
-				this.projection.orthographic(left, right, top, bottom, m_near, m_far);
+				projection.Orthographic(left, right, top, bottom, m_near, m_far);
 			}
 
 			m_needsUpdate = false;
 		}
-
-		m_view.Inverse(transform->matrixWorld);
+		
+		view.Inverse(transform->matrixWorld);
 	}
 
 	inline void Camera::p_Sort(void) {

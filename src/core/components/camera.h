@@ -8,20 +8,18 @@ namespace Odin {
 		private:
 			bool m_active, m_needsUpdate;
 			
-			float32 m_width, m_height = 640.0f;
+			float32 m_width, m_height;
 			float32 m_invWidth, m_invHeight;
-	
-			Color background;
 	
 			float32 m_aspect, m_fov;
 	
 			float32 m_near, m_far;
 	
 			bool m_orthographic;
-			float32 m_orthographicSize = 2.0f;
+			float32 m_orthographicSize;
 	
-			float32 m_minOrthographicSize = Mathf.EPSILON;
-			float32 m_maxOrthographicSize = 1024.0f;
+			float32 m_minOrthographicSize;
+			float32 m_maxOrthographicSize;
 			
 		protected:
 			inline void p_Clear(void);
@@ -33,8 +31,8 @@ namespace Odin {
 			inline void p_Sort(void);
 
 		public:
-			Mat4f perspectiveMatrix;
-			Mat4f viewMatrix;
+			Colorf background;
+			Mat4f projection, view;
 
 			inline Camera(void);
 			inline ~Camera(void);

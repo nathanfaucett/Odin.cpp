@@ -11,22 +11,22 @@ int main (int argc, char* argv[]) {
 
 	Scene* scene = new Scene();
 
-	GameObject* gameObject0 = new GameObject();
-	GameObject* gameObject1 = new GameObject();
+	GameObject* camera = new GameObject();
+	GameObject* object = new GameObject();
 
-	scene->AddGameObject(gameObject0);
-	scene->AddGameObject(gameObject1);
+	scene->AddGameObject(object);
+	scene->AddGameObject(camera);
 
-	gameObject0->AddComponent(new Transform());
-	gameObject1->AddComponent(new Transform());
+	camera->AddComponent(new Transform());
+	camera->AddComponent(new Camera());
+	
+	object->AddComponent(new Transform());
 
 	scene->Update();
 
-	Transform* transform = gameObject0->GetComponent<Transform>();
+	Transform* transform = camera->GetComponent<Transform>();
 	transform->position.Set(10.0f, 5.0f, 7.0f);
 	transform->rotation.Rotate(10.0f, 5.0f, 7.0f);
-
-	transform->AddChild(gameObject1->GetComponent<Transform>());
 
 	scene->Update();
 
