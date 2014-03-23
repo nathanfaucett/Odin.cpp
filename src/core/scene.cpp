@@ -113,7 +113,7 @@ namespace Odin {
 			m_components[type] = types;
 			m_componentsTypes.Push(types);
 
-			m_componentsTypes.Sort(m_SortComponents);
+			m_componentsTypes.Sort(m_SortComponentTypes);
 
 		} else {
 			types = m_components[type];
@@ -123,18 +123,33 @@ namespace Odin {
 
 		if (index == -1) {
 			types->Push(component);
-			types->Sort(component->p_Sort);
+
+			for (uint32 i = types->Length(); i-- > 0;) {
+				(*types)[i]->p_Sort();
+			}
+
+			types->Sort(m_SortComponents);
 		}
 	}
 
-	inline float32 Scene::m_SortComponents(Array<Component*>* a, Array<Component*>* b) {
+	inline float32 Scene::m_SortComponents(Component* a, Component* b) {
 
-		return (*a)[0]->p_order - (*b)[0]->p_order;
+		return a->p_order - b->p_order;
+	}
+
+	inline float32 Scene::m_SortComponentTypes(Array<Component*>* a, Array<Component*>* b) {
+
+		return (*a)[0]->p_updateOrder - (*b)[0]->p_updateOrder;
 	}
 
 	inline void Scene::SortType(Component* component) {
+		Array<Component*>* types = m_components[&typeid(*component)];
 
-		m_components[&typeid(*component)]->Sort(component->p_Sort);
+		for (uint32 i = types->Length(); i-- > 0;) {
+			(*types)[i]->p_Sort();
+		}
+
+		types->Sort(m_SortComponents);
 	}
 
 	inline Scene& Scene::RemoveGameObject(GameObject* gameObject) {

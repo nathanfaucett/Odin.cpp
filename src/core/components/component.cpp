@@ -27,9 +27,8 @@ namespace Odin {
 
 	}
 
-	inline float32 Component::p_Sort(Component* a, Component* b) {
-
-		return 0.0f;
+	inline void Component::p_Sort(void) {
+		p_order = 0.0f;
 	}
 
 	inline GameObject* Component::GetGameObject(void) {

@@ -12,16 +12,13 @@ int main (int argc, char* argv[]) {
 	Scene* scene = new Scene();
 
 	GameObject* gameObject0 = new GameObject();
-	Transform* transform0 = new Transform();
-
 	GameObject* gameObject1 = new GameObject();
-	Transform* transform1 = new Transform();
 
 	scene->AddGameObject(gameObject0);
 	scene->AddGameObject(gameObject1);
 
-	gameObject0->AddComponent(transform0);
-	gameObject1->AddComponent(transform1);
+	gameObject0->AddComponent(new Transform());
+	gameObject1->AddComponent(new Transform());
 
 	scene->Update();
 
@@ -29,14 +26,13 @@ int main (int argc, char* argv[]) {
 	transform->position.Set(10.0f, 5.0f, 7.0f);
 	transform->rotation.Rotate(10.0f, 5.0f, 7.0f);
 
-	transform->AddChild(transform1);
+	transform->AddChild(gameObject1->GetComponent<Transform>());
 
 	scene->Update();
 
 	std::cout << transform->GetDepth() << std::endl;
-	std::cout << transform1->GetDepth() << std::endl;
 
-	std::cout << transform1->matrixWorld.ToString() << std::endl;
+	std::cout << transform->matrixWorld.ToString() << std::endl;
 
 	return 0;
 }

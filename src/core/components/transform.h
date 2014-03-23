@@ -22,7 +22,7 @@ namespace Odin {
 			inline void p_Start(void);
 			inline void p_Update(void);
 
-			inline static float32 p_Sort(Transform* a, Transform* b);
+			inline void p_Sort(void);
 
 		public:
 			Vec3f position;
@@ -32,9 +32,12 @@ namespace Odin {
 			Mat4f matrix;
 			Mat4f matrixWorld;
 			Mat4f modelView;
+			Mat3f normalMatrix;
 
 			inline Transform(void);
 			inline ~Transform(void);
+
+			inline void UpdateMatrices(const Mat4f& viewMatrix);
 
 			inline int32 GetDepth(void);
 

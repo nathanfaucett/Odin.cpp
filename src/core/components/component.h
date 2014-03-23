@@ -13,7 +13,8 @@ namespace Odin {
 			friend class GameObject;
 
 		protected:
-			int32 p_order;
+			int32 p_updateOrder;
+			float32 p_order;
 			GameObject* p_gameObject;
 
 			inline virtual void p_Clear(void);
@@ -22,7 +23,7 @@ namespace Odin {
 			inline virtual void p_Start(void);
 			inline virtual void p_Update(void);
 
-			inline static float32 p_Sort(Component* a, Component* b);
+			inline virtual void p_Sort(void);
 
 		public:
 			inline Component(void);

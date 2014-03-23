@@ -17,7 +17,8 @@ namespace Odin {
 			inline void m_AddComponent(Component* component);
 			inline void m_RemoveComponent(Component* component);
 
-			inline static float32 m_SortComponents(Array<Component*>* a, Array<Component*>* b);
+			inline static float32 m_SortComponents(Component* a, Component* b);
+			inline static float32 m_SortComponentTypes(Array<Component*>* a, Array<Component*>* b);
 
 		protected:
 

@@ -4,12 +4,10 @@
 namespace Odin {
 
 	inline Transform::Transform(void) : Component() {
-		m_parent = NULL;
-		m_root = NULL;
-		m_depth = 0;
-
 		m_matricesNeedsUpdate = true;
 		scale.Set(1.0f, 1.0f, 1.0f);
+
+		p_updateOrder = 9999;
 	}
 
 	inline Transform::~Transform(void) {
@@ -58,9 +56,19 @@ namespace Odin {
 		m_matricesNeedsUpdate = true;
 	}
 
-	inline float32 Transform::p_Sort(Transform* a, Transform* b) {
+	inline void Transform::UpdateMatrices(const Mat4f& viewMatrix) {
+		if (!m_matricesNeedsUpdate) {
+			return;
+		}
 
-		return float32(a->m_depth) - float32(b->m_depth);
+		Mat4Mul<float32>(viewMatrix, matrixWorld, modelView);
+		Mat3InverseMat4<float32>(modelView, normalMatrix).Transpose();
+
+		m_matricesNeedsUpdate = false;
+	}
+
+	inline void Transform::p_Sort(void) {
+		p_order = float32(m_depth);
 	}
 
 	inline int32 Transform::GetDepth(void) {
