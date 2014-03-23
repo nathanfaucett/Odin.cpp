@@ -1,51 +1,51 @@
-#ifndef _ODIN_MAT2_H
-#define _ODIN_MAT2_H
+#ifndef _ODIN_MAT2_H_
+#define _ODIN_MAT2_H_
 
 namespace Odin {
 
-	class Mat2 {
+	template <typename Type> class Mat2 {
 
 		private:
-			float32 m_mat[4];
+			Type m_mat[4];
 
 		public:
 
 			inline explicit Mat2(void);
-			inline explicit Mat2(float32 m11, float32 m21, float32 m12, float32 m22);
-			inline Mat2(const Mat2& m);
-			inline Mat2(const Mat2&& m);
+			inline explicit Mat2(Type m11, Type m21, Type m12, Type m22);
+			inline Mat2(const Mat2<Type>& m);
+			inline Mat2(const Mat2<Type>&& m);
 			inline ~Mat2(void);
 
-			inline Mat2& Identity(void);
-			inline Mat2& SetTrace(float32 x, float32 y);
+			inline Mat2<Type>& Identity(void);
+			inline Mat2<Type>& SetTrace(Type x, Type y);
 
-			inline Mat2& operator -();
-			inline Mat2& Inverse(void);
-			inline Mat2& Inverse(const Mat2& m);
+			inline Mat2<Type>& operator -();
+			inline Mat2<Type>& Inverse(void);
+			inline Mat2<Type>& Inverse(const Mat2<Type>& m);
 
-			inline Mat2& Transpose(void);
+			inline Mat2<Type>& Transpose(void);
 
-			inline Mat2& SetRotation(float32 a);
+			inline Mat2<Type>& SetRotation(Type a);
 
-			inline float32 GetRotation(void);
+			inline Type GetRotation(void);
 
-			inline Mat2& Rotate(float32 a);
+			inline Mat2<Type>& Rotate(Type a);
 
-			inline float32 operator [] (int32 i) const;
+			inline Type operator [] (int32 i) const;
 
-			inline float32& operator [] (int32 i);
+			inline Type& operator [] (int32 i);
 
-			inline Mat2 operator *(const Mat2& m);
-			inline void operator *=(const Mat2& m);
+			inline Mat2<Type> operator *(const Mat2<Type>& m);
+			inline void operator *=(const Mat2<Type>& m);
 
-			inline void operator *=(float32 s);
-			inline void operator /=(float32 s);
+			inline void operator *=(Type s);
+			inline void operator /=(Type s);
 
-			inline Mat2& operator =(const Mat2& m);
-			inline Mat2& operator =(const Mat2 && m);
+			inline Mat2<Type>& operator =(const Mat2<Type>& m);
+			inline Mat2<Type>& operator =(const Mat2<Type> && m);
 
-			inline bool operator ==(const Mat2& m);
-			inline bool operator !=(const Mat2& m);
+			inline bool operator ==(const Mat2<Type>& m);
+			inline bool operator !=(const Mat2<Type>& m);
 
 			inline std::string ToString(int32 p = 5);
 	};

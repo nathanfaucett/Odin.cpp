@@ -1,62 +1,62 @@
-#ifndef _ODIN_AABB3_CPP
-#define _ODIN_AABB3_CPP
+#ifndef _ODIN_AABB3_CPP_
+#define _ODIN_AABB3_CPP_
 
 
 namespace Odin {
 
-	inline AABB3::AABB3(void) {
+	template <typename Type> inline AABB3<Type>::AABB3(void) {
 		min.Set(Infinity, Infinity, Infinity);
 		max.Set(-Infinity, -Infinity, -Infinity);
 	}
 
-	inline AABB3::AABB3(const Vec3& MIN, const Vec3& MAX) {
+	template <typename Type> inline AABB3<Type>::AABB3(const Vec3<Type>& MIN, const Vec3<Type>& MAX) {
 		min = MIN;
 		max = MAX;
 	}
 
-	inline AABB3::AABB3(const AABB3& other) {
+	template <typename Type> inline AABB3<Type>::AABB3(const AABB3<Type>& other) {
 		min = other.min;
 		max = other.max;
 	}
 
-	inline AABB3::AABB3(const AABB3&& other) {
+	template <typename Type> inline AABB3<Type>::AABB3(const AABB3<Type>&& other) {
 		min = std::move(other.min);
 		max = std::move(other.max);
 	}
 
-	inline AABB3::~AABB3(void) {}
+	template <typename Type> inline AABB3<Type>::~AABB3(void) {}
 
-	inline AABB3& AABB3::Set(const Vec3& MIN, const Vec3& MAX) {
+	template <typename Type> inline AABB3<Type>& AABB3<Type>::Set(const Vec3<Type>& MIN, const Vec3<Type>& MAX) {
 		min = MIN;
 		max = MAX;
 
 		return *this;
 	}
 
-	inline AABB3& AABB3::Zero(void) {
-		min.Set(0.0f, 0.0f, 0.0f);
-		max.Set(0.0f, 0.0f, 0.0f);
+	template <typename Type> inline AABB3<Type>& AABB3<Type>::Zero(void) {
+		min.Set(0, 0, 0);
+		max.Set(0, 0, 0);
 
 		return *this;
 	}
 
-	inline AABB3& AABB3::Clear(void) {
+	template <typename Type> inline AABB3<Type>& AABB3<Type>::Clear(void) {
 		min.Set(Infinity, Infinity, Infinity);
 		max.Set(-Infinity, -Infinity, -Infinity);
 
 		return *this;
 	}
 
-	inline AABB3& AABB3::FromPoints(Vec3* points[], uint32 length) {
-		float32 minx = Infinity,
-		        miny = Infinity,
-		        minz = Infinity,
-		        maxx = -Infinity,
-		        maxy = -Infinity,
-		        maxz = -Infinity,
-		        x, y, z;
+	template <typename Type> inline AABB3<Type>& AABB3<Type>::FromPoints(Vec3<Type>* points[], uint32 length) {
+		Type minx = Infinity,
+		     miny = Infinity,
+		     minz = Infinity,
+		     maxx = -Infinity,
+		     maxy = -Infinity,
+		     maxz = -Infinity,
+		     x, y, z;
 
-		Vec3* v;
+		Vec3<Type>* v;
 		uint32 i = length;
 
 		while (i--) {
@@ -85,16 +85,16 @@ namespace Odin {
 		return *this;
 	}
 
-	inline AABB3& AABB3::FromPoints(Array<Vec3*> points) {
-		float32 minx = Infinity,
-		        miny = Infinity,
-		        minz = Infinity,
-		        maxx = -Infinity,
-		        maxy = -Infinity,
-		        maxz = -Infinity,
-		        x, y, z;
+	template <typename Type> inline AABB3<Type>& AABB3<Type>::FromPoints(Array<Vec3<Type>*> points) {
+		Type minx = Infinity,
+		     miny = Infinity,
+		     minz = Infinity,
+		     maxx = -Infinity,
+		     maxy = -Infinity,
+		     maxz = -Infinity,
+		     x, y, z;
 
-		Vec3* v;
+		Vec3<Type>* v;
 		uint32 i = points.Length();
 
 		while (i--) {
@@ -123,13 +123,13 @@ namespace Odin {
 		return *this;
 	}
 
-	inline AABB3& AABB3::FromCenterSize(const Vec3& center, const Vec3& size) {
-		float32 x = center.x,
-		        y = center.y,
-		        z = center.z,
-		        hx = size.x * 0.5f,
-		        hy = size.y * 0.5f,
-		        hz = size.z * 0.5f;
+	template <typename Type> inline AABB3<Type>& AABB3<Type>::FromCenterSize(const Vec3<Type>& center, const Vec3<Type>& size) {
+		Type x = center.x,
+		     y = center.y,
+		     z = center.z,
+		     hx = size.x * 0.5,
+		     hy = size.y * 0.5,
+		     hz = size.z * 0.5;
 
 		min.x = x - hx;
 		min.y = y - hy;
@@ -142,10 +142,10 @@ namespace Odin {
 		return *this;
 	}
 
-	inline bool AABB3::Contains(const Vec3& point) {
-		float32 px = point.x,
-		        py = point.y,
-		        pz = point.z;
+	template <typename Type> inline bool AABB3<Type>::Contains(const Vec3<Type>& point) {
+		Type px = point.x,
+		     py = point.y,
+		     pz = point.z;
 
 		return !(
 		           px < min.x || px > max.x ||
@@ -154,7 +154,7 @@ namespace Odin {
 		       );
 	}
 
-	inline bool AABB3::Intersects(const AABB3& other) {
+	template <typename Type> inline bool AABB3<Type>::Intersects(const AABB3<Type>& other) {
 
 		return !(
 		           other.max.x < min.x || other.min.x > max.x ||
@@ -163,20 +163,20 @@ namespace Odin {
 		       );
 	}
 
-	inline void AABB3::operator -() {
+	template <typename Type> inline void AABB3<Type>::operator -() {
 		-min;
 		-max;
 	}
 
-	inline AABB3 AABB3::operator +(const AABB3& other) {
+	template <typename Type> inline AABB3<Type> AABB3<Type>::operator +(const AABB3<Type>& other) {
 
 		return AABB3(
-		           Vec3::Min(min, other.min),
-		           Vec3::Max(max, other.max)
+		           Vec3<Type>::Min(min, other.min),
+		           Vec3<Type>::Max(max, other.max)
 		       );
 	}
 
-	inline AABB3 AABB3::operator +(const Vec3& v) {
+	template <typename Type> inline AABB3<Type> AABB3<Type>::operator +(const Vec3<Type>& v) {
 
 		return AABB3(
 		           min + v,
@@ -184,7 +184,7 @@ namespace Odin {
 		       );
 	}
 
-	inline AABB3 AABB3::operator -(const Vec3& v) {
+	template <typename Type> inline AABB3<Type> AABB3<Type>::operator -(const Vec3<Type>& v) {
 
 		return AABB3(
 		           min - v,
@@ -192,7 +192,7 @@ namespace Odin {
 		       );
 	}
 
-	inline AABB3 AABB3::operator +(float32 s) {
+	template <typename Type> inline AABB3<Type> AABB3<Type>::operator +(Type s) {
 
 		return AABB3(
 		           min + s,
@@ -200,7 +200,7 @@ namespace Odin {
 		       );
 	}
 
-	inline AABB3 AABB3::operator -(float32 s) {
+	template <typename Type> inline AABB3<Type> AABB3<Type>::operator -(Type s) {
 
 		return AABB3(
 		           min - s,
@@ -208,7 +208,7 @@ namespace Odin {
 		       );
 	}
 
-	inline AABB3 AABB3::operator *(float32 s) {
+	template <typename Type> inline AABB3<Type> AABB3<Type>::operator *(Type s) {
 
 		return AABB3(
 		           min * s,
@@ -216,8 +216,8 @@ namespace Odin {
 		       );
 	}
 
-	inline AABB3 AABB3::operator /(float32 s) {
-		float32 d = s == 0.0f ? 0.0f : 1.0f / s;
+	template <typename Type> inline AABB3<Type> AABB3<Type>::operator /(Type s) {
+		Type d = s == 0 ? 0 : 1 / s;
 
 		return AABB3(
 		           min * d,
@@ -225,68 +225,68 @@ namespace Odin {
 		       );
 	}
 
-	inline void AABB3::operator +=(const AABB3& other) {
+	template <typename Type> inline void AABB3<Type>::operator +=(const AABB3<Type>& other) {
 		min.Min(other.min);
 		max.Max(other.max);
 	}
 
-	inline void AABB3::operator +=(const Vec3& v) {
+	template <typename Type> inline void AABB3<Type>::operator +=(const Vec3<Type>& v) {
 		min += v;
 		max += v;
 	}
 
-	inline void AABB3::operator -=(const Vec3& v) {
+	template <typename Type> inline void AABB3<Type>::operator -=(const Vec3<Type>& v) {
 		min -= v;
 		max -= v;
 	}
 
-	inline void AABB3::operator +=(float32 s) {
+	template <typename Type> inline void AABB3<Type>::operator +=(Type s) {
 		min += s;
 		max += s;
 	}
 
-	inline void AABB3::operator -=(float32 s) {
+	template <typename Type> inline void AABB3<Type>::operator -=(Type s) {
 		min -= s;
 		max -= s;
 	}
 
-	inline void AABB3::operator *=(float32 s) {
+	template <typename Type> inline void AABB3<Type>::operator *=(Type s) {
 		min *= s;
 		max *= s;
 	}
 
-	inline void AABB3::operator /=(float32 s) {
-		float32 d = s == 0.0f ? 0.0f : 1.0f / s;
+	template <typename Type> inline void AABB3<Type>::operator /=(Type s) {
+		Type d = s == 0 ? 0 : 1 / s;
 
 		min *= d;
 		max *= d;
 	}
 
-	inline AABB3& AABB3::operator =(const AABB3& other) {
+	template <typename Type> inline AABB3<Type>& AABB3<Type>::operator =(const AABB3<Type>& other) {
 		min = other.min;
 		max = other.max;
 
 		return *this;
 	}
 
-	inline AABB3& AABB3::operator =(const AABB3 && other) {
+	template <typename Type> inline AABB3<Type>& AABB3<Type>::operator =(const AABB3<Type> && other) {
 		min = std::move(other.min);
 		max = std::move(other.max);
 
 		return *this;
 	}
 
-	inline bool AABB3::operator ==(const AABB3& other) {
+	template <typename Type> inline bool AABB3<Type>::operator ==(const AABB3<Type>& other) {
 
 		return !(min != other.min || max != other.max);
 	}
 
-	inline bool AABB3::operator !=(const AABB3& other) {
+	template <typename Type> inline bool AABB3<Type>::operator !=(const AABB3<Type>& other) {
 
 		return min != other.min || max != other.max;
 	}
 
-	inline std::string AABB3::ToString(int32 p) {
+	template <typename Type> inline std::string AABB3<Type>::ToString(int32 p) {
 
 		return "AABB3( min: " + min.ToString(p) + ", max: " + max.ToString(p) + ")";
 	}

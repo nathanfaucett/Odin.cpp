@@ -1,8 +1,8 @@
-#ifndef _ODIN_OS_HPP
-#define _ODIN_OS_HPP
+#ifndef _ODIN_OS_HPP_
+#define _ODIN_OS_HPP_
 
 namespace Odin {
-#if defined(__WINDOWS__) || defined(_WIN32) || defined(_WIN64)
+#if defined(__WINDOWS__) || defined(_WIN32) || defined(__WIN32__)
 #define WINDOWS
 
 #ifdef _WIN32
@@ -11,11 +11,12 @@ namespace Odin {
 #define WINDOWS_64
 #endif
 
-#elif __APPLE__
+#elif defined(__APPLE__) || defined(MACOSX) || defined(macintosh) || defined(Macintosh)
 #define APPLE
 #include "TargetConditionals.h"
 
 #if TARGET_OS_IPHONE && TARGET_IPHONE_SIMULATOR
+#define IPHONE
 #define IPHONE_SIMULATOR
 #elif TARGET_OS_IPHONE
 #define IPHONE
@@ -23,8 +24,10 @@ namespace Odin {
 #define MAC
 #endif
 
-#elif __linux
+#elif defined(linux) || defined(__linux)
 #define LINUX
+#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
+#define FREEBSD
 #elif __unix
 #define UNIX
 #elif __posix

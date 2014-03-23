@@ -2,7 +2,6 @@ CXX = g++
 CXXFLAGS = -Wall -std=c++0x
 LDLIBS = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network -lGLU
 
-OBJ_DIR = bin
 LIB_DIR = -L/usr/lib
 INC_DIR = -I/usr/include
 
@@ -10,18 +9,14 @@ SOURCE = main.cpp
 EXECUTABLE = build
 
 all:
-	make init
 	make astyle
 	make $(EXECUTABLE)
 
 $(EXECUTABLE):
-	$(CXX) $(SOURCE) $(LDFLAGS) $(LDLIBS) $(CXXFLAGS) -o $(OBJ_DIR)/a.out
-
-init:
-	@mkdir -p "$(OBJ_DIR)"
+	$(CXX) $(SOURCE) $(LDFLAGS) $(LDLIBS) $(CXXFLAGS) -o a.out
 
 clean:
-	@rm -rf $(OBJ_DIR) $(EXECUTABLE)
+	@rm -rf $(EXECUTABLE)
 
 
 ASTYLE_OPTIONS = --style=attach --suffix=none --indent=tab --indent-classes --indent-modifiers --indent-switches --indent-cases --indent-namespaces \

@@ -1,5 +1,5 @@
-#ifndef _ODIN_TIME_HPP
-#define _ODIN_TIME_HPP
+#ifndef _ODIN_TIME_HPP_
+#define _ODIN_TIME_HPP_
 
 namespace Odin {
 
@@ -7,19 +7,19 @@ namespace Odin {
 
 		private:
 			static constexpr float32 TIME_DELTA_MIN = 0.000000001f, TIME_DELTA_MAX = 1.0f;
-			
+
 			float32 m_fpsTime, m_fpsLast, m_time, m_last, m_delta;
 			uint32 m_frameCount, m_frames;
-			
+
 			float64 m_start;
-			
+
 			inline float64 m_Now(void) {
-				
+
 				return m_Stamp() - m_start;
 			}
-			
+
 			inline float64 m_Stamp(void) {
-				
+
 				return (std::chrono::high_resolution_clock::now().time_since_epoch() / std::chrono::nanoseconds(1)) * 0.000000001;
 			}
 
@@ -29,7 +29,7 @@ namespace Odin {
 
 			Time(void) {
 				m_start = m_Stamp();
-				
+
 				fixedDelta = 1.0f / 60.0f;
 				delta = 1.0f / 60.0f;
 				fps = 60.0f;
@@ -68,12 +68,12 @@ namespace Odin {
 			}
 
 			inline float32 Now(void) {
-				
+
 				return m_Now();
 			}
 
 			inline float32 Stamp(void) {
-				
+
 				return m_Stamp();
 			}
 	};

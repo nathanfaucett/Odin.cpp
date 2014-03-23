@@ -1,18 +1,18 @@
-#ifndef _ODIN_MAT32_CPP
-#define _ODIN_MAT32_CPP
+#ifndef _ODIN_MAT32_CPP_
+#define _ODIN_MAT32_CPP_
 
 namespace Odin {
 
-	inline Mat32::Mat32(void) {
-		m_mat[0] = 1.0f;
-		m_mat[2] = 0.0f;
-		m_mat[4] = 0.0f;
-		m_mat[1] = 0.0f;
-		m_mat[3] = 1.0f;
-		m_mat[5] = 0.0f;
+	template <typename Type> inline Mat32<Type>::Mat32(void) {
+		m_mat[0] = 1;
+		m_mat[2] = 0;
+		m_mat[4] = 0;
+		m_mat[1] = 0;
+		m_mat[3] = 1;
+		m_mat[5] = 0;
 	}
 
-	inline Mat32::Mat32(float32 m11, float32 m21, float32 m31, float32 m12, float32 m22, float32 m32) {
+	template <typename Type> inline Mat32<Type>::Mat32(Type m11, Type m21, Type m31, Type m12, Type m22, Type m32) {
 		m_mat[0] = m11;
 		m_mat[2] = m21;
 		m_mat[4] = m31;
@@ -21,16 +21,16 @@ namespace Odin {
 		m_mat[5] = m32;
 	}
 
-	inline Mat32::Mat32(const Mat2& m) {
+	template <typename Type> inline Mat32<Type>::Mat32(const Mat2<Type>& m) {
 		m_mat[0] = m[0];
 		m_mat[2] = m[1];
-		m_mat[4] = 0.0f;
+		m_mat[4] = 0;
 		m_mat[1] = m[2];
 		m_mat[3] = m[3];
-		m_mat[5] = 0.0f;
+		m_mat[5] = 0;
 	}
 
-	inline Mat32::Mat32(const Mat2& m, const Vec2& v) {
+	template <typename Type> inline Mat32<Type>::Mat32(const Mat2<Type>& m, const Vec2<Type>& v) {
 		m_mat[0] = m[0];
 		m_mat[2] = m[2];
 		m_mat[4] = v.x;
@@ -39,9 +39,9 @@ namespace Odin {
 		m_mat[5] = v.y;
 	}
 
-	inline Mat32::Mat32(const Vec2& v, float32 angle) {
-		float32 c = cosf(angle),
-		        s = sinf(angle);
+	template <typename Type> inline Mat32<Type>::Mat32(const Vec2<Type>& v, Type angle) {
+		Type c = Mathf.Cos(angle),
+		     s = Mathf.Sin(angle);
 
 		m_mat[0] = c;
 		m_mat[2] = -s;
@@ -51,7 +51,7 @@ namespace Odin {
 		m_mat[5] = v.y;
 	}
 
-	inline Mat32::Mat32(const Mat32& m) {
+	template <typename Type> inline Mat32<Type>::Mat32(const Mat32<Type>& m) {
 		m_mat[0] = m.m_mat[0];
 		m_mat[2] = m.m_mat[2];
 		m_mat[4] = m.m_mat[4];
@@ -60,7 +60,7 @@ namespace Odin {
 		m_mat[5] = m.m_mat[5];
 	}
 
-	inline Mat32::Mat32(const Mat32&& m) {
+	template <typename Type> inline Mat32<Type>::Mat32(const Mat32<Type>&& m) {
 		m_mat[0] = std::move(m.m_mat[0]);
 		m_mat[1] = std::move(m.m_mat[1]);
 		m_mat[2] = std::move(m.m_mat[2]);
@@ -69,41 +69,41 @@ namespace Odin {
 		m_mat[5] = std::move(m.m_mat[5]);
 	}
 
-	inline Mat32::~Mat32(void) {}
+	template <typename Type> inline Mat32<Type>::~Mat32(void) {}
 
-	inline Mat32& Mat32::Identity(void) {
-		m_mat[0] = 1.0f;
-		m_mat[2] = 0.0f;
-		m_mat[4] = 0.0f;
-		m_mat[1] = 0.0f;
-		m_mat[3] = 1.0f;
-		m_mat[5] = 0.0f;
+	template <typename Type> inline Mat32<Type>& Mat32<Type>::Identity(void) {
+		m_mat[0] = 1;
+		m_mat[2] = 0;
+		m_mat[4] = 0;
+		m_mat[1] = 0;
+		m_mat[3] = 1;
+		m_mat[5] = 0;
 
 		return *this;
 	}
 
-	inline Mat32& Mat32::SetTrace(float32 x, float32 y) {
+	template <typename Type> inline Mat32<Type>& Mat32<Type>::SetTrace(Type x, Type y) {
 		m_mat[0] = x;
 		m_mat[3] = y;
 
 		return *this;
 	}
 
-	inline Mat32& Mat32::operator -() {
-		float32 m11 = m_mat[0],
-		        m12 = m_mat[1],
-		        m21 = m_mat[2],
-		        m22 = m_mat[3],
-		        m31 = m_mat[4],
-		        m32 = m_mat[5],
+	template <typename Type> inline Mat32<Type>& Mat32<Type>::operator -() {
+		Type m11 = m_mat[0],
+		     m12 = m_mat[1],
+		     m21 = m_mat[2],
+		     m22 = m_mat[3],
+		     m31 = m_mat[4],
+		     m32 = m_mat[5],
 
-		        det = m11 * m22 - m12 * m21;
+		     det = m11 * m22 - m12 * m21;
 
-		if (det == 0.0f) {
+		if (det == 0) {
 			return Identity();
 		}
 
-		det = 1.0f / det;
+		det = 1 / det;
 
 		m_mat[0] = m22 * det;
 		m_mat[2] = -m12 * det;
@@ -116,21 +116,21 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Mat32& Mat32::Inverse(void) {
-		float32 m11 = m_mat[0],
-		        m12 = m_mat[1],
-		        m21 = m_mat[2],
-		        m22 = m_mat[3],
-		        m31 = m_mat[4],
-		        m32 = m_mat[5],
+	template <typename Type> inline Mat32<Type>& Mat32<Type>::Inverse(void) {
+		Type m11 = m_mat[0],
+		     m12 = m_mat[1],
+		     m21 = m_mat[2],
+		     m22 = m_mat[3],
+		     m31 = m_mat[4],
+		     m32 = m_mat[5],
 
-		        det = m11 * m22 - m12 * m21;
+		     det = m11 * m22 - m12 * m21;
 
-		if (det == 0.0f) {
+		if (det == 0) {
 			return Identity();
 		}
 
-		det = 1.0f / det;
+		det = 1 / det;
 
 		m_mat[0] = m22 * det;
 		m_mat[2] = -m12 * det;
@@ -143,21 +143,21 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Mat32& Mat32::Inverse(const Mat32& m) {
-		float32 m11 = m.m_mat[0],
-		        m12 = m.m_mat[1],
-		        m21 = m.m_mat[2],
-		        m22 = m.m_mat[3],
-		        m31 = m.m_mat[4],
-		        m32 = m.m_mat[5],
+	template <typename Type> inline Mat32<Type>& Mat32<Type>::Inverse(const Mat32<Type>& m) {
+		Type m11 = m.m_mat[0],
+		     m12 = m.m_mat[1],
+		     m21 = m.m_mat[2],
+		     m22 = m.m_mat[3],
+		     m31 = m.m_mat[4],
+		     m32 = m.m_mat[5],
 
-		        det = m11 * m22 - m12 * m21;
+		     det = m11 * m22 - m12 * m21;
 
-		if (det == 0.0f) {
+		if (det == 0) {
 			return Identity();
 		}
 
-		det = 1.0f / det;
+		det = 1 / det;
 
 		m_mat[0] = m22 * det;
 		m_mat[2] = -m12 * det;
@@ -170,8 +170,8 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Mat32& Mat32::Transpose(void) {
-		float32 tmp;
+	template <typename Type> inline Mat32<Type>& Mat32<Type>::Transpose(void) {
+		Type tmp;
 
 		tmp = m_mat[1];
 		m_mat[1] = m_mat[2];
@@ -180,11 +180,11 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Mat32& Mat32::Compose(const Vec2& position, const Vec2& scale, float32 angle) {
-		float32 sx = scale.x,
-		        sy = scale.y,
-		        c = cosf(angle),
-		        s = sinf(angle);
+	template <typename Type> inline Mat32<Type>& Mat32<Type>::Compose(const Vec2<Type>& position, const Vec2<Type>& scale, Type angle) {
+		Type sx = scale.x,
+		     sy = scale.y,
+		     c = Mathf.Cos(angle),
+		     s = Mathf.Sin(angle);
 
 		m_mat[0] = c * sx;
 		m_mat[1] = s * sx;
@@ -197,11 +197,11 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Mat32& Mat32::Decompose(Vec2& position, Vec2& scale, float32& angle) {
-		float32 m11 = m_mat[0],
-		        m12 = m_mat[1],
-		        sx = scale.Set(m11, m12).Length(),
-		        sy = scale.Set(m_mat[2], m_mat[3]).Length();
+	template <typename Type> inline Mat32<Type>& Mat32<Type>::Decompose(Vec2<Type>& position, Vec2<Type>& scale, Type& angle) {
+		Type m11 = m_mat[0],
+		     m12 = m_mat[1],
+		     sx = scale.Set(m11, m12).Length(),
+		     sy = scale.Set(m_mat[2], m_mat[3]).Length();
 
 		position.x = m_mat[4];
 		position.y = m_mat[5];
@@ -209,13 +209,13 @@ namespace Odin {
 		scale.x = sx;
 		scale.y = sy;
 
-		angle = atan2f(m12, m11);
+		angle = Mathf.Atan2(m12, m11);
 
 		return *this;
 	}
 
-	inline Mat32& Mat32::SetRotation(float32 a) {
-		float32 s = sinf(a), c = cosf(a);
+	template <typename Type> inline Mat32<Type>& Mat32<Type>::SetRotation(Type a) {
+		Type s = Mathf.Sin(a), c = Mathf.Cos(a);
 
 		m_mat[0] = c;
 		m_mat[2] = -s;
@@ -225,12 +225,12 @@ namespace Odin {
 		return *this;
 	}
 
-	inline float32 Mat32::GetRotation(void) {
+	template <typename Type> inline Type Mat32<Type>::GetRotation(void) {
 
-		return atan2f(m_mat[2], m_mat[0]);
+		return Mathf.Atan2(m_mat[2], m_mat[0]);
 	}
 
-	inline Mat32& Mat32::SetPosition(const Vec2& v) {
+	template <typename Type> inline Mat32<Type>& Mat32<Type>::SetPosition(const Vec2<Type>& v) {
 
 		m_mat[4] = v.x;
 		m_mat[5] = v.y;
@@ -238,17 +238,17 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Vec2 Mat32::GetPosition(void) {
+	template <typename Type> inline Vec2<Type> Mat32<Type>::GetPosition(void) {
 
-		return Vec2(m_mat[4], m_mat[5]);
+		return Vec2<Type>(m_mat[4], m_mat[5]);
 	}
 
-	inline Mat32& Mat32::Rotate(float32 a) {
-		float32 a11 = m_mat[0],
-		        a12 = m_mat[1],
-		        a21 = m_mat[2],
-		        a22 = m_mat[3],
-		        s = sinf(a), c = cosf(a);
+	template <typename Type> inline Mat32<Type>& Mat32<Type>::Rotate(Type a) {
+		Type a11 = m_mat[0],
+		     a12 = m_mat[1],
+		     a21 = m_mat[2],
+		     a22 = m_mat[3],
+		     s = Mathf.Sin(a), c = Mathf.Cos(a);
 
 		m_mat[0] = a11 * c + a21 * s;
 		m_mat[2] = a12 * c + a22 * s;
@@ -258,12 +258,12 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Mat32& Mat32::Orthographic(float32 left, float32 right, float32 top, float32 bottom) {
-		float32 w = right - left,
-		        h = top - bottom,
+	template <typename Type> inline Mat32<Type>& Mat32<Type>::Orthographic(Type left, Type right, Type top, Type bottom) {
+		Type w = right - left,
+		     h = top - bottom,
 
-		        x = (right + left) / w,
-		        y = (top + bottom) / h;
+		     x = (right + left) / w,
+		     y = (top + bottom) / h;
 
 		m_mat[0] = 2 / w;
 		m_mat[1] = 0;
@@ -275,28 +275,28 @@ namespace Odin {
 		return *this;
 	}
 
-	inline float32 Mat32::operator [] (int32 i) const {
+	template <typename Type> inline Type Mat32<Type>::operator [] (int32 i) const {
 		return m_mat[i];
 	}
 
-	inline float32& Mat32::operator [] (int32 i) {
+	template <typename Type> inline Type& Mat32<Type>::operator [] (int32 i) {
 		return m_mat[i];
 	}
 
-	inline Mat32 Mat32::operator *(const Mat32& m) {
-		float32 a11 = m_mat[0],
-		        a12 = m_mat[1],
-		        a13 = m_mat[2],
-		        a21 = m_mat[3],
-		        a22 = m_mat[4],
-		        a23 = m_mat[5],
+	template <typename Type> inline Mat32<Type> Mat32<Type>::operator *(const Mat32<Type>& m) {
+		Type a11 = m_mat[0],
+		     a12 = m_mat[1],
+		     a13 = m_mat[2],
+		     a21 = m_mat[3],
+		     a22 = m_mat[4],
+		     a23 = m_mat[5],
 
-		        b11 = m.m_mat[0],
-		        b12 = m.m_mat[1],
-		        b13 = m.m_mat[2],
-		        b21 = m.m_mat[3],
-		        b22 = m.m_mat[4],
-		        b23 = m.m_mat[5];
+		     b11 = m.m_mat[0],
+		     b12 = m.m_mat[1],
+		     b13 = m.m_mat[2],
+		     b21 = m.m_mat[3],
+		     b22 = m.m_mat[4],
+		     b23 = m.m_mat[5];
 
 		return Mat32(
 		           a11 * b11 + a21 * b12,
@@ -310,20 +310,20 @@ namespace Odin {
 		       );
 	}
 
-	inline void Mat32::operator *=(const Mat32& m) {
-		float32 a11 = m_mat[0],
-		        a12 = m_mat[1],
-		        a13 = m_mat[2],
-		        a21 = m_mat[3],
-		        a22 = m_mat[4],
-		        a23 = m_mat[5],
+	template <typename Type> inline void Mat32<Type>::operator *=(const Mat32<Type>& m) {
+		Type a11 = m_mat[0],
+		     a12 = m_mat[1],
+		     a13 = m_mat[2],
+		     a21 = m_mat[3],
+		     a22 = m_mat[4],
+		     a23 = m_mat[5],
 
-		        b11 = m.m_mat[0],
-		        b12 = m.m_mat[1],
-		        b13 = m.m_mat[2],
-		        b21 = m.m_mat[3],
-		        b22 = m.m_mat[4],
-		        b23 = m.m_mat[5];
+		     b11 = m.m_mat[0],
+		     b12 = m.m_mat[1],
+		     b13 = m.m_mat[2],
+		     b21 = m.m_mat[3],
+		     b22 = m.m_mat[4],
+		     b23 = m.m_mat[5];
 
 		m_mat[0] = a11 * b11 + a21 * b12;
 		m_mat[1] = a12 * b11 + a22 * b12;
@@ -335,7 +335,7 @@ namespace Odin {
 		m_mat[5] = a21 * b13 + a22 * b23 + a23;
 	}
 
-	inline void Mat32::operator *=(float32 s) {
+	template <typename Type> inline void Mat32<Type>::operator *=(Type s) {
 		m_mat[0] *= s;
 		m_mat[1] *= s;
 		m_mat[2] *= s;
@@ -344,8 +344,8 @@ namespace Odin {
 		m_mat[5] *= s;
 	}
 
-	inline void Mat32::operator /=(float32 s) {
-		float32 d = s != 0.0f ? 1.0f / s : 0.0f;
+	template <typename Type> inline void Mat32<Type>::operator /=(Type s) {
+		Type d = s != 0 ? 1 / s : 0;
 
 		m_mat[0] *= d;
 		m_mat[1] *= d;
@@ -355,7 +355,7 @@ namespace Odin {
 		m_mat[5] *= d;
 	}
 
-	inline Mat32& Mat32::operator =(const Mat32& m) {
+	template <typename Type> inline Mat32<Type>& Mat32<Type>::operator =(const Mat32<Type>& m) {
 		m_mat[0] = m.m_mat[0];
 		m_mat[1] = m.m_mat[1];
 		m_mat[2] = m.m_mat[2];
@@ -366,7 +366,7 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Mat32& Mat32::operator =(const Mat32 && m) {
+	template <typename Type> inline Mat32<Type>& Mat32<Type>::operator =(const Mat32<Type> && m) {
 		m_mat[0] = std::move(m.m_mat[0]);
 		m_mat[1] = std::move(m.m_mat[1]);
 		m_mat[2] = std::move(m.m_mat[2]);
@@ -377,21 +377,21 @@ namespace Odin {
 		return *this;
 	}
 
-	inline bool Mat32::operator ==(const Mat32& m) {
+	template <typename Type> inline bool Mat32<Type>::operator ==(const Mat32<Type>& m) {
 		return !(
 		           m_mat[0] != m.m_mat[0] || m_mat[2] != m.m_mat[2] || m_mat[4] != m.m_mat[4] ||
 		           m_mat[1] != m.m_mat[1] || m_mat[3] != m.m_mat[3] || m_mat[5] != m.m_mat[5]
 		       );
 	}
 
-	inline bool Mat32::operator !=(const Mat32& m) {
+	template <typename Type> inline bool Mat32<Type>::operator !=(const Mat32<Type>& m) {
 		return (
 		           m_mat[0] != m.m_mat[0] || m_mat[2] != m.m_mat[2] || m_mat[4] != m.m_mat[4] ||
 		           m_mat[1] != m.m_mat[1] || m_mat[3] != m.m_mat[3] || m_mat[5] != m.m_mat[5]
 		       );
 	}
 
-	inline std::string Mat32::ToString(int32 p) {
+	template <typename Type> inline std::string Mat32<Type>::ToString(int32 p) {
 
 		return (
 		           "Mat32[\n"

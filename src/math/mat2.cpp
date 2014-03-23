@@ -1,62 +1,62 @@
-#ifndef _ODIN_MAT2_CPP
-#define _ODIN_MAT2_CPP
+#ifndef _ODIN_MAT2_CPP_
+#define _ODIN_MAT2_CPP_
 
 namespace Odin {
 
-	inline Mat2::Mat2(void) {
-		m_mat[0] = 1.0f;
-		m_mat[2] = 0.0f;
-		m_mat[1] = 0.0f;
-		m_mat[3] = 1.0f;
+	template <typename Type> inline Mat2<Type>::Mat2(void) {
+		m_mat[0] = 1;
+		m_mat[2] = 0;
+		m_mat[1] = 0;
+		m_mat[3] = 1;
 	}
 
-	inline Mat2::Mat2(float32 m11, float32 m21, float32 m12, float32 m22) {
+	template <typename Type> inline Mat2<Type>::Mat2(Type m11, Type m21, Type m12, Type m22) {
 		m_mat[0] = m11;
 		m_mat[2] = m21;
 		m_mat[1] = m12;
 		m_mat[3] = m22;
 	}
 
-	inline Mat2::Mat2(const Mat2& m) {
+	template <typename Type> inline Mat2<Type>::Mat2(const Mat2<Type>& m) {
 		m_mat[0] = m.m_mat[0];
 		m_mat[2] = m.m_mat[2];
 		m_mat[1] = m.m_mat[1];
 		m_mat[3] = m.m_mat[3];
 	}
 
-	inline Mat2::Mat2(const Mat2&& m) {
+	template <typename Type> inline Mat2<Type>::Mat2(const Mat2<Type>&& m) {
 		m_mat[0] = std::move(m.m_mat[0]);
 		m_mat[2] = std::move(m.m_mat[2]);
 		m_mat[1] = std::move(m.m_mat[1]);
 		m_mat[3] = std::move(m.m_mat[3]);
 	}
 
-	inline Mat2::~Mat2(void) {}
+	template <typename Type> inline Mat2<Type>::~Mat2(void) {}
 
-	inline Mat2& Mat2::Identity(void) {
-		m_mat[0] = 1.0f;
-		m_mat[1] = 0.0f;
-		m_mat[1] = 0.0f;
-		m_mat[3] = 1.0f;
+	template <typename Type> inline Mat2<Type>& Mat2<Type>::Identity(void) {
+		m_mat[0] = 1;
+		m_mat[1] = 0;
+		m_mat[1] = 0;
+		m_mat[3] = 1;
 
 		return *this;
 	}
 
-	inline Mat2& Mat2::SetTrace(float32 x, float32 y) {
+	template <typename Type> inline Mat2<Type>& Mat2<Type>::SetTrace(Type x, Type y) {
 		m_mat[0] = x;
 		m_mat[3] = y;
 
 		return *this;
 	}
 
-	inline Mat2& Mat2::operator -() {
-		float32 a11 = m_mat[0],
-		        a12 = m_mat[1],
-		        a21 = m_mat[2],
-		        a22 = m_mat[3],
-		        det = a11 * a22 - a21 * a12;
+	template <typename Type> inline Mat2<Type>& Mat2<Type>::operator -() {
+		Type a11 = m_mat[0],
+		     a12 = m_mat[1],
+		     a21 = m_mat[2],
+		     a22 = m_mat[3],
+		     det = a11 * a22 - a21 * a12;
 
-		if (det == 0.0f) {
+		if (det == 0) {
 			return Identity();
 		}
 
@@ -70,18 +70,18 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Mat2& Mat2::Inverse(void) {
-		float32 a11 = m_mat[0],
-		        a12 = m_mat[1],
-		        a21 = m_mat[2],
-		        a22 = m_mat[3],
-		        det = a11 * a22 - a21 * a12;
+	template <typename Type> inline Mat2<Type>& Mat2<Type>::Inverse(void) {
+		Type a11 = m_mat[0],
+		     a12 = m_mat[1],
+		     a21 = m_mat[2],
+		     a22 = m_mat[3],
+		     det = a11 * a22 - a21 * a12;
 
-		if (det == 0.0f) {
+		if (det == 0) {
 			return Identity();
 		}
 
-		det = 1.0f / det;
+		det = 1 / det;
 
 		m_mat[0] = a22 * det;
 		m_mat[2] = -a12 * det;
@@ -91,18 +91,18 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Mat2& Mat2::Inverse(const Mat2& m) {
-		float32 a11 = m.m_mat[0],
-		        a12 = m.m_mat[1],
-		        a21 = m.m_mat[2],
-		        a22 = m.m_mat[3],
-		        det = a11 * a22 - a21 * a12;
+	template <typename Type> inline Mat2<Type>& Mat2<Type>::Inverse(const Mat2<Type>& m) {
+		Type a11 = m.m_mat[0],
+		     a12 = m.m_mat[1],
+		     a21 = m.m_mat[2],
+		     a22 = m.m_mat[3],
+		     det = a11 * a22 - a21 * a12;
 
-		if (det == 0.0f) {
+		if (det == 0) {
 			return Identity();
 		}
 
-		det = 1.0f / det;
+		det = 1 / det;
 
 		m_mat[0] = a22 * det;
 		m_mat[2] = -a12 * det;
@@ -112,8 +112,8 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Mat2& Mat2::Transpose(void) {
-		float32 tmp;
+	template <typename Type> inline Mat2<Type>& Mat2<Type>::Transpose(void) {
+		Type tmp;
 
 		tmp = m_mat[1];
 		m_mat[1] = m_mat[2];
@@ -122,8 +122,8 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Mat2& Mat2::SetRotation(float32 a) {
-		float32 s = sinf(a), c = cosf(a);
+	template <typename Type> inline Mat2<Type>& Mat2<Type>::SetRotation(Type a) {
+		Type s = Mathf.Sin(a), c = Mathf.Cos(a);
 
 		m_mat[0] = c;
 		m_mat[2] = -s;
@@ -133,16 +133,16 @@ namespace Odin {
 		return *this;
 	}
 
-	inline float32 Mat2::GetRotation(void) {
-		return atan2f(m_mat[2], m_mat[0]);
+	template <typename Type> inline Type Mat2<Type>::GetRotation(void) {
+		return Mathf.Atan2(m_mat[2], m_mat[0]);
 	}
 
-	inline Mat2& Mat2::Rotate(float32 a) {
-		float32 a11 = m_mat[0],
-		        a12 = m_mat[1],
-		        a21 = m_mat[2],
-		        a22 = m_mat[3],
-		        s = sinf(a), c = cosf(a);
+	template <typename Type> inline Mat2<Type>& Mat2<Type>::Rotate(Type a) {
+		Type a11 = m_mat[0],
+		     a12 = m_mat[1],
+		     a21 = m_mat[2],
+		     a22 = m_mat[3],
+		     s = Mathf.Sin(a), c = Mathf.Cos(a);
 
 		m_mat[0] = a11 * c + a21 * s;
 		m_mat[2] = a12 * c + a22 * s;
@@ -152,24 +152,24 @@ namespace Odin {
 		return *this;
 	}
 
-	inline float32 Mat2::operator [] (int32 i) const {
+	template <typename Type> inline Type Mat2<Type>::operator [] (int32 i) const {
 		return m_mat[i];
 	}
 
-	inline float32& Mat2::operator [] (int32 i) {
+	template <typename Type> inline Type& Mat2<Type>::operator [] (int32 i) {
 		return m_mat[i];
 	}
 
-	inline Mat2 Mat2::operator *(const Mat2& m) {
-		float32 a11 = m_mat[0],
-		        a12 = m_mat[1],
-		        a21 = m_mat[2],
-		        a22 = m_mat[3],
+	template <typename Type> inline Mat2<Type> Mat2<Type>::operator *(const Mat2<Type>& m) {
+		Type a11 = m_mat[0],
+		     a12 = m_mat[1],
+		     a21 = m_mat[2],
+		     a22 = m_mat[3],
 
-		        b11 = m.m_mat[0],
-		        b12 = m.m_mat[1],
-		        b21 = m.m_mat[2],
-		        b22 = m.m_mat[3];
+		     b11 = m.m_mat[0],
+		     b12 = m.m_mat[1],
+		     b21 = m.m_mat[2],
+		     b22 = m.m_mat[3];
 
 		return Mat2(
 		           a11 * b11 + a12 * b21,
@@ -180,16 +180,16 @@ namespace Odin {
 		       );
 	}
 
-	inline void Mat2::operator *=(const Mat2& m) {
-		float32 a11 = m_mat[0],
-		        a12 = m_mat[1],
-		        a21 = m_mat[2],
-		        a22 = m_mat[3],
+	template <typename Type> inline void Mat2<Type>::operator *=(const Mat2<Type>& m) {
+		Type a11 = m_mat[0],
+		     a12 = m_mat[1],
+		     a21 = m_mat[2],
+		     a22 = m_mat[3],
 
-		        b11 = m.m_mat[0],
-		        b12 = m.m_mat[1],
-		        b21 = m.m_mat[2],
-		        b22 = m.m_mat[3];
+		     b11 = m.m_mat[0],
+		     b12 = m.m_mat[1],
+		     b21 = m.m_mat[2],
+		     b22 = m.m_mat[3];
 
 		m_mat[0] = a11 * b11 + a12 * b21;
 		m_mat[2] = a11 * b12 + a12 * b22;
@@ -197,15 +197,15 @@ namespace Odin {
 		m_mat[3] = a21 * b12 + a22 * b22;
 	}
 
-	inline void Mat2::operator *=(float32 s) {
+	template <typename Type> inline void Mat2<Type>::operator *=(Type s) {
 		m_mat[0] *= s;
 		m_mat[1] *= s;
 		m_mat[2] *= s;
 		m_mat[3] *= s;
 	}
 
-	inline void Mat2::operator /=(float32 s) {
-		float32 d = s != 0.0f ? 1.0f / s : 0.0f;
+	template <typename Type> inline void Mat2<Type>::operator /=(Type s) {
+		Type d = s != 0 ? 1 / s : 0;
 
 		m_mat[0] *= d;
 		m_mat[1] *= d;
@@ -213,7 +213,7 @@ namespace Odin {
 		m_mat[3] *= d;
 	}
 
-	inline Mat2& Mat2::operator =(const Mat2& m) {
+	template <typename Type> inline Mat2<Type>& Mat2<Type>::operator =(const Mat2<Type>& m) {
 
 		m_mat[0] = m.m_mat[0];
 		m_mat[1] = m.m_mat[1];
@@ -223,7 +223,7 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Mat2& Mat2::operator =(const Mat2 && m) {
+	template <typename Type> inline Mat2<Type>& Mat2<Type>::operator =(const Mat2<Type> && m) {
 
 		m_mat[0] = std::move(m.m_mat[0]);
 		m_mat[1] = std::move(m.m_mat[1]);
@@ -233,21 +233,21 @@ namespace Odin {
 		return *this;
 	}
 
-	inline bool Mat2::operator ==(const Mat2& m) {
+	template <typename Type> inline bool Mat2<Type>::operator ==(const Mat2<Type>& m) {
 		return !(
 		           m_mat[0] != m.m_mat[0] || m_mat[2] != m.m_mat[2] ||
 		           m_mat[1] != m.m_mat[1] || m_mat[3] != m.m_mat[3]
 		       );
 	}
 
-	inline bool Mat2::operator !=(const Mat2& m) {
+	template <typename Type> inline bool Mat2<Type>::operator !=(const Mat2<Type>& m) {
 		return (
 		           m_mat[0] != m.m_mat[0] || m_mat[2] != m.m_mat[2] ||
 		           m_mat[1] != m.m_mat[1] || m_mat[3] != m.m_mat[3]
 		       );
 	}
 
-	inline std::string Mat2::ToString(int32 p) {
+	template <typename Type> inline std::string Mat2<Type>::ToString(int32 p) {
 
 		return (
 		           "Mat2[\n"

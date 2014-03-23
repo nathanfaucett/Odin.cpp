@@ -1,32 +1,32 @@
-#ifndef _ODIN_MAT4_CPP
-#define _ODIN_MAT4_CPP
+#ifndef _ODIN_MAT4_CPP_
+#define _ODIN_MAT4_CPP_
 
 namespace Odin {
 
-	inline Mat4::Mat4(void) {
-		m_mat[0] = 1.0f;
-		m_mat[4] = 0.0f;
-		m_mat[8] = 0.0f;
-		m_mat[12] = 0.0f;
-		m_mat[1] = 0.0f;
-		m_mat[5] = 1.0f;
-		m_mat[9] = 0.0f;
-		m_mat[13] = 0.0f;
-		m_mat[2] = 0.0f;
-		m_mat[6] = 0.0f;
-		m_mat[10] = 1.0f;
-		m_mat[14] = 0.0f;
-		m_mat[3] = 0.0f;
-		m_mat[7] = 0.0f;
-		m_mat[11] = 0.0f;
-		m_mat[15] = 1.0f;
+	template <typename Type> inline Mat4<Type>::Mat4(void) {
+		m_mat[0] = 1;
+		m_mat[4] = 0;
+		m_mat[8] = 0;
+		m_mat[12] = 0;
+		m_mat[1] = 0;
+		m_mat[5] = 1;
+		m_mat[9] = 0;
+		m_mat[13] = 0;
+		m_mat[2] = 0;
+		m_mat[6] = 0;
+		m_mat[10] = 1;
+		m_mat[14] = 0;
+		m_mat[3] = 0;
+		m_mat[7] = 0;
+		m_mat[11] = 0;
+		m_mat[15] = 1;
 	}
 
-	inline Mat4::Mat4(
-	    float32 m11, float32 m21, float32 m31, float32 m41,
-	    float32 m12, float32 m22, float32 m32, float32 m42,
-	    float32 m13, float32 m23, float32 m33, float32 m43,
-	    float32 m14, float32 m24, float32 m34, float32 m44
+	template <typename Type> inline Mat4<Type>::Mat4(
+	    Type m11, Type m21, Type m31, Type m41,
+	    Type m12, Type m22, Type m32, Type m42,
+	    Type m13, Type m23, Type m33, Type m43,
+	    Type m14, Type m24, Type m34, Type m44
 	) {
 		m_mat[0] = m11;
 		m_mat[4] = m21;
@@ -46,7 +46,7 @@ namespace Odin {
 		m_mat[15] = m44;
 	}
 
-	inline Mat4::Mat4(const Mat4& m) {
+	template <typename Type> inline Mat4<Type>::Mat4(const Mat4<Type>& m) {
 		m_mat[0] = m.m_mat[0];
 		m_mat[4] = m.m_mat[4];
 		m_mat[8] = m.m_mat[8];
@@ -65,7 +65,7 @@ namespace Odin {
 		m_mat[15] = m.m_mat[15];
 	}
 
-	inline Mat4::Mat4(const Mat4&& m) {
+	template <typename Type> inline Mat4<Type>::Mat4(const Mat4<Type>&& m) {
 		m_mat[0] = std::move(m.m_mat[0]);
 		m_mat[4] = std::move(m.m_mat[4]);
 		m_mat[8] = std::move(m.m_mat[8]);
@@ -84,30 +84,30 @@ namespace Odin {
 		m_mat[15] = std::move(m.m_mat[15]);
 	}
 
-	inline Mat4::~Mat4(void) {}
+	template <typename Type> inline Mat4<Type>::~Mat4(void) {}
 
-	inline Mat4& Mat4::Identity(void) {
-		m_mat[0] = 1.0f;
-		m_mat[4] = 0.0f;
-		m_mat[8] = 0.0f;
-		m_mat[12] = 0.0f;
-		m_mat[1] = 0.0f;
-		m_mat[5] = 1.0f;
-		m_mat[9] = 0.0f;
-		m_mat[13] = 0.0f;
-		m_mat[2] = 0.0f;
-		m_mat[6] = 0.0f;
-		m_mat[10] = 1.0f;
-		m_mat[14] = 0.0f;
-		m_mat[3] = 0.0f;
-		m_mat[7] = 0.0f;
-		m_mat[11] = 0.0f;
-		m_mat[15] = 1.0f;
+	template <typename Type> inline Mat4<Type>& Mat4<Type>::Identity(void) {
+		m_mat[0] = 1;
+		m_mat[4] = 0;
+		m_mat[8] = 0;
+		m_mat[12] = 0;
+		m_mat[1] = 0;
+		m_mat[5] = 1;
+		m_mat[9] = 0;
+		m_mat[13] = 0;
+		m_mat[2] = 0;
+		m_mat[6] = 0;
+		m_mat[10] = 1;
+		m_mat[14] = 0;
+		m_mat[3] = 0;
+		m_mat[7] = 0;
+		m_mat[11] = 0;
+		m_mat[15] = 1;
 
 		return *this;
 	}
 
-	inline Mat4& Mat4::SetTrace(float32 x, float32 y, float32 z, float32 w) {
+	template <typename Type> inline Mat4<Type>& Mat4<Type>::SetTrace(Type x, Type y, Type z, Type w) {
 		m_mat[0] = x;
 		m_mat[5] = y;
 		m_mat[10] = z;
@@ -116,20 +116,20 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Mat4& Mat4::operator -() {
-		float32 m11 = m_mat[0], m12 = m_mat[4], m13 = m_mat[8], m14 = m_mat[12],
-		        m21 = m_mat[1], m22 = m_mat[5], m23 = m_mat[9], m24 = m_mat[13],
-		        m31 = m_mat[2], m32 = m_mat[6], m33 = m_mat[10], m34 = m_mat[14],
-		        m41 = m_mat[3], m42 = m_mat[7], m43 = m_mat[11], m44 = m_mat[15],
+	template <typename Type> inline Mat4<Type>& Mat4<Type>::operator -() {
+		Type m11 = m_mat[0], m12 = m_mat[4], m13 = m_mat[8], m14 = m_mat[12],
+		     m21 = m_mat[1], m22 = m_mat[5], m23 = m_mat[9], m24 = m_mat[13],
+		     m31 = m_mat[2], m32 = m_mat[6], m33 = m_mat[10], m34 = m_mat[14],
+		     m41 = m_mat[3], m42 = m_mat[7], m43 = m_mat[11], m44 = m_mat[15],
 
-		        me0 = m23 * m34 * m42 - m24 * m33 * m42 + m24 * m32 * m43 - m22 * m34 * m43 - m23 * m32 * m44 + m22 * m33 * m44,
-		        me4 = m14 * m33 * m42 - m13 * m34 * m42 - m14 * m32 * m43 + m12 * m34 * m43 + m13 * m32 * m44 - m12 * m33 * m44,
-		        me8 = m13 * m24 * m42 - m14 * m23 * m42 + m14 * m22 * m43 - m12 * m24 * m43 - m13 * m22 * m44 + m12 * m23 * m44,
-		        me12 = m14 * m23 * m32 - m13 * m24 * m32 - m14 * m22 * m33 + m12 * m24 * m33 + m13 * m22 * m34 - m12 * m23 * m34,
+		     me0 = m23 * m34 * m42 - m24 * m33 * m42 + m24 * m32 * m43 - m22 * m34 * m43 - m23 * m32 * m44 + m22 * m33 * m44,
+		     me4 = m14 * m33 * m42 - m13 * m34 * m42 - m14 * m32 * m43 + m12 * m34 * m43 + m13 * m32 * m44 - m12 * m33 * m44,
+		     me8 = m13 * m24 * m42 - m14 * m23 * m42 + m14 * m22 * m43 - m12 * m24 * m43 - m13 * m22 * m44 + m12 * m23 * m44,
+		     me12 = m14 * m23 * m32 - m13 * m24 * m32 - m14 * m22 * m33 + m12 * m24 * m33 + m13 * m22 * m34 - m12 * m23 * m34,
 
-		        det = m11 * me0 + m21 * me4 + m31 * me8 + m41 * me12;
+		     det = m11 * me0 + m21 * me4 + m31 * me8 + m41 * me12;
 
-		if (det == 0.0f) {
+		if (det == 0) {
 			return Identity();
 		}
 
@@ -153,20 +153,20 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Mat4& Mat4::Inverse(void) {
-		float32 m11 = m_mat[0], m12 = m_mat[4], m13 = m_mat[8], m14 = m_mat[12],
-		        m21 = m_mat[1], m22 = m_mat[5], m23 = m_mat[9], m24 = m_mat[13],
-		        m31 = m_mat[2], m32 = m_mat[6], m33 = m_mat[10], m34 = m_mat[14],
-		        m41 = m_mat[3], m42 = m_mat[7], m43 = m_mat[11], m44 = m_mat[15],
+	template <typename Type> inline Mat4<Type>& Mat4<Type>::Inverse(void) {
+		Type m11 = m_mat[0], m12 = m_mat[4], m13 = m_mat[8], m14 = m_mat[12],
+		     m21 = m_mat[1], m22 = m_mat[5], m23 = m_mat[9], m24 = m_mat[13],
+		     m31 = m_mat[2], m32 = m_mat[6], m33 = m_mat[10], m34 = m_mat[14],
+		     m41 = m_mat[3], m42 = m_mat[7], m43 = m_mat[11], m44 = m_mat[15],
 
-		        me0 = m23 * m34 * m42 - m24 * m33 * m42 + m24 * m32 * m43 - m22 * m34 * m43 - m23 * m32 * m44 + m22 * m33 * m44,
-		        me4 = m14 * m33 * m42 - m13 * m34 * m42 - m14 * m32 * m43 + m12 * m34 * m43 + m13 * m32 * m44 - m12 * m33 * m44,
-		        me8 = m13 * m24 * m42 - m14 * m23 * m42 + m14 * m22 * m43 - m12 * m24 * m43 - m13 * m22 * m44 + m12 * m23 * m44,
-		        me12 = m14 * m23 * m32 - m13 * m24 * m32 - m14 * m22 * m33 + m12 * m24 * m33 + m13 * m22 * m34 - m12 * m23 * m34,
+		     me0 = m23 * m34 * m42 - m24 * m33 * m42 + m24 * m32 * m43 - m22 * m34 * m43 - m23 * m32 * m44 + m22 * m33 * m44,
+		     me4 = m14 * m33 * m42 - m13 * m34 * m42 - m14 * m32 * m43 + m12 * m34 * m43 + m13 * m32 * m44 - m12 * m33 * m44,
+		     me8 = m13 * m24 * m42 - m14 * m23 * m42 + m14 * m22 * m43 - m12 * m24 * m43 - m13 * m22 * m44 + m12 * m23 * m44,
+		     me12 = m14 * m23 * m32 - m13 * m24 * m32 - m14 * m22 * m33 + m12 * m24 * m33 + m13 * m22 * m34 - m12 * m23 * m34,
 
-		        det = m11 * me0 + m21 * me4 + m31 * me8 + m41 * me12;
+		     det = m11 * me0 + m21 * me4 + m31 * me8 + m41 * me12;
 
-		if (det == 0.0f) {
+		if (det == 0) {
 			return Identity();
 		}
 
@@ -190,20 +190,20 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Mat4& Mat4::Inverse(const Mat4& m) {
-		float32 m11 = m.m_mat[0], m12 = m.m_mat[4], m13 = m.m_mat[8], m14 = m.m_mat[12],
-		        m21 = m.m_mat[1], m22 = m.m_mat[5], m23 = m.m_mat[9], m24 = m.m_mat[13],
-		        m31 = m.m_mat[2], m32 = m.m_mat[6], m33 = m.m_mat[10], m34 = m.m_mat[14],
-		        m41 = m.m_mat[3], m42 = m.m_mat[7], m43 = m.m_mat[11], m44 = m.m_mat[15],
+	template <typename Type> inline Mat4<Type>& Mat4<Type>::Inverse(const Mat4<Type>& m) {
+		Type m11 = m.m_mat[0], m12 = m.m_mat[4], m13 = m.m_mat[8], m14 = m.m_mat[12],
+		     m21 = m.m_mat[1], m22 = m.m_mat[5], m23 = m.m_mat[9], m24 = m.m_mat[13],
+		     m31 = m.m_mat[2], m32 = m.m_mat[6], m33 = m.m_mat[10], m34 = m.m_mat[14],
+		     m41 = m.m_mat[3], m42 = m.m_mat[7], m43 = m.m_mat[11], m44 = m.m_mat[15],
 
-		        me0 = m23 * m34 * m42 - m24 * m33 * m42 + m24 * m32 * m43 - m22 * m34 * m43 - m23 * m32 * m44 + m22 * m33 * m44,
-		        me4 = m14 * m33 * m42 - m13 * m34 * m42 - m14 * m32 * m43 + m12 * m34 * m43 + m13 * m32 * m44 - m12 * m33 * m44,
-		        me8 = m13 * m24 * m42 - m14 * m23 * m42 + m14 * m22 * m43 - m12 * m24 * m43 - m13 * m22 * m44 + m12 * m23 * m44,
-		        me12 = m14 * m23 * m32 - m13 * m24 * m32 - m14 * m22 * m33 + m12 * m24 * m33 + m13 * m22 * m34 - m12 * m23 * m34,
+		     me0 = m23 * m34 * m42 - m24 * m33 * m42 + m24 * m32 * m43 - m22 * m34 * m43 - m23 * m32 * m44 + m22 * m33 * m44,
+		     me4 = m14 * m33 * m42 - m13 * m34 * m42 - m14 * m32 * m43 + m12 * m34 * m43 + m13 * m32 * m44 - m12 * m33 * m44,
+		     me8 = m13 * m24 * m42 - m14 * m23 * m42 + m14 * m22 * m43 - m12 * m24 * m43 - m13 * m22 * m44 + m12 * m23 * m44,
+		     me12 = m14 * m23 * m32 - m13 * m24 * m32 - m14 * m22 * m33 + m12 * m24 * m33 + m13 * m22 * m34 - m12 * m23 * m34,
 
-		        det = m11 * me0 + m21 * me4 + m31 * me8 + m41 * me12;
+		     det = m11 * me0 + m21 * me4 + m31 * me8 + m41 * me12;
 
-		if (det == 0.0f) {
+		if (det == 0) {
 			return Identity();
 		}
 
@@ -227,8 +227,8 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Mat4& Mat4::Transpose(void) {
-		float32 tmp;
+	template <typename Type> inline Mat4<Type>& Mat4<Type>::Transpose(void) {
+		Type tmp;
 
 		tmp = m_mat[1];
 		m_mat[1] = m_mat[4];
@@ -253,27 +253,27 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Mat4& Mat4::Compose(const Vec3& position, const Vec3& scale, const Quat& rotation) {
-		float32 x = rotation.x,
-		        y = rotation.y,
-		        z = rotation.z,
-		        w = rotation.w,
-		        x2 = x + x,
-		        y2 = y + y,
-		        z2 = z + z,
-		        xx = x * x2,
-		        xy = x * y2,
-		        xz = x * z2,
-		        yy = y * y2,
-		        yz = y * z2,
-		        zz = z * z2,
-		        wx = w * x2,
-		        wy = w * y2,
-		        wz = w * z2,
+	template <typename Type> inline Mat4<Type>& Mat4<Type>::Compose(const Vec3<Type>& position, const Vec3<Type>& scale, const Quat<Type>& rotation) {
+		Type x = rotation.x,
+		     y = rotation.y,
+		     z = rotation.z,
+		     w = rotation.w,
+		     x2 = x + x,
+		     y2 = y + y,
+		     z2 = z + z,
+		     xx = x * x2,
+		     xy = x * y2,
+		     xz = x * z2,
+		     yy = y * y2,
+		     yz = y * z2,
+		     zz = z * z2,
+		     wx = w * x2,
+		     wy = w * y2,
+		     wz = w * z2,
 
-		        sx = scale.x,
-		        sy = scale.y,
-		        sz = scale.z;
+		     sx = scale.x,
+		     sy = scale.y,
+		     sz = scale.z;
 
 		m_mat[0] = (1 - (yy + zz)) * sx;
 		m_mat[4] = (xy - wz) * sy;
@@ -287,42 +287,42 @@ namespace Odin {
 		m_mat[6] = (yz + wx) * sy;
 		m_mat[10] = (1 - (xx + yy)) * sz;
 
-		m_mat[3] = 0.0f;
-		m_mat[7] = 0.0f;
-		m_mat[11] = 0.0f;
+		m_mat[3] = 0;
+		m_mat[7] = 0;
+		m_mat[11] = 0;
 
 		m_mat[12] = position.x;
 		m_mat[13] = position.y;
 		m_mat[14] = position.z;
-		m_mat[15] = 1.0f;
+		m_mat[15] = 1;
 
 		return *this;
 	}
 
-	inline Mat4& Mat4::Decompose(Vec3& position, Vec3& scale, Quat& rotation) {
-		float32 m11 = m_mat[0],
-		        m12 = m_mat[4],
-		        m13 = m_mat[8],
-		        m21 = m_mat[1],
-		        m22 = m_mat[5],
-		        m23 = m_mat[9],
-		        m31 = m_mat[2],
-		        m32 = m_mat[6],
-		        m33 = m_mat[10],
-		        x = 0.0f,
-		        y = 0.0f,
-		        z = 0.0f,
-		        w = 1.0f,
-		        s,
+	template <typename Type> inline Mat4<Type>& Mat4<Type>::Decompose(Vec3<Type>& position, Vec3<Type>& scale, Quat<Type>& rotation) {
+		Type m11 = m_mat[0],
+		     m12 = m_mat[4],
+		     m13 = m_mat[8],
+		     m21 = m_mat[1],
+		     m22 = m_mat[5],
+		     m23 = m_mat[9],
+		     m31 = m_mat[2],
+		     m32 = m_mat[6],
+		     m33 = m_mat[10],
+		     x = 0,
+		     y = 0,
+		     z = 0,
+		     w = 1,
+		     s,
 
-		        sx = Vec3Length(m11, m21, m31),
-		        sy = Vec3Length(m12, m22, m32),
-		        sz = Vec3Length(m13, m23, m33),
+		     sx = Vec3Length<Type>(m11, m21, m31),
+		     sy = Vec3Length<Type>(m12, m22, m32),
+		     sz = Vec3Length<Type>(m13, m23, m33),
 
-		        invSx = 1.0f / sx,
-		        invSy = 1.0f / sy,
-		        invSz = 1.0f / sz,
-		        trace;
+		     invSx = 1 / sx,
+		     invSy = 1 / sy,
+		     invSz = 1 / sz,
+		     trace;
 
 		scale.x = sx;
 		scale.y = sy;
@@ -344,37 +344,37 @@ namespace Odin {
 
 		trace = m11 + m22 + m33;
 
-		if (trace > 0.0f) {
-			s = 0.5f / sqrtf(trace + 1.0f);
+		if (trace > 0) {
+			s = 0.5 / sqrtf(trace + 1);
 
-			w = 0.25f / s;
+			w = 0.25 / s;
 			x = (m32 - m23) * s;
 			y = (m13 - m31) * s;
 			z = (m21 - m12) * s;
 
 		} else if (m11 > m22 && m11 > m33) {
-			s = 2.0f * sqrtf(1.0f + m11 - m22 - m33);
+			s = 2 * sqrtf(1 + m11 - m22 - m33);
 
 			w = (m32 - m23) / s;
-			x = 0.25f * s;
+			x = 0.25 * s;
 			y = (m12 + m21) / s;
 			z = (m13 + m31) / s;
 
 		} else if (m22 > m33) {
-			s = 2.0f * sqrtf(1.0f + m22 - m11 - m33);
+			s = 2 * sqrtf(1 + m22 - m11 - m33);
 
 			w = (m13 - m31) / s;
 			x = (m12 + m21) / s;
-			y = 0.25f * s;
+			y = 0.25 * s;
 			z = (m23 + m32) / s;
 
 		} else {
-			s = 2.0f * sqrtf(1.0f + m33 - m11 - m22);
+			s = 2 * sqrtf(1 + m33 - m11 - m22);
 
 			w = (m21 - m12) / s;
 			x = (m13 + m31) / s;
 			y = (m23 + m32) / s;
-			z = 0.25f * s;
+			z = 0.25 * s;
 		}
 
 		rotation.x = x;
@@ -385,7 +385,7 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Mat4& Mat4::SetPosition(const Vec3& v) {
+	template <typename Type> inline Mat4<Type>& Mat4<Type>::SetPosition(const Vec3<Type>& v) {
 
 		m_mat[12] = v.x;
 		m_mat[13] = v.y;
@@ -394,12 +394,12 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Vec3 Mat4::GetPosition(void) {
+	template <typename Type> inline Vec3<Type> Mat4<Type>::GetPosition(void) {
 
-		return Vec3(m_mat[12], m_mat[13], m_mat[14]);
+		return Vec3<Type>(m_mat[12], m_mat[13], m_mat[14]);
 	}
 
-	inline Mat4& Mat4::ExtractPosition(const Mat4& m) {
+	template <typename Type> inline Mat4<Type>& Mat4<Type>::ExtractPosition(const Mat4<Type>& m) {
 
 		m_mat[12] = m.m_mat[12];
 		m_mat[13] = m.m_mat[13];
@@ -408,15 +408,15 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Mat4& Mat4::ExtractRotation(const Mat4& m) {
-		Vec3 vec;
-		float32 lx = Vec3LengthSq(m.m_mat[0], m.m_mat[1], m.m_mat[2]),
-		        ly = Vec3LengthSq(m.m_mat[4], m.m_mat[5], m.m_mat[6]),
-		        lz = Vec3LengthSq(m.m_mat[8], m.m_mat[9], m.m_mat[10]),
+	template <typename Type> inline Mat4<Type>& Mat4<Type>::ExtractRotation(const Mat4<Type>& m) {
+		Vec3<Type> vec;
+		Type lx = Vec3LengthSq<Type>(m.m_mat[0], m.m_mat[1], m.m_mat[2]),
+		     ly = Vec3LengthSq<Type>(m.m_mat[4], m.m_mat[5], m.m_mat[6]),
+		     lz = Vec3LengthSq<Type>(m.m_mat[8], m.m_mat[9], m.m_mat[10]),
 
-		        scaleX = lx > 0.0f ? 1.0f / sqrtf(lx) : 0.0f,
-		        scaleY = ly > 0.0f ? 1.0f / sqrtf(ly) : 0.0f,
-		        scaleZ = lz > 0.0f ? 1.0f / sqrtf(lz) : 0.0f;
+		     scaleX = lx > 0 ? 1 / sqrtf(lx) : 0,
+		     scaleY = ly > 0 ? 1 / sqrtf(ly) : 0,
+		     scaleZ = lz > 0 ? 1 / sqrtf(lz) : 0;
 
 		m_mat[0] = m.m_mat[0] * scaleX;
 		m_mat[1] = m.m_mat[1] * scaleX;
@@ -433,7 +433,7 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Mat4& Mat4::ExtractRotationWithScale(const Mat4& m) {
+	template <typename Type> inline Mat4<Type>& Mat4<Type>::ExtractRotationWithScale(const Mat4<Type>& m) {
 
 		m_mat[0] = m.m_mat[0];
 		m_mat[1] = m.m_mat[1];
@@ -450,8 +450,8 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Mat4& Mat4::Scale(const Vec2& v) {
-		float32 x = v.x, y = v.y;
+	template <typename Type> inline Mat4<Type>& Mat4<Type>::Scale(const Vec2<Type>& v) {
+		Type x = v.x, y = v.y;
 
 		m_mat[0] *= x;
 		m_mat[4] *= y;
@@ -465,8 +465,8 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Mat4& Mat4::Scale(const Vec3& v) {
-		float32 x = v.x, y = v.y, z = v.z;
+	template <typename Type> inline Mat4<Type>& Mat4<Type>::Scale(const Vec3<Type>& v) {
+		Type x = v.x, y = v.y, z = v.z;
 
 		m_mat[0] *= x;
 		m_mat[4] *= y;
@@ -484,8 +484,8 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Mat4& Mat4::Scale(const Vec4& v) {
-		float32 x = v.x, y = v.y, z = v.z, w = v.w;
+	template <typename Type> inline Mat4<Type>& Mat4<Type>::Scale(const Vec4<Type>& v) {
+		Type x = v.x, y = v.y, z = v.z, w = v.w;
 
 		m_mat[0] *= x;
 		m_mat[4] *= y;
@@ -507,17 +507,17 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Mat4& Mat4::RotateX(float32 angle) {
-		float32 m12 = m_mat[4],
-		        m22 = m_mat[5],
-		        m32 = m_mat[6],
-		        m42 = m_mat[7],
-		        m13 = m_mat[8],
-		        m23 = m_mat[9],
-		        m33 = m_mat[10],
-		        m43 = m_mat[11],
-		        c = cosf(angle),
-		        s = sinf(angle);
+	template <typename Type> inline Mat4<Type>& Mat4<Type>::RotateX(Type angle) {
+		Type m12 = m_mat[4],
+		     m22 = m_mat[5],
+		     m32 = m_mat[6],
+		     m42 = m_mat[7],
+		     m13 = m_mat[8],
+		     m23 = m_mat[9],
+		     m33 = m_mat[10],
+		     m43 = m_mat[11],
+		     c = Mathf.Cos(angle),
+		     s = Mathf.Sin(angle);
 
 		m_mat[4] = c * m12 + s * m13;
 		m_mat[5] = c * m22 + s * m23;
@@ -532,17 +532,17 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Mat4& Mat4::RotateY(float32 angle) {
-		float32 m11 = m_mat[0],
-		        m21 = m_mat[1],
-		        m31 = m_mat[2],
-		        m41 = m_mat[3],
-		        m13 = m_mat[8],
-		        m23 = m_mat[9],
-		        m33 = m_mat[10],
-		        m43 = m_mat[11],
-		        c = cosf(angle),
-		        s = sinf(angle);
+	template <typename Type> inline Mat4<Type>& Mat4<Type>::RotateY(Type angle) {
+		Type m11 = m_mat[0],
+		     m21 = m_mat[1],
+		     m31 = m_mat[2],
+		     m41 = m_mat[3],
+		     m13 = m_mat[8],
+		     m23 = m_mat[9],
+		     m33 = m_mat[10],
+		     m43 = m_mat[11],
+		     c = Mathf.Cos(angle),
+		     s = Mathf.Sin(angle);
 
 		m_mat[0] = c * m11 - s * m13;
 		m_mat[1] = c * m21 - s * m23;
@@ -557,17 +557,17 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Mat4& Mat4::RotateZ(float32 angle) {
-		float32 m11 = m_mat[0],
-		        m21 = m_mat[1],
-		        m31 = m_mat[2],
-		        m41 = m_mat[3],
-		        m13 = m_mat[8],
-		        m23 = m_mat[9],
-		        m33 = m_mat[10],
-		        m43 = m_mat[11],
-		        c = cosf(angle),
-		        s = sinf(angle);
+	template <typename Type> inline Mat4<Type>& Mat4<Type>::RotateZ(Type angle) {
+		Type m11 = m_mat[0],
+		     m21 = m_mat[1],
+		     m31 = m_mat[2],
+		     m41 = m_mat[3],
+		     m13 = m_mat[8],
+		     m23 = m_mat[9],
+		     m33 = m_mat[10],
+		     m43 = m_mat[11],
+		     c = Mathf.Cos(angle),
+		     s = Mathf.Sin(angle);
 
 		m_mat[0] = c * m11 - s * m13;
 		m_mat[1] = c * m21 - s * m23;
@@ -582,126 +582,126 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Mat4& Mat4::FromQuat(const Quat& q) {
-		float32 x = q.x,
-		        y = q.y,
-		        z = q.z,
-		        w = q.w,
-		        x2 = x + x,
-		        y2 = y + y,
-		        z2 = z + z,
-		        xx = x * x2,
-		        xy = x * y2,
-		        xz = x * z2,
-		        yy = y * y2,
-		        yz = y * z2,
-		        zz = z * z2,
-		        wx = w * x2,
-		        wy = w * y2,
-		        wz = w * z2;
+	template <typename Type> inline Mat4<Type>& Mat4<Type>::FromQuat(const Quat<Type>& q) {
+		Type x = q.x,
+		     y = q.y,
+		     z = q.z,
+		     w = q.w,
+		     x2 = x + x,
+		     y2 = y + y,
+		     z2 = z + z,
+		     xx = x * x2,
+		     xy = x * y2,
+		     xz = x * z2,
+		     yy = y * y2,
+		     yz = y * z2,
+		     zz = z * z2,
+		     wx = w * x2,
+		     wy = w * y2,
+		     wz = w * z2;
 
-		m_mat[0] = 1.0f - (yy + zz);
+		m_mat[0] = 1 - (yy + zz);
 		m_mat[4] = xy - wz;
 		m_mat[8] = xz + wy;
 
 		m_mat[1] = xy + wz;
-		m_mat[5] = 1.0f - (xx + zz);
+		m_mat[5] = 1 - (xx + zz);
 		m_mat[9] = yz - wx;
 
 		m_mat[2] = xz - wy;
 		m_mat[6] = yz + wx;
-		m_mat[10] = 1.0f - (xx + yy);
+		m_mat[10] = 1 - (xx + yy);
 
-		m_mat[3] = 0.0f;
-		m_mat[7] = 0.0f;
-		m_mat[11] = 0.0f;
+		m_mat[3] = 0;
+		m_mat[7] = 0;
+		m_mat[11] = 0;
 
-		m_mat[12] = 0.0f;
-		m_mat[13] = 0.0f;
-		m_mat[14] = 0.0f;
-		m_mat[15] = 1.0f;
+		m_mat[12] = 0;
+		m_mat[13] = 0;
+		m_mat[14] = 0;
+		m_mat[15] = 1;
 
 		return *this;
 	}
 
-	inline Mat4& Mat4::Frustum(float32 left, float32 right, float32 top, float32 bottom, float32 near, float32 far) {
-		float32 x = 2.0f * near / (right - left),
-		        y = 2.0f * near / (top - bottom),
+	template <typename Type> inline Mat4<Type>& Mat4<Type>::Frustum(Type left, Type right, Type top, Type bottom, Type near, Type far) {
+		Type x = 2 * near / (right - left),
+		     y = 2 * near / (top - bottom),
 
-		        a = (right + left) / (right - left),
-		        b = (top + bottom) / (top - bottom),
-		        c = -(far + near) / (far - near),
-		        d = -2.0f * far * near / (far - near);
+		     a = (right + left) / (right - left),
+		     b = (top + bottom) / (top - bottom),
+		     c = -(far + near) / (far - near),
+		     d = -2 * far * near / (far - near);
 
 		m_mat[0] = x;
-		m_mat[4] = 0.0f;
+		m_mat[4] = 0;
 		m_mat[8] = a;
-		m_mat[12] = 0.0f;
-		m_mat[1] = 0.0f;
+		m_mat[12] = 0;
+		m_mat[1] = 0;
 		m_mat[5] = y;
 		m_mat[9] = b;
-		m_mat[13] = 0.0f;
-		m_mat[2] = 0.0f;
-		m_mat[6] = 0.0f;
+		m_mat[13] = 0;
+		m_mat[2] = 0;
+		m_mat[6] = 0;
 		m_mat[10] = c;
 		m_mat[14] = d;
-		m_mat[3] = 0.0f;
-		m_mat[7] = 0.0f;
-		m_mat[11] = -1.0f;
-		m_mat[15] = 0.0f;
+		m_mat[3] = 0;
+		m_mat[7] = 0;
+		m_mat[11] = -1;
+		m_mat[15] = 0;
 
 		return *this;
 	}
 
-	inline Mat4& Mat4::Perspective(float32 fov, float32 aspect, float32 near, float32 far) {
-		float32 ymax = near * tanf(fov * 0.5f),
-		        ymin = -ymax,
-		        xmin = ymin * aspect,
-		        xmax = ymax * aspect;
+	template <typename Type> inline Mat4<Type>& Mat4<Type>::Perspective(Type fov, Type aspect, Type near, Type far) {
+		Type ymax = near * Mathf.Tan(fov * 0.5),
+		     ymin = -ymax,
+		     xmin = ymin * aspect,
+		     xmax = ymax * aspect;
 
 		Frustum(xmin, xmax, ymax, ymin, near, far);
 		return *this;
 	}
 
-	inline Mat4& Mat4::Orthographic(float32 left, float32 right, float32 top, float32 bottom, float32 near, float32 far) {
-		float32 w = right - left,
-		        h = top - bottom,
-		        p = far - near,
+	template <typename Type> inline Mat4<Type>& Mat4<Type>::Orthographic(Type left, Type right, Type top, Type bottom, Type near, Type far) {
+		Type w = right - left,
+		     h = top - bottom,
+		     p = far - near,
 
-		        x = (right + left) / w,
-		        y = (top + bottom) / h,
-		        z = (far + near) / p;
+		     x = (right + left) / w,
+		     y = (top + bottom) / h,
+		     z = (far + near) / p;
 
-		m_mat[0] = 2.0f / w;
-		m_mat[1] = 0.0f;
-		m_mat[2] = 0.0f;
-		m_mat[3] = 0.0f;
-		m_mat[4] = 0.0f;
-		m_mat[5] = 2.0f / h;
-		m_mat[6] = 0.0f;
-		m_mat[7] = 0.0f;
-		m_mat[8] = 0.0f;
-		m_mat[9] = 0.0f;
-		m_mat[10] = -2.0f / p;
-		m_mat[11] = 0.0f;
+		m_mat[0] = 2 / w;
+		m_mat[1] = 0;
+		m_mat[2] = 0;
+		m_mat[3] = 0;
+		m_mat[4] = 0;
+		m_mat[5] = 2 / h;
+		m_mat[6] = 0;
+		m_mat[7] = 0;
+		m_mat[8] = 0;
+		m_mat[9] = 0;
+		m_mat[10] = -2 / p;
+		m_mat[11] = 0;
 		m_mat[12] = -x;
 		m_mat[13] = -y;
 		m_mat[14] = -z;
-		m_mat[15] = 1.0f;
+		m_mat[15] = 1;
 
 		return *this;
 	}
 
-	inline float32 Mat4::operator [] (int32 i) const {
+	template <typename Type> inline Type Mat4<Type>::operator [] (int32 i) const {
 		return m_mat[i];
 	}
 
-	inline float32& Mat4::operator [] (int32 i) {
+	template <typename Type> inline Type& Mat4<Type>::operator [] (int32 i) {
 		return m_mat[i];
 	}
 
-	inline Mat4 Mat4::operator *(const Vec2& v) {
-		float32 x = v.x, y = v.y;
+	template <typename Type> inline Mat4<Type> Mat4<Type>::operator *(const Vec2<Type>& v) {
+		Type x = v.x, y = v.y;
 
 		return Mat4(
 		           m_mat[0], m_mat[4], m_mat[8], m_mat[0] * x + m_mat[4] * y + m_mat[12],
@@ -711,8 +711,8 @@ namespace Odin {
 		       );
 	}
 
-	inline Mat4& Mat4::operator +=(const Vec2& v) {
-		float32 x = v.x, y = v.y;
+	template <typename Type> inline Mat4<Type>& Mat4<Type>::operator +=(const Vec2<Type>& v) {
+		Type x = v.x, y = v.y;
 
 		m_mat[12] = m_mat[0] * x + m_mat[4] * y + m_mat[12];
 		m_mat[13] = m_mat[1] * x + m_mat[5] * y + m_mat[13];
@@ -722,8 +722,8 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Mat4 Mat4::operator *(const Vec3& v) {
-		float32 x = v.x, y = v.y, z = v.z;
+	template <typename Type> inline Mat4<Type> Mat4<Type>::operator *(const Vec3<Type>& v) {
+		Type x = v.x, y = v.y, z = v.z;
 
 		return Mat4(
 		           m_mat[0], m_mat[4], m_mat[8], m_mat[0] * x + m_mat[4] * y + m_mat[8] * z + m_mat[12],
@@ -733,8 +733,8 @@ namespace Odin {
 		       );
 	}
 
-	inline void Mat4::operator *=(const Vec3& v) {
-		float32 x = v.x, y = v.y, z = v.z;
+	template <typename Type> inline void Mat4<Type>::operator *=(const Vec3<Type>& v) {
+		Type x = v.x, y = v.y, z = v.z;
 
 		m_mat[12] = m_mat[0] * x + m_mat[4] * y + m_mat[8] * z + m_mat[12];
 		m_mat[13] = m_mat[1] * x + m_mat[5] * y + m_mat[9] * z + m_mat[13];
@@ -742,8 +742,8 @@ namespace Odin {
 		m_mat[15] = m_mat[3] * x + m_mat[7] * y + m_mat[11] * z + m_mat[15];
 	}
 
-	inline Mat4 Mat4::operator *(const Vec4& v) {
-		float32 x = v.x, y = v.y, z = v.z, w = v.w;
+	template <typename Type> inline Mat4<Type> Mat4<Type>::operator *(const Vec4<Type>& v) {
+		Type x = v.x, y = v.y, z = v.z, w = v.w;
 
 		return Mat4(
 		           m_mat[0], m_mat[4], m_mat[8], m_mat[0] * x + m_mat[4] * y + m_mat[8] * z + m_mat[12] * w,
@@ -753,8 +753,8 @@ namespace Odin {
 		       );
 	}
 
-	inline void Mat4::operator *=(const Vec4& v) {
-		float32 x = v.x, y = v.y, z = v.z, w = v.w;
+	template <typename Type> inline void Mat4<Type>::operator *=(const Vec4<Type>& v) {
+		Type x = v.x, y = v.y, z = v.z, w = v.w;
 
 		m_mat[12] = m_mat[0] * x + m_mat[4] * y + m_mat[8] * z + m_mat[12] * w;
 		m_mat[13] = m_mat[1] * x + m_mat[5] * y + m_mat[9] * z + m_mat[13] * w;
@@ -762,16 +762,16 @@ namespace Odin {
 		m_mat[15] = m_mat[3] * x + m_mat[7] * y + m_mat[11] * z + m_mat[15] * w;
 	}
 
-	inline Mat4 Mat4::operator *(const Mat4& m) {
-		float32 a11 = m_mat[0], a12 = m_mat[4], a13 = m_mat[8], a14 = m_mat[12],
-		        a21 = m_mat[1], a22 = m_mat[5], a23 = m_mat[9], a24 = m_mat[13],
-		        a31 = m_mat[2], a32 = m_mat[6], a33 = m_mat[10], a34 = m_mat[14],
-		        a41 = m_mat[3], a42 = m_mat[7], a43 = m_mat[11], a44 = m_mat[15],
+	template <typename Type> inline Mat4<Type> Mat4<Type>::operator *(const Mat4<Type>& m) {
+		Type a11 = m_mat[0], a12 = m_mat[4], a13 = m_mat[8], a14 = m_mat[12],
+		     a21 = m_mat[1], a22 = m_mat[5], a23 = m_mat[9], a24 = m_mat[13],
+		     a31 = m_mat[2], a32 = m_mat[6], a33 = m_mat[10], a34 = m_mat[14],
+		     a41 = m_mat[3], a42 = m_mat[7], a43 = m_mat[11], a44 = m_mat[15],
 
-		        b11 = m.m_mat[0], b12 = m.m_mat[4], b13 = m.m_mat[8], b14 = m.m_mat[12],
-		        b21 = m.m_mat[1], b22 = m.m_mat[5], b23 = m.m_mat[9], b24 = m.m_mat[13],
-		        b31 = m.m_mat[2], b32 = m.m_mat[6], b33 = m.m_mat[10], b34 = m.m_mat[14],
-		        b41 = m.m_mat[3], b42 = m.m_mat[7], b43 = m.m_mat[11], b44 = m.m_mat[15];
+		     b11 = m.m_mat[0], b12 = m.m_mat[4], b13 = m.m_mat[8], b14 = m.m_mat[12],
+		     b21 = m.m_mat[1], b22 = m.m_mat[5], b23 = m.m_mat[9], b24 = m.m_mat[13],
+		     b31 = m.m_mat[2], b32 = m.m_mat[6], b33 = m.m_mat[10], b34 = m.m_mat[14],
+		     b41 = m.m_mat[3], b42 = m.m_mat[7], b43 = m.m_mat[11], b44 = m.m_mat[15];
 
 		return Mat4(
 		           a11 * b11 + a12 * b21 + a13 * b31 + a14 * b41,
@@ -796,16 +796,16 @@ namespace Odin {
 		       );
 	}
 
-	inline void Mat4::operator *=(const Mat4& m) {
-		float32 a11 = m_mat[0], a12 = m_mat[4], a13 = m_mat[8], a14 = m_mat[12],
-		        a21 = m_mat[1], a22 = m_mat[5], a23 = m_mat[9], a24 = m_mat[13],
-		        a31 = m_mat[2], a32 = m_mat[6], a33 = m_mat[10], a34 = m_mat[14],
-		        a41 = m_mat[3], a42 = m_mat[7], a43 = m_mat[11], a44 = m_mat[15],
+	template <typename Type> inline void Mat4<Type>::operator *=(const Mat4<Type>& m) {
+		Type a11 = m_mat[0], a12 = m_mat[4], a13 = m_mat[8], a14 = m_mat[12],
+		     a21 = m_mat[1], a22 = m_mat[5], a23 = m_mat[9], a24 = m_mat[13],
+		     a31 = m_mat[2], a32 = m_mat[6], a33 = m_mat[10], a34 = m_mat[14],
+		     a41 = m_mat[3], a42 = m_mat[7], a43 = m_mat[11], a44 = m_mat[15],
 
-		        b11 = m.m_mat[0], b12 = m.m_mat[4], b13 = m.m_mat[8], b14 = m.m_mat[12],
-		        b21 = m.m_mat[1], b22 = m.m_mat[5], b23 = m.m_mat[9], b24 = m.m_mat[13],
-		        b31 = m.m_mat[2], b32 = m.m_mat[6], b33 = m.m_mat[10], b34 = m.m_mat[14],
-		        b41 = m.m_mat[3], b42 = m.m_mat[7], b43 = m.m_mat[11], b44 = m.m_mat[15];
+		     b11 = m.m_mat[0], b12 = m.m_mat[4], b13 = m.m_mat[8], b14 = m.m_mat[12],
+		     b21 = m.m_mat[1], b22 = m.m_mat[5], b23 = m.m_mat[9], b24 = m.m_mat[13],
+		     b31 = m.m_mat[2], b32 = m.m_mat[6], b33 = m.m_mat[10], b34 = m.m_mat[14],
+		     b41 = m.m_mat[3], b42 = m.m_mat[7], b43 = m.m_mat[11], b44 = m.m_mat[15];
 
 		m_mat[0] = a11 * b11 + a12 * b21 + a13 * b31 + a14 * b41;
 		m_mat[4] = a11 * b12 + a12 * b22 + a13 * b32 + a14 * b42;
@@ -828,7 +828,7 @@ namespace Odin {
 		m_mat[15] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
 	}
 
-	inline void Mat4::operator *=(float32 s) {
+	template <typename Type> inline void Mat4<Type>::operator *=(Type s) {
 		m_mat[0] *= s;
 		m_mat[1] *= s;
 		m_mat[2] *= s;
@@ -847,8 +847,8 @@ namespace Odin {
 		m_mat[15] *= s;
 	}
 
-	inline void Mat4::operator /=(float32 s) {
-		float32 d = s != 0.0f ? 1.0f / s : 0.0f;
+	template <typename Type> inline void Mat4<Type>::operator /=(Type s) {
+		Type d = s != 0 ? 1 / s : 0;
 
 		m_mat[0] *= d;
 		m_mat[1] *= d;
@@ -868,7 +868,7 @@ namespace Odin {
 		m_mat[15] *= d;
 	}
 
-	inline Mat4& Mat4::operator =(const Mat4& m) {
+	template <typename Type> inline Mat4<Type>& Mat4<Type>::operator =(const Mat4<Type>& m) {
 		m_mat[0] = m.m_mat[0];
 		m_mat[4] = m.m_mat[4];
 		m_mat[8] = m.m_mat[8];
@@ -889,7 +889,7 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Mat4& Mat4::operator =(const Mat4 && m) {
+	template <typename Type> inline Mat4<Type>& Mat4<Type>::operator =(const Mat4<Type> && m) {
 		m_mat[0] = std::move(m.m_mat[0]);
 		m_mat[4] = std::move(m.m_mat[4]);
 		m_mat[8] = std::move(m.m_mat[8]);
@@ -910,7 +910,7 @@ namespace Odin {
 		return *this;
 	}
 
-	inline bool Mat4::operator ==(const Mat4& m) {
+	template <typename Type> inline bool Mat4<Type>::operator ==(const Mat4<Type>& m) {
 		return !(
 		           m_mat[0] != m.m_mat[0] || m_mat[4] != m.m_mat[4] || m_mat[8] != m.m_mat[8] || m_mat[12] != m.m_mat[12] ||
 		           m_mat[1] != m.m_mat[1] || m_mat[5] != m.m_mat[5] || m_mat[9] != m.m_mat[9] || m_mat[13] != m.m_mat[13] ||
@@ -919,7 +919,7 @@ namespace Odin {
 		       );
 	}
 
-	inline bool Mat4::operator != (const Mat4& m) {
+	template <typename Type> inline bool Mat4<Type>::operator != (const Mat4<Type>& m) {
 		return (
 		           m_mat[0] != m.m_mat[0] || m_mat[4] != m.m_mat[4] || m_mat[8] != m.m_mat[8] || m_mat[12] != m.m_mat[12] ||
 		           m_mat[1] != m.m_mat[1] || m_mat[5] != m.m_mat[5] || m_mat[9] != m.m_mat[9] || m_mat[13] != m.m_mat[13] ||
@@ -928,7 +928,7 @@ namespace Odin {
 		       );
 	}
 
-	inline std::string Mat4::ToString(int32 p) {
+	template <typename Type> inline std::string Mat4<Type>::ToString(int32 p) {
 
 		return (
 		           "Mat4[\n"
@@ -940,20 +940,20 @@ namespace Odin {
 		       );
 	}
 
-	inline Mat4& Mat4Inverse(const Mat4& a, Mat4& out) {
-		float32 m11 = a.m_mat[0], m12 = a.m_mat[4], m13 = a.m_mat[8], m14 = a.m_mat[12],
-		        m21 = a.m_mat[1], m22 = a.m_mat[5], m23 = a.m_mat[9], m24 = a.m_mat[13],
-		        m31 = a.m_mat[2], m32 = a.m_mat[6], m33 = a.m_mat[10], m34 = a.m_mat[14],
-		        m41 = a.m_mat[3], m42 = a.m_mat[7], m43 = a.m_mat[11], m44 = a.m_mat[15],
+	template <typename Type> inline Mat4<Type>& Mat4Inverse(const Mat4<Type>& a, Mat4<Type>& out) {
+		Type m11 = a.m_mat[0], m12 = a.m_mat[4], m13 = a.m_mat[8], m14 = a.m_mat[12],
+		     m21 = a.m_mat[1], m22 = a.m_mat[5], m23 = a.m_mat[9], m24 = a.m_mat[13],
+		     m31 = a.m_mat[2], m32 = a.m_mat[6], m33 = a.m_mat[10], m34 = a.m_mat[14],
+		     m41 = a.m_mat[3], m42 = a.m_mat[7], m43 = a.m_mat[11], m44 = a.m_mat[15],
 
-		        me0 = m23 * m34 * m42 - m24 * m33 * m42 + m24 * m32 * m43 - m22 * m34 * m43 - m23 * m32 * m44 + m22 * m33 * m44,
-		        me4 = m14 * m33 * m42 - m13 * m34 * m42 - m14 * m32 * m43 + m12 * m34 * m43 + m13 * m32 * m44 - m12 * m33 * m44,
-		        me8 = m13 * m24 * m42 - m14 * m23 * m42 + m14 * m22 * m43 - m12 * m24 * m43 - m13 * m22 * m44 + m12 * m23 * m44,
-		        me12 = m14 * m23 * m32 - m13 * m24 * m32 - m14 * m22 * m33 + m12 * m24 * m33 + m13 * m22 * m34 - m12 * m23 * m34,
+		     me0 = m23 * m34 * m42 - m24 * m33 * m42 + m24 * m32 * m43 - m22 * m34 * m43 - m23 * m32 * m44 + m22 * m33 * m44,
+		     me4 = m14 * m33 * m42 - m13 * m34 * m42 - m14 * m32 * m43 + m12 * m34 * m43 + m13 * m32 * m44 - m12 * m33 * m44,
+		     me8 = m13 * m24 * m42 - m14 * m23 * m42 + m14 * m22 * m43 - m12 * m24 * m43 - m13 * m22 * m44 + m12 * m23 * m44,
+		     me12 = m14 * m23 * m32 - m13 * m24 * m32 - m14 * m22 * m33 + m12 * m24 * m33 + m13 * m22 * m34 - m12 * m23 * m34,
 
-		        det = m11 * me0 + m21 * me4 + m31 * me8 + m41 * me12;
+		     det = m11 * me0 + m21 * me4 + m31 * me8 + m41 * me12;
 
-		if (det == 0.0f) {
+		if (det == 0) {
 			return out.Identity();
 		}
 
@@ -977,16 +977,16 @@ namespace Odin {
 		return out;
 	}
 
-	inline Mat4& Mat4Mul(const Mat4& a, const Mat4& b, Mat4& out) {
-		float32 a11 = a.m_mat[0], a12 = a.m_mat[4], a13 = a.m_mat[8], a14 = a.m_mat[12],
-		        a21 = a.m_mat[1], a22 = a.m_mat[5], a23 = a.m_mat[9], a24 = a.m_mat[13],
-		        a31 = a.m_mat[2], a32 = a.m_mat[6], a33 = a.m_mat[10], a34 = a.m_mat[14],
-		        a41 = a.m_mat[3], a42 = a.m_mat[7], a43 = a.m_mat[11], a44 = a.m_mat[15],
+	template <typename Type> inline Mat4<Type>& Mat4Mul(const Mat4<Type>& a, const Mat4<Type>& b, Mat4<Type>& out) {
+		Type a11 = a.m_mat[0], a12 = a.m_mat[4], a13 = a.m_mat[8], a14 = a.m_mat[12],
+		     a21 = a.m_mat[1], a22 = a.m_mat[5], a23 = a.m_mat[9], a24 = a.m_mat[13],
+		     a31 = a.m_mat[2], a32 = a.m_mat[6], a33 = a.m_mat[10], a34 = a.m_mat[14],
+		     a41 = a.m_mat[3], a42 = a.m_mat[7], a43 = a.m_mat[11], a44 = a.m_mat[15],
 
-		        b11 = b.m_mat[0], b12 = b.m_mat[4], b13 = b.m_mat[8], b14 = b.m_mat[12],
-		        b21 = b.m_mat[1], b22 = b.m_mat[5], b23 = b.m_mat[9], b24 = b.m_mat[13],
-		        b31 = b.m_mat[2], b32 = b.m_mat[6], b33 = b.m_mat[10], b34 = b.m_mat[14],
-		        b41 = b.m_mat[3], b42 = b.m_mat[7], b43 = b.m_mat[11], b44 = b.m_mat[15];
+		     b11 = b.m_mat[0], b12 = b.m_mat[4], b13 = b.m_mat[8], b14 = b.m_mat[12],
+		     b21 = b.m_mat[1], b22 = b.m_mat[5], b23 = b.m_mat[9], b24 = b.m_mat[13],
+		     b31 = b.m_mat[2], b32 = b.m_mat[6], b33 = b.m_mat[10], b34 = b.m_mat[14],
+		     b41 = b.m_mat[3], b42 = b.m_mat[7], b43 = b.m_mat[11], b44 = b.m_mat[15];
 
 		out.m_mat[0] = a11 * b11 + a12 * b21 + a13 * b31 + a14 * b41;
 		out.m_mat[4] = a11 * b12 + a12 * b22 + a13 * b32 + a14 * b42;

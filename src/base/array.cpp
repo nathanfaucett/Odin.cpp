@@ -1,9 +1,9 @@
-#ifndef _ODIN_ARRAY_CPP
-#define _ODIN_ARRAY_CPP
+#ifndef _ODIN_ARRAY_CPP_
+#define _ODIN_ARRAY_CPP_
 
 namespace Odin {
 
-	template <typename Type> inline void Array<Type>::m_QuickSort(std::function<float32(const Type a, const Type b)> sortFunction, int32 from, int32 to) {
+	template <typename Type> inline void Array<Type>::m_QuickSort(std::function<float32(const Type& a, const Type& b)> sortFunction, int32 from, int32 to) {
 
 		if (from < to) {
 			int32 j = m_Partition(sortFunction, from, to);
@@ -12,7 +12,7 @@ namespace Odin {
 		}
 	}
 
-	template <typename Type> inline int32 Array<Type>::m_Partition(std::function<float32(const Type a, const Type b)> sortFunction, int32 i, int32 j) {
+	template <typename Type> inline int32 Array<Type>::m_Partition(std::function<float32(const Type& a, const Type& b)> sortFunction, int32 i, int32 j) {
 		Type pivot = m_array[j];
 		Type tmp;
 
@@ -75,17 +75,17 @@ namespace Odin {
 		delete []m_array;
 	}
 
-	template <typename Type> inline Type Array<Type>::operator [] (uint32 index) const {
+	template <typename Type> inline Type Array<Type>::operator [] (int32 index) const {
 
-		return m_array[(index >= m_length ? (m_length - 1) : index < 0 ? 0 : index)];
+		return m_array[(index >= int32(m_length) ? (m_length - 1) : index < 0 ? 0 : index)];
 	}
 
-	template <typename Type> inline Type& Array<Type>::operator [] (uint32 index) {
+	template <typename Type> inline Type& Array<Type>::operator [] (int32 index) {
 
-		return m_array[(index >= m_length ? (m_length - 1) : index < 0 ? 0 : index)];
+		return m_array[(index >= int32(m_length) ? (m_length - 1) : index < 0 ? 0 : index)];
 	}
 
-	template <typename Type> inline Type Array<Type>::Splice(uint32 index, int32 count) {
+	template <typename Type> inline void Array<Type>::Splice(uint32 index, int32 count) {
 		uint32 length = m_length,
 		       i = 0, j = 0;
 
@@ -104,7 +104,7 @@ namespace Odin {
 		m_array = array;
 	}
 
-	template <typename Type> inline Type Array<Type>::Splice(uint32 index, int32 count, const Type item) {
+	template <typename Type> inline void Array<Type>::Splice(uint32 index, int32 count, const Type item) {
 		count -= 1;
 		uint32 length = m_length,
 		       i = 0, j = 0;
@@ -125,7 +125,7 @@ namespace Odin {
 		m_array = array;
 	}
 
-	template <typename Type> inline Type Array<Type>::Push(const Type item) {
+	template <typename Type> inline void Array<Type>::Push(const Type item) {
 		uint32 length = m_length,
 		       i = 0;
 
@@ -137,13 +137,11 @@ namespace Odin {
 		}
 
 		delete []m_array;
-		array[m_length - 1] = item;
+		array[length] = item;
 		m_array = array;
-
-		return item;
 	}
 
-	template <typename Type> inline Type Array<Type>::Unshift(const Type item) {
+	template <typename Type> inline void Array<Type>::Unshift(const Type item) {
 		uint32 i = 1, j = 0;
 
 		m_length++;
@@ -155,6 +153,40 @@ namespace Odin {
 
 		delete []m_array;
 		array[0] = item;
+		m_array = array;
+	}
+
+	template <typename Type> inline Type Array<Type>::Pop(void) {
+		uint32 length = m_length - 1,
+		       i;
+		Type item = m_array[m_length];
+
+		m_length = length;
+		Type* array = new Type[m_length];
+
+		for (; i < length; i++) {
+			array[i] = m_array[i];
+		}
+
+		delete []m_array;
+		m_array = array;
+
+		return item;
+	}
+
+	template <typename Type> inline Type Array<Type>::Shift(void) {
+		uint32 length = m_length - 1,
+		       i = 1, j = 0;
+		Type item = m_array[0];
+
+		m_length = length;
+		Type* array = new Type[m_length];
+
+		for (; i < length; i++) {
+			array[j++] = m_array[i];
+		}
+
+		delete []m_array;
 		m_array = array;
 
 		return item;
@@ -182,9 +214,18 @@ namespace Odin {
 		return m_length;
 	}
 
-	template <typename Type> inline void Array<Type>::Sort(std::function<int32(const Type a, const Type b)> sortFunction) {
+	template <typename Type> inline void Array<Type>::Sort(std::function<float32(const Type& a, const Type& b)> sortFunction) {
 
 		m_QuickSort(sortFunction, 0, m_length - 1);
+	}
+
+	template <typename Type> inline void Array<Type>::ForEach(std::function<bool(const Type& item, int32 index)> sortFunction) {
+
+		for (uint32 i = 0, il = m_length; i < il; i++) {
+			if (sortFunction(m_array[i], i) == false) {
+				break;
+			}
+		}
 	}
 
 	template <typename Type> inline Array<Type>& Array<Type>::operator =(const Array<Type>& other) {

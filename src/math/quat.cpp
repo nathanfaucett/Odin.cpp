@@ -1,70 +1,70 @@
-#ifndef _ODIN_QUAT_CPP
-#define _ODIN_QUAT_CPP
+#ifndef _ODIN_QUAT_CPP_
+#define _ODIN_QUAT_CPP_
 
 namespace Odin {
 
-	inline Quat::Quat(void) {
-		x = 0.0f;
-		y = 0.0f;
-		z = 0.0f;
-		w = 1.0f;
+	template <typename Type> inline Quat<Type>::Quat(void) {
+		x = 0;
+		y = 0;
+		z = 0;
+		w = 1;
 	}
 
-	inline Quat::Quat(float32 X, float32 Y, float32 Z) {
+	template <typename Type> inline Quat<Type>::Quat(Type X, Type Y, Type Z) {
 		x = X;
 		y = Y;
 		z = Z;
-		w = 1.0f;
+		w = 1;
 	}
 
-	inline Quat::Quat(float32 X, float32 Y, float32 Z, float32 W) {
+	template <typename Type> inline Quat<Type>::Quat(Type X, Type Y, Type Z, Type W) {
 		x = X;
 		y = Y;
 		z = Z;
 		w = W;
 	}
 
-	inline Quat::Quat(const Vec3& v) {
+	template <typename Type> inline Quat<Type>::Quat(const Vec3<Type>& v) {
 		x = v.x;
 		y = v.y;
 		z = v.z;
-		w = 1.0f;
+		w = 1;
 	}
 
-	inline Quat::Quat(const Vec3& axis, float32 angle) {
-		float32 halfAngle = angle * 0.5f,
-		        s = sinf(halfAngle);
+	template <typename Type> inline Quat<Type>::Quat(const Vec3<Type>& axis, Type angle) {
+		Type halfAngle = angle * 0.5,
+		     s = Mathf.Sin(halfAngle);
 
 		x = axis.x * s;
 		y = axis.y * s;
 		z = axis.z * s;
-		w = cosf(halfAngle);
+		w = Mathf.Cos(halfAngle);
 	}
 
-	inline Quat::Quat(const Vec4& v) {
+	template <typename Type> inline Quat<Type>::Quat(const Vec4<Type>& v) {
 		x = v.x;
 		y = v.y;
 		z = v.z;
 		w = v.w;
 	}
 
-	inline Quat::Quat(const Quat& q) {
+	template <typename Type> inline Quat<Type>::Quat(const Quat<Type>& q) {
 		x = q.x;
 		y = q.y;
 		z = q.z;
 		w = q.w;
 	}
 
-	inline Quat::Quat(const Quat&& q) {
+	template <typename Type> inline Quat<Type>::Quat(const Quat<Type>&& q) {
 		x = std::move(q.x);
 		y = std::move(q.y);
 		z = std::move(q.z);
 		w = std::move(q.w);
 	}
 
-	inline Quat::~Quat(void) {}
+	template <typename Type> inline Quat<Type>::~Quat(void) {}
 
-	inline Quat& Quat::Set(float32 X, float32 Y, float32 Z) {
+	template <typename Type> inline Quat<Type>& Quat<Type>::Set(Type X, Type Y, Type Z) {
 		x = X;
 		y = Y;
 		z = Z;
@@ -72,7 +72,7 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Quat& Quat::Set(float32 X, float32 Y, float32 Z, float32 W) {
+	template <typename Type> inline Quat<Type>& Quat<Type>::Set(Type X, Type Y, Type Z, Type W) {
 		x = X;
 		y = Y;
 		z = Z;
@@ -81,40 +81,40 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Quat& Quat::Zero(void) {
-		x = 0.0f;
-		y = 0.0f;
-		z = 0.0f;
-		w = 0.0f;
+	template <typename Type> inline Quat<Type>& Quat<Type>::Zero(void) {
+		x = 0;
+		y = 0;
+		z = 0;
+		w = 0;
 
 		return *this;
 	}
 
-	inline float32 Quat::Dot(const Quat q) {
+	template <typename Type> inline Type Quat<Type>::Dot(const Quat<Type> q) {
 
 		return x * q.x + y * q.y + z * q.z + w * q.w;
 	}
 
-	inline float32 Quat::LengthSq(void) {
+	template <typename Type> inline Type Quat<Type>::LengthSq(void) {
 
 		return x * x + y * y + z * z + w * w;
 	}
 
-	inline float32 Quat::Length(void) {
-		float32 lenSq = x * x + y * y + z * z + w * w;
+	template <typename Type> inline Type Quat<Type>::Length(void) {
+		Type lenSq = x * x + y * y + z * z + w * w;
 
-		return lenSq == 0.0f ? 0.0f : sqrtf(lenSq);
+		return lenSq == 0 ? 0 : sqrtf(lenSq);
 	}
 
-	inline float32 Quat::Normalize(void) {
-		float32 lenSq = x * x + y * y + z * z + w * w;
+	template <typename Type> inline Type Quat<Type>::Normalize(void) {
+		Type lenSq = x * x + y * y + z * z + w * w;
 
-		if (lenSq == 0.0f) {
-			return 0.0f;
+		if (lenSq == 0) {
+			return 0;
 		}
 
-		float32 len = sqrtf(lenSq),
-		        invLen = 1.0f / len;
+		Type len = sqrtf(lenSq),
+		     invLen = 1 / len;
 
 		x *= invLen;
 		y *= invLen;
@@ -124,7 +124,7 @@ namespace Odin {
 		return len;
 	}
 
-	inline Quat Quat::Lerp(const Quat& q, float32 t) {
+	template <typename Type> inline Quat<Type> Quat<Type>::Lerp(const Quat<Type>& q, Type t) {
 		x = Mathf.Lerp(x, q.x, t);
 		y = Mathf.Lerp(y, q.y, t);
 		z = Mathf.Lerp(z, q.z, t);
@@ -133,35 +133,35 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Quat& Quat::Slerp(const Quat& q, float32 t) {
-		float32 ax = x,
-		        ay = y,
-		        az = z,
-		        aw = w,
-		        bx = q.x,
-		        by = q.y,
-		        bz = q.z,
-		        bw = q.w,
+	template <typename Type> inline Quat<Type>& Quat<Type>::Slerp(const Quat<Type>& q, Type t) {
+		Type ax = x,
+		     ay = y,
+		     az = z,
+		     aw = w,
+		     bx = q.x,
+		     by = q.y,
+		     bz = q.z,
+		     bw = q.w,
 
-		        omega, sinom, scale0, scale1,
-		        cosom = ax * bx + ay * by + az * bz + aw * bw;
+		     omega, sinom, scale0, scale1,
+		     cosom = ax * bx + ay * by + az * bz + aw * bw;
 
-		if (cosom < 0.0f) {
-			cosom *= -1.0f;
-			bx *= -1.0f;
-			by *= -1.0f;
-			bz *= -1.0f;
-			bw *= -1.0f;
+		if (cosom < 0) {
+			cosom *= -1;
+			bx *= -1;
+			by *= -1;
+			bz *= -1;
+			bw *= -1;
 		}
 
-		if (1.0f - cosom > Mathf.Epsilon) {
+		if (1 - cosom > Mathf.Epsilon) {
 			omega = acosf(cosom);
-			sinom = 1.0f / sinf(omega);
-			scale0 = sinf((1.0f - t) * omega) * sinom;
-			scale1 = sinf(t * omega) * sinom;
+			sinom = 1 / Mathf.Sin(omega);
+			scale0 = Mathf.Sin((1 - t) * omega) * sinom;
+			scale1 = Mathf.Sin(t * omega) * sinom;
 
 		} else {
-			scale0 = 1.0f - t;
+			scale0 = 1 - t;
 			scale1 = t;
 		}
 
@@ -173,122 +173,122 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Quat& Quat::FromMatrix(const Mat3& m)  {
-		float32 m11 = m[0],
-		        m12 = m[3],
-		        m13 = m[6],
-		        m21 = m[1],
-		        m22 = m[4],
-		        m23 = m[7],
-		        m31 = m[2],
-		        m32 = m[5],
-		        m33 = m[8],
-		        trace = m11 + m22 + m33,
-		        s, invS;
+	template <typename Type> inline Quat<Type>& Quat<Type>::FromMatrix(const Mat3<Type>& m)  {
+		Type m11 = m[0],
+		     m12 = m[3],
+		     m13 = m[6],
+		     m21 = m[1],
+		     m22 = m[4],
+		     m23 = m[7],
+		     m31 = m[2],
+		     m32 = m[5],
+		     m33 = m[8],
+		     trace = m11 + m22 + m33,
+		     s, invS;
 
-		if (trace > 0.0f) {
-			s = 0.5f / sqrt(trace + 1.0f);
+		if (trace > 0) {
+			s = 0.5 / sqrt(trace + 1);
 
-			w = 0.25f / s;
+			w = 0.25 / s;
 			x = (m32 - m23) * s;
 			y = (m13 - m31) * s;
 			z = (m21 - m12) * s;
 
 		} else if (m11 > m22 && m11 > m33) {
-			s = 2.0f * sqrt(1.0f + m11 - m22 - m33);
-			invS = 1.0f / s;
+			s = 2 * sqrt(1 + m11 - m22 - m33);
+			invS = 1 / s;
 
 			w = (m32 - m23) * invS;
-			x = 0.25f * s;
+			x = 0.25 * s;
 			y = (m12 + m21) * invS;
 			z = (m13 + m31) * invS;
 
 		} else if (m22 > m33) {
-			s = 2.0f * sqrt(1.0f + m22 - m11 - m33);
-			invS = 1.0f / s;
+			s = 2 * sqrt(1 + m22 - m11 - m33);
+			invS = 1 / s;
 
 			w = (m13 - m31) * invS;
 			x = (m12 + m21) * invS;
-			y = 0.25f * s;
+			y = 0.25 * s;
 			z = (m23 + m32) * invS;
 
 		} else {
-			s = 2.0f * sqrt(1.0f + m33 - m11 - m22);
-			invS = 1.0f / s;
+			s = 2 * sqrt(1 + m33 - m11 - m22);
+			invS = 1 / s;
 
 			w = (m21 - m12) * invS;
 			x = (m13 + m31) * invS;
 			y = (m23 + m32) * invS;
-			z = 0.25f * s;
+			z = 0.25 * s;
 		}
 
 		return *this;
 	}
 
-	inline Quat& Quat::FromMatrix(const Mat4& m) {
-		float32 m11 = m[0],
-		        m12 = m[4],
-		        m13 = m[8],
-		        m21 = m[1],
-		        m22 = m[5],
-		        m23 = m[9],
-		        m31 = m[2],
-		        m32 = m[6],
-		        m33 = m[10],
-		        trace = m11 + m22 + m33,
-		        s, invS;
+	template <typename Type> inline Quat<Type>& Quat<Type>::FromMatrix(const Mat4<Type>& m) {
+		Type m11 = m[0],
+		     m12 = m[4],
+		     m13 = m[8],
+		     m21 = m[1],
+		     m22 = m[5],
+		     m23 = m[9],
+		     m31 = m[2],
+		     m32 = m[6],
+		     m33 = m[10],
+		     trace = m11 + m22 + m33,
+		     s, invS;
 
-		if (trace > 0.0f) {
-			s = 0.5f / sqrt(trace + 1.0f);
+		if (trace > 0) {
+			s = 0.5 / sqrt(trace + 1);
 
-			w = 0.25f / s;
+			w = 0.25 / s;
 			x = (m32 - m23) * s;
 			y = (m13 - m31) * s;
 			z = (m21 - m12) * s;
 
 		} else if (m11 > m22 && m11 > m33) {
-			s = 2.0f * sqrt(1.0f + m11 - m22 - m33);
-			invS = 1.0f / s;
+			s = 2 * sqrt(1 + m11 - m22 - m33);
+			invS = 1 / s;
 
 			w = (m32 - m23) * invS;
-			x = 0.25f * s;
+			x = 0.25 * s;
 			y = (m12 + m21) * invS;
 			z = (m13 + m31) * invS;
 
 		} else if (m22 > m33) {
-			s = 2.0f * sqrt(1.0f + m22 - m11 - m33);
-			invS = 1.0f / s;
+			s = 2 * sqrt(1 + m22 - m11 - m33);
+			invS = 1 / s;
 
 			w = (m13 - m31) * invS;
 			x = (m12 + m21) * invS;
-			y = 0.25f * s;
+			y = 0.25 * s;
 			z = (m23 + m32) * invS;
 
 		} else {
-			s = 2.0f * sqrt(1.0f + m33 - m11 - m22);
-			invS = 1.0f / s;
+			s = 2 * sqrt(1 + m33 - m11 - m22);
+			invS = 1 / s;
 
 			w = (m21 - m12) * invS;
 			x = (m13 + m31) * invS;
 			y = (m23 + m32) * invS;
-			z = 0.25f * s;
+			z = 0.25 * s;
 		}
 
 		return *this;
 	}
 
-	inline Quat& Quat::operator -() {
-		float32 lenSq = x * x + y * y + z * z + w * w;
+	template <typename Type> inline Quat<Type>& Quat<Type>::operator -() {
+		Type lenSq = x * x + y * y + z * z + w * w;
 
-		if (lenSq == 0.0f || lenSq == 1.0f) {
+		if (lenSq == 0 || lenSq == 1) {
 			x = -x;
 			y = -y;
 			z = -z;
 			return *this;
 		}
 
-		float32 len = sqrtf(lenSq),
-		        invLen = 1.0f / len;
+		Type len = sqrtf(lenSq),
+		     invLen = 1 / len;
 
 		x *= -invLen;
 		y *= -invLen;
@@ -298,15 +298,15 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Quat Quat::Inverse(void) {
-		float32 lenSq = x * x + y * y + z * z + w * w;
+	template <typename Type> inline Quat<Type> Quat<Type>::Inverse(void) {
+		Type lenSq = x * x + y * y + z * z + w * w;
 
-		if (lenSq == 0.0f || lenSq == 1.0f) {
+		if (lenSq == 0 || lenSq == 1) {
 			return Quat(-x, -y, -z, w);
 		}
 
-		float32 len = sqrtf(lenSq),
-		        invLen = 1.0f / len;
+		Type len = sqrtf(lenSq),
+		     invLen = 1 / len;
 
 		return Quat(
 		           -x * invLen,
@@ -316,21 +316,21 @@ namespace Odin {
 		       );
 	}
 
-	inline Quat& Quat::calculateW(void) {
+	template <typename Type> inline Quat<Type>& Quat<Type>::calculateW(void) {
 
-		w = -sqrtf(abs(1.0f - x * x - y * y - z * z));
+		w = -sqrtf(abs(1 - x * x - y * y - z * z));
 
 		return *this;
 	}
 
-	inline Quat& Quat::RotateX(float32 angle) {
-		float32 halfAngle = angle * 0.5f,
-		        ax = x,
-		        ay = y,
-		        az = z,
-		        aw = w,
-		        s = sinf(halfAngle),
-		        c = cosf(halfAngle);
+	template <typename Type> inline Quat<Type>& Quat<Type>::RotateX(Type angle) {
+		Type halfAngle = angle * 0.5,
+		     ax = x,
+		     ay = y,
+		     az = z,
+		     aw = w,
+		     s = Mathf.Sin(halfAngle),
+		     c = Mathf.Cos(halfAngle);
 
 		x = ax * c + aw * s;
 		y = ay * c + az * s;
@@ -340,14 +340,14 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Quat& Quat::RotateY(float32 angle) {
-		float32 halfAngle = angle * 0.5f,
-		        ax = x,
-		        ay = y,
-		        az = z,
-		        aw = w,
-		        s = sinf(halfAngle),
-		        c = cosf(halfAngle);
+	template <typename Type> inline Quat<Type>& Quat<Type>::RotateY(Type angle) {
+		Type halfAngle = angle * 0.5,
+		     ax = x,
+		     ay = y,
+		     az = z,
+		     aw = w,
+		     s = Mathf.Sin(halfAngle),
+		     c = Mathf.Cos(halfAngle);
 
 		x = ax * c - az * s;
 		y = ay * c + aw * s;
@@ -357,14 +357,14 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Quat& Quat::RotateZ(float32 angle) {
-		float32 halfAngle = angle * 0.5f,
-		        ax = x,
-		        ay = y,
-		        az = z,
-		        aw = w,
-		        s = sinf(halfAngle),
-		        c = cosf(halfAngle);
+	template <typename Type> inline Quat<Type>& Quat<Type>::RotateZ(Type angle) {
+		Type halfAngle = angle * 0.5,
+		     ax = x,
+		     ay = y,
+		     az = z,
+		     aw = w,
+		     s = Mathf.Sin(halfAngle),
+		     c = Mathf.Cos(halfAngle);
 
 		x = ax * c + ay * s;
 		y = ay * c - ax * s;
@@ -374,7 +374,7 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Quat& Quat::Rotate(float32 x, float32 y, float32 z) {
+	template <typename Type> inline Quat<Type>& Quat<Type>::Rotate(Type x, Type y, Type z) {
 
 		RotateZ(z);
 		RotateX(x);
@@ -383,51 +383,51 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Quat& Quat::LookRotation(const Vec3& forward, const Vec3& up) {
-		float32 fx = forward.x,
-		        fy = forward.y,
-		        fz = forward.z,
-		        ux = up.x,
-		        uy = up.y,
-		        uz = up.z,
+	template <typename Type> inline Quat<Type>& Quat<Type>::LookRotation(const Vec3<Type>& forward, const Vec3<Type>& up) {
+		Type fx = forward.x,
+		     fy = forward.y,
+		     fz = forward.z,
+		     ux = up.x,
+		     uy = up.y,
+		     uz = up.z,
 
-		        ax = uy * fz - uz * fy,
-		        ay = uz * fx - ux * fz,
-		        az = ux * fy - uy * fx,
+		     ax = uy * fz - uz * fy,
+		     ay = uz * fx - ux * fz,
+		     az = ux * fy - uy * fx,
 
-		        d = (1.0f + ux * fx + uy * fy + uz * fz) * 2.0f,
-		        dsq = d * d,
-		        s = 1.0f / dsq;
+		     d = (1 + ux * fx + uy * fy + uz * fz) * 2,
+		     dsq = d * d,
+		     s = 1 / dsq;
 
 		x = ax * s;
 		y = ay * s;
 		z = az * s;
-		w = dsq * 0.5f;
+		w = dsq * 0.5;
 
 		return *this;
 	}
 
-	inline Quat& Quat::FromAxisAngle(const Vec3& axis, float32 angle) {
-		float32 halfAngle = angle * 0.5f,
-		        s = sinf(halfAngle);
+	template <typename Type> inline Quat<Type>& Quat<Type>::FromAxisAngle(const Vec3<Type>& axis, Type angle) {
+		Type halfAngle = angle * 0.5,
+		     s = Mathf.Sin(halfAngle);
 
 		x = axis.x * s;
 		y = axis.y * s;
 		z = axis.z * s;
-		w = cosf(halfAngle);
+		w = Mathf.Cos(halfAngle);
 
 		return *this;
 	}
 
-	inline Quat& Quat::FromVec3s(const Vec3& u, const Vec3& v) {
-		Vec3 a = Vec3::Cross(u, v);
-		float32 ux = u.x,
-		        uy = u.y,
-		        uz = u.z,
+	template <typename Type> inline Quat<Type>& Quat<Type>::FromVec3s(const Vec3<Type>& u, const Vec3<Type>& v) {
+		Vec3<Type> a = Vec3<Type>::Cross(u, v);
+		Type ux = u.x,
+		     uy = u.y,
+		     uz = u.z,
 
-		        vx = v.x,
-		        vy = v.y,
-		        vz = v.z;
+		     vx = v.x,
+		     vy = v.y,
+		     vz = v.z;
 
 		x = a.x;
 		y = a.y;
@@ -438,33 +438,33 @@ namespace Odin {
 		return *this;
 	}
 
-	inline float32 Quat::operator [] (int32 i) const {
+	template <typename Type> inline Type Quat<Type>::operator [] (int32 i) const {
 		return (&x)[i];
 	}
 
-	inline float32& Quat::operator [] (int32 i) {
+	template <typename Type> inline Type& Quat<Type>::operator [] (int32 i) {
 		return (&x)[i];
 	}
 
-	inline Quat Quat::operator +(const Quat& q) {
+	template <typename Type> inline Quat<Type> Quat<Type>::operator +(const Quat<Type>& q) {
 
 		return Quat(x + q.x, y + q.y, z + q.z, w + q.w);
 	}
 
-	inline Quat Quat::operator -(const Quat& q) {
+	template <typename Type> inline Quat<Type> Quat<Type>::operator -(const Quat<Type>& q) {
 
 		return Quat(x - q.x, y - q.y, z - q.z, w - q.w);
 	}
 
-	inline Quat Quat::operator *(const Quat& q) {
-		float32 ax = x,
-		        ay = y,
-		        az = z,
-		        aw = w,
-		        bx = q.x,
-		        by = q.y,
-		        bz = q.z,
-		        bw = q.w;
+	template <typename Type> inline Quat<Type> Quat<Type>::operator *(const Quat<Type>& q) {
+		Type ax = x,
+		     ay = y,
+		     az = z,
+		     aw = w,
+		     bx = q.x,
+		     by = q.y,
+		     bz = q.z,
+		     bw = q.w;
 
 		return Quat(
 		           ax * bw + aw * bx + ay * bz - az * by,
@@ -474,15 +474,15 @@ namespace Odin {
 		       );
 	}
 
-	inline Quat Quat::operator /(const Quat& q) {
-		float32 ax = x,
-		        ay = y,
-		        az = z,
-		        aw = w,
-		        bx = -q.x,
-		        by = -q.y,
-		        bz = -q.z,
-		        bw = q.w;
+	template <typename Type> inline Quat<Type> Quat<Type>::operator /(const Quat<Type>& q) {
+		Type ax = x,
+		     ay = y,
+		     az = z,
+		     aw = w,
+		     bx = -q.x,
+		     by = -q.y,
+		     bz = -q.z,
+		     bw = q.w;
 
 		return Quat(
 		           ax * bw + aw * bx + ay * bz - az * by,
@@ -492,29 +492,29 @@ namespace Odin {
 		       );
 	}
 
-	inline void Quat::operator +=(const Quat& q) {
+	template <typename Type> inline void Quat<Type>::operator +=(const Quat<Type>& q) {
 		x += q.x;
 		y += q.y;
 		z += q.z;
 		w += q.w;
 	}
 
-	inline void Quat::operator -=(const Quat& q) {
+	template <typename Type> inline void Quat<Type>::operator -=(const Quat<Type>& q) {
 		x -= q.x;
 		y -= q.y;
 		z -= q.z;
 		w -= q.w;
 	}
 
-	inline void Quat::operator *=(const Quat& q) {
-		float32 ax = x,
-		        ay = y,
-		        az = z,
-		        aw = w,
-		        bx = q.x,
-		        by = q.y,
-		        bz = q.z,
-		        bw = q.w;
+	template <typename Type> inline void Quat<Type>::operator *=(const Quat<Type>& q) {
+		Type ax = x,
+		     ay = y,
+		     az = z,
+		     aw = w,
+		     bx = q.x,
+		     by = q.y,
+		     bz = q.z,
+		     bw = q.w;
 
 		x = ax * bw + aw * bx + ay * bz - az * by;
 		y = ay * bw + aw * by + az * bx - ax * bz;
@@ -522,15 +522,15 @@ namespace Odin {
 		w = aw * bw - ax * bx - ay * by - az * bz;
 	}
 
-	inline void Quat::operator /=(const Quat& q) {
-		float32 ax = x,
-		        ay = y,
-		        az = z,
-		        aw = w,
-		        bx = -q.x,
-		        by = -q.y,
-		        bz = -q.z,
-		        bw = q.w;
+	template <typename Type> inline void Quat<Type>::operator /=(const Quat<Type>& q) {
+		Type ax = x,
+		     ay = y,
+		     az = z,
+		     aw = w,
+		     bx = -q.x,
+		     by = -q.y,
+		     bz = -q.z,
+		     bw = q.w;
 
 		x = ax * bw + aw * bx + ay * bz - az * by;
 		y = ay * bw + aw * by + az * bx - ax * bz;
@@ -539,50 +539,50 @@ namespace Odin {
 	}
 
 
-	inline Quat Quat::operator +(float32 s) {
+	template <typename Type> inline Quat<Type> Quat<Type>::operator +(Type s) {
 
 		return Quat(x + s, y + s, z + s, w + s);
 	}
 
-	inline Quat Quat::operator -(float32 s) {
+	template <typename Type> inline Quat<Type> Quat<Type>::operator -(Type s) {
 
 		return Quat(x - s, y - s, z - s, w - s);
 	}
 
-	inline Quat Quat::operator *(float32 s) {
+	template <typename Type> inline Quat<Type> Quat<Type>::operator *(Type s) {
 
 		return Quat(x * s, y * s, z * s, w * s);
 	}
 
-	inline Quat Quat::operator /(float32 s) {
-		float32 d = s != 0.0f ? 1.0f / s : 0.0f;
+	template <typename Type> inline Quat<Type> Quat<Type>::operator /(Type s) {
+		Type d = s != 0 ? 1 / s : 0;
 
 		return Quat(x * d, y * d, z * d, w * d);
 	}
 
-	inline void Quat::operator +=(float32 s) {
+	template <typename Type> inline void Quat<Type>::operator +=(Type s) {
 		x += s;
 		y += s;
 		z += s;
 		w += s;
 	}
 
-	inline void Quat::operator -=(float32 s) {
+	template <typename Type> inline void Quat<Type>::operator -=(Type s) {
 		x -= s;
 		y -= s;
 		z -= s;
 		w -= s;
 	}
 
-	inline void Quat::operator *=(float32 s) {
+	template <typename Type> inline void Quat<Type>::operator *=(Type s) {
 		x *= s;
 		y *= s;
 		z *= s;
 		w *= s;
 	}
 
-	inline void Quat::operator /=(float32 s) {
-		float32 d = s != 0.0f ? 1.0f / s : 0.0f;
+	template <typename Type> inline void Quat<Type>::operator /=(Type s) {
+		Type d = s != 0 ? 1 / s : 0;
 
 		x *= d;
 		y *= d;
@@ -590,7 +590,7 @@ namespace Odin {
 		w *= d;
 	}
 
-	inline Quat& Quat::operator =(const Quat& q) {
+	template <typename Type> inline Quat<Type>& Quat<Type>::operator =(const Quat<Type>& q) {
 		x = q.x;
 		y = q.y;
 		z = q.z;
@@ -599,7 +599,7 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Quat& Quat::operator =(const Quat && q) {
+	template <typename Type> inline Quat<Type>& Quat<Type>::operator =(const Quat<Type> && q) {
 		x = std::move(q.x);
 		y = std::move(q.y);
 		z = std::move(q.z);
@@ -608,17 +608,17 @@ namespace Odin {
 		return *this;
 	}
 
-	inline bool Quat::operator ==(const Quat& q) {
+	template <typename Type> inline bool Quat<Type>::operator ==(const Quat<Type>& q) {
 
 		return !(x != q.x || y != q.y || z != q.z || w != q.w);
 	}
 
-	inline bool Quat::operator !=(const Quat& q) {
+	template <typename Type> inline bool Quat<Type>::operator !=(const Quat<Type>& q) {
 
 		return x != q.x || y != q.y || z != q.z || w != q.w;
 	}
 
-	inline std::string Quat::ToString(int32 p) {
+	template <typename Type> inline std::string Quat<Type>::ToString(int32 p) {
 
 		return "Quat(" + util.ToString(x, p) + ", " + util.ToString(y, p) + ", " + util.ToString(z, p) + ", " + util.ToString(w, p) + ")";
 	}

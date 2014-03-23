@@ -1,8 +1,13 @@
-#ifndef _ODIN_H
-#define _ODIN_H
+#ifndef _ODIN_H_
+#define _ODIN_H_
+
+/*===============================
+ * Lib
+ *===============================*/
 
 #include <chrono>
 #include <cmath>
+#include <climits>
 #include <cfloat>
 #include <iomanip>
 #include <sstream>
@@ -10,6 +15,7 @@
 #include <string>
 #include <functional>
 #include <assert.h>
+#include <unordered_map>
 
 #include <SFML/Window.hpp>
 
@@ -39,11 +45,15 @@
 #include "math/aabb2.h"
 #include "math/aabb3.h"
 
-#include "core/game/base_game.h"
-
 #include "core/renderer/renderer.h"
 
+#include "core/game/base_game.h"
+
+#include "core/components/component.h"
+#include "core/components/transform.h"
+
 #include "core/game_object.h"
+#include "core/scene.h"
 
 
 /*===============================
@@ -65,16 +75,34 @@
 #include "math/aabb2.cpp"
 #include "math/aabb3.cpp"
 
-#include "core/game/base_game.cpp"
-
 #include "core/renderer/renderer.cpp"
 
+#include "core/game/base_game.cpp"
+
+#include "core/components/component.cpp"
+#include "core/components/transform.cpp"
+
 #include "core/game_object.cpp"
+#include "core/scene.cpp"
+
 
 namespace Odin {
 
-	void Init() {
+	inline void Init() {
 		Mathf.Init();
+	}
+
+	inline float32 Benchmark(std::function<void()> func, int32 times = 1000) {
+		float32 start = 0.0f, avg = 0.0f,
+		        d = 1.0f / float32(times);
+
+		for (int32 i = 0; i < times; i++) {
+			start = Time.Now();
+			func();
+			avg += Time.Now() - start;
+		}
+
+		return (avg * d);
 	}
 }
 

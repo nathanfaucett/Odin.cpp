@@ -1,105 +1,105 @@
-#ifndef _ODIN_MAT3_H
-#define _ODIN_MAT3_H
+#ifndef _ODIN_MAT3_H_
+#define _ODIN_MAT3_H_
 
 namespace Odin {
 
-	class Mat3 {
+	template <typename Type> class Mat3 {
 
 		private:
-			friend inline Mat3& Mat3Inverse(const Mat3& a, Mat3& out);
-			friend inline Mat3& Mat3InverseMat4(const Mat4& a, Mat3& out);
-			friend inline Mat3& Mat3Mul(const Mat3& a, const Mat3& b, Mat3& out);
-			friend class Mat4;
-			float32 m_mat[9];
+			template<typename Type2>friend inline Mat3<Type2>& Mat3Inverse(const Mat3<Type2>& a, Mat3<Type2>& out);
+			template<typename Type2>friend inline Mat3<Type2>& Mat3InverseMat4(const Mat4<Type2>& a, Mat3<Type2>& out);
+			template<typename Type2>friend inline Mat3<Type2>& Mat3Mul(const Mat3<Type2>& a, const Mat3<Type2>& b, Mat3<Type2>& out);
+			friend class Mat4<Type>;
+			Type m_mat[9];
 
 		public:
 
 			inline explicit Mat3(void);
 			inline explicit Mat3(
-			    float32 m11, float32 m21, float32 m31,
-			    float32 m12, float32 m22, float32 m32,
-			    float32 m13, float32 m23, float32 m33
+			    Type m11, Type m21, Type m31,
+			    Type m12, Type m22, Type m32,
+			    Type m13, Type m23, Type m33
 			);
-			inline Mat3(const Mat3& m);
-			inline Mat3(const Mat3&& m);
+			inline Mat3(const Mat3<Type>& m);
+			inline Mat3(const Mat3<Type>&& m);
 
 			inline ~Mat3(void);
 
-			inline Mat3& Identity(void);
-			inline Mat3& SetTrace(float32 x, float32 y, float32 z);
+			inline Mat3<Type>& Identity(void);
+			inline Mat3<Type>& SetTrace(Type x, Type y, Type z);
 
-			inline Mat3& operator -();
-			inline Mat3& Inverse(void);
-			inline Mat3& Inverse(const Mat3& m);
-			inline Mat3& Inverse(const Mat4& m);
+			inline Mat3<Type>& operator -();
+			inline Mat3<Type>& Inverse(void);
+			inline Mat3<Type>& Inverse(const Mat3<Type>& m);
+			inline Mat3<Type>& Inverse(const Mat4<Type>& m);
 
-			inline Mat3& Transpose(void);
+			inline Mat3<Type>& Transpose(void);
 
-			inline Mat3& ExtractRotation(const Mat3& m);
-			inline Mat3& ExtractRotation(const Mat4& m);
-			inline Mat3& ExtractRotationWithScale(const Mat4& m);
+			inline Mat3<Type>& ExtractRotation(const Mat3<Type>& m);
+			inline Mat3<Type>& ExtractRotation(const Mat4<Type>& m);
+			inline Mat3<Type>& ExtractRotationWithScale(const Mat4<Type>& m);
 
-			inline Mat3& Scale(const Vec2& v);
-			inline Mat3& Scale(const Vec3& v);
-			inline Mat3& Scale(const Vec4& v);
-			inline Mat3& FromQuat(const Quat& q);
+			inline Mat3<Type>& Scale(const Vec2<Type>& v);
+			inline Mat3<Type>& Scale(const Vec3<Type>& v);
+			inline Mat3<Type>& Scale(const Vec4<Type>& v);
+			inline Mat3<Type>& FromQuat(const Quat<Type>& q);
 
-			inline static Mat3 MakeScale(float32 x, float32 y, float32 z) {
+			inline static Mat3<Type> MakeScale(Type x, Type y, Type z) {
 
 				return Mat3(
-				           x, 0.0f, 0.0f,
-				           0.0f, y, 0.0f,
-				           0.0f, 0.0f, z
+				           x, 0, 0,
+				           0, y, 0,
+				           0, 0, z
 				       );
 			}
 
-			inline static Mat3 MakeRotationX(float32 angle) {
-				float32 c = cosf(angle),
-				        s = sinf(angle);
+			inline static Mat3<Type> MakeRotationX(Type angle) {
+				Type c = Mathf.Cos(angle),
+				     s = Mathf.Sin(angle);
 
 				return Mat3(
-				           1, 0.0f, 0.0f,
-				           0.0f, c, -s,
-				           0.0f, s, c
+				           1, 0, 0,
+				           0, c, -s,
+				           0, s, c
 				       );
 			}
 
-			inline static Mat3 MakeRotationY(float32 angle) {
-				float32 c = cosf(angle),
-				        s = sinf(angle);
+			inline static Mat3<Type> MakeRotationY(Type angle) {
+				Type c = Mathf.Cos(angle),
+				     s = Mathf.Sin(angle);
 
 				return Mat3(
-				           c, 0.0f, s,
-				           0.0f, 1.0f, 0.0f,
-				           -s, 0.0f, c
+				           c, 0, s,
+				           0, 1, 0,
+				           -s, 0, c
 				       );
 			}
 
-			inline static Mat3 MakeRotationZ(float32 angle) {
-				float32 c = cosf(angle),
-				        s = sinf(angle);
+			inline static Mat3<Type> MakeRotationZ(Type angle) {
+				Type c = Mathf.Cos(angle),
+				     s = Mathf.Sin(angle);
 
 				return Mat3(
-				           c, -s, 0.0f,
-				           s, c, 0.0f,
-				           0.0f, 0.0f, 1.0f
+				           c, -s, 0,
+				           s, c, 0,
+				           0, 0, 1
 				       );
 			}
 
-			inline float32 operator [] (int32 i) const;
-			inline float32& operator [] (int32 i);
+			inline Type operator [] (int32 i) const;
+			inline Type& operator [] (int32 i);
 
-			inline Mat3 operator *(const Mat3& m);
-			inline void operator *=(const Mat3& m);
+			inline Mat3<Type> operator *(const Mat3<Type>& m);
+			inline void operator *=(const Mat3<Type>& m);
 
-			inline void operator *=(float32 s);
-			inline void operator /=(float32 s);
+			inline void operator *=(Type s);
+			inline void operator /=(Type s);
 
-			inline Mat3& operator =(const Mat3& m);
-			inline Mat3& operator =(const Mat3 && m);
+			inline Mat3<Type>& operator =(const Mat3<Type>& m);
+			inline Mat3<Type>& operator =(const Mat3<Type> && m);
 
-			inline bool operator ==(const Mat3& m);
-			inline bool operator !=(const Mat3& m);
+			inline bool operator ==(const Mat3<Type>& m);
+			inline bool operator !=(const Mat3<Type>& m);
 
 			inline std::string ToString(int32 p = 5);
 	};

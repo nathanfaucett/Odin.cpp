@@ -1,100 +1,100 @@
-#ifndef _ODIN_VEC2_CPP
-#define _ODIN_VEC2_CPP
+#ifndef _ODIN_VEC2_CPP_
+#define _ODIN_VEC2_CPP_
 
 namespace Odin {
 
-	const Vec2 Vec2::ZERO(0.0f, 0.0f);
-	const Vec2 Vec2::UNIT_X(1.0f, 0.0f);
-	const Vec2 Vec2::UNIT_Y(0.0f, 1.0f);
-	const Vec2 Vec2::NEGATIVE_UNIT_X(-1.0f, 0.0f);
-	const Vec2 Vec2::NEGATIVE_UNIT_Y(0.0f, -1.0f);
-	const Vec2 Vec2::UNIT_SCALE(1.0f, 1.0f);
+	template <typename Type> const Vec2<Type> Vec2<Type>::ZERO(0, 0);
+	template <typename Type> const Vec2<Type> Vec2<Type>::UNIT_X(1, 0);
+	template <typename Type> const Vec2<Type> Vec2<Type>::UNIT_Y(0, 1);
+	template <typename Type> const Vec2<Type> Vec2<Type>::NEGATIVE_UNIT_X(-1, 0);
+	template <typename Type> const Vec2<Type> Vec2<Type>::NEGATIVE_UNIT_Y(0, -1);
+	template <typename Type> const Vec2<Type> Vec2<Type>::UNIT_SCALE(1, 1);
 
-	inline Vec2::Vec2(void) {
-		x = 0.0f;
-		y = 0.0f;
+	template <typename Type> inline Vec2<Type>::Vec2(void) {
+		x = 0;
+		y = 0;
 	}
 
-	inline Vec2::Vec2(float32 X) {
+	template <typename Type> inline Vec2<Type>::Vec2(Type X) {
 		x = X;
 		y = X;
 	}
 
-	inline Vec2::Vec2(float32 X, float32 Y) {
+	template <typename Type> inline Vec2<Type>::Vec2(Type X, Type Y) {
 		x = X;
 		y = Y;
 	}
 
-	inline Vec2::Vec2(const Vec2& v) {
+	template <typename Type> inline Vec2<Type>::Vec2(const Vec2<Type>& v) {
 		x = v.x;
 		y = v.y;
 	}
 
-	inline Vec2::Vec2(const Vec2&& v) {
+	template <typename Type> inline Vec2<Type>::Vec2(const Vec2<Type>&& v) {
 		x = std::move(v.x);
 		y = std::move(v.y);
 	}
 
-	inline Vec2::Vec2(const Vec3& v) {
+	template <typename Type> inline Vec2<Type>::Vec2(const Vec3<Type>& v) {
 		x = v.x;
 		y = v.y;
 	}
 
-	inline Vec2::Vec2(const Vec4& v) {
+	template <typename Type> inline Vec2<Type>::Vec2(const Vec4<Type>& v) {
 		x = v.x;
 		y = v.y;
 	}
 
-	inline Vec2::Vec2(const Color& c) {
+	template <typename Type> inline Vec2<Type>::Vec2(const Color<Type>& c) {
 		x = c.r;
 		y = c.g;
 	}
 
-	inline Vec2::~Vec2(void) {}
+	template <typename Type> inline Vec2<Type>::~Vec2(void) {}
 
-	inline Vec2& Vec2::Set(float32 X, float32 Y) {
+	template <typename Type> inline Vec2<Type>& Vec2<Type>::Set(Type X, Type Y) {
 		x = X;
 		y = Y;
 
 		return *this;
 	}
 
-	inline Vec2& Vec2::Zero(void) {
-		x = 0.0f;
-		y = 0.0f;
+	template <typename Type> inline Vec2<Type>& Vec2<Type>::Zero(void) {
+		x = 0;
+		y = 0;
 
 		return *this;
 	}
 
-	inline float32 Vec2::Dot(const Vec2& v) {
+	template <typename Type> inline Type Vec2<Type>::Dot(const Vec2<Type>& v) {
 
 		return x * v.x + y * v.y;
 	}
 
-	inline float32 Vec2::Cross(const Vec2& v) {
+	template <typename Type> inline Type Vec2<Type>::Cross(const Vec2<Type>& v) {
 
 		return x * v.y - y * v.x;
 	}
 
-	inline float32 Vec2::LengthSq(void) {
+	template <typename Type> inline Type Vec2<Type>::LengthSq(void) {
 
 		return x * x + y * y;
 	}
 
-	inline float32 Vec2::Length(void) {
-		float32 lenSq = x * x + y * y;
+	template <typename Type> inline Type Vec2<Type>::Length(void) {
+		Type lenSq = x * x + y * y;
 
-		return lenSq == 0.0f ? 0.0f : sqrtf(lenSq);
+		return lenSq == 0 ? 0 : sqrtf(lenSq);
 	}
 
-	inline float32 Vec2::Normalize(void) {
-		float32 lenSq = x * x + y * y;
+	template <typename Type> inline Type Vec2<Type>::Normalize(void) {
+		Type lenSq = x * x + y * y;
 
-		if (lenSq == 0.0f) {
-			return 0.0f;
+		if (lenSq == 0) {
+			return 0;
 		}
 
-		float32 len = sqrtf(lenSq), invLen = 1.0f / len;
+		Type len = sqrtf(lenSq), invLen = 1 / len;
 
 		x *= invLen;
 		y *= invLen;
@@ -102,16 +102,16 @@ namespace Odin {
 		return len;
 	}
 
-	inline Vec2& Vec2::Lerp(const Vec2& v, float32 t) {
+	template <typename Type> inline Vec2<Type>& Vec2<Type>::Lerp(const Vec2<Type>& v, Type t) {
 		x = Mathf.Lerp(x, v.x, t);
 		y = Mathf.Lerp(y, v.y, t);
 
 		return *this;
 	}
 
-	inline Vec2& Vec2::Min(const Vec2& v) {
-		float32 vx = v.x,
-		        vy = v.y;
+	template <typename Type> inline Vec2<Type>& Vec2<Type>::Min(const Vec2<Type>& v) {
+		Type vx = v.x,
+		     vy = v.y;
 
 		x = vx < x ? vx : x;
 		y = vy < y ? vy : y;
@@ -119,9 +119,9 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Vec2& Vec2::Max(const Vec2& v) {
-		float32 vx = v.x,
-		        vy = v.y;
+	template <typename Type> inline Vec2<Type>& Vec2<Type>::Max(const Vec2<Type>& v) {
+		Type vx = v.x,
+		     vy = v.y;
 
 		x = vx > x ? vx : x;
 		y = vy > y ? vy : y;
@@ -129,22 +129,22 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Vec2& Vec2::operator -() {
+	template <typename Type> inline Vec2<Type>& Vec2<Type>::operator -() {
 		x = -x;
 		y = -y;
 
 		return *this;
 	}
 
-	inline float32 Vec2::operator [] (int32 i) const {
+	template <typename Type> inline Type Vec2<Type>::operator [] (int32 i) const {
 		return (&x)[i];
 	}
 
-	inline float32& Vec2::operator [] (int32 i) {
+	template <typename Type> inline Type& Vec2<Type>::operator [] (int32 i) {
 		return (&x)[i];
 	}
 
-	inline Vec2 Vec2::operator *(const Mat2& m) {
+	template <typename Type> inline Vec2<Type> Vec2<Type>::operator *(const Mat2<Type>& m) {
 
 		return Vec2(
 		           x * m[0] + y * m[2],
@@ -152,8 +152,8 @@ namespace Odin {
 		       );
 	}
 
-	inline Vec2& Vec2::operator *=(const Mat2& m) {
-		float32 tx = x, ty = y;
+	template <typename Type> inline Vec2<Type>& Vec2<Type>::operator *=(const Mat2<Type>& m) {
+		Type tx = x, ty = y;
 
 		x = tx * m[0] + ty * m[2];
 		y = tx * m[1] + ty * m[3];
@@ -161,7 +161,7 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Vec2 Vec2::operator *(const Mat32& m) {
+	template <typename Type> inline Vec2<Type> Vec2<Type>::operator *(const Mat32<Type>& m) {
 
 		return Vec2(
 		           x * m[0] + y * m[2] + m[4],
@@ -169,8 +169,8 @@ namespace Odin {
 		       );
 	}
 
-	inline Vec2& Vec2::operator *=(const Mat32& m) {
-		float32 tx = x, ty = y;
+	template <typename Type> inline Vec2<Type>& Vec2<Type>::operator *=(const Mat32<Type>& m) {
+		Type tx = x, ty = y;
 
 		x = tx * m[0] + ty * m[2] + m[4];
 		y = tx * m[1] + ty * m[3] + m[5];
@@ -178,7 +178,7 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Vec2 Vec2::operator *(const Mat4& m) {
+	template <typename Type> inline Vec2<Type> Vec2<Type>::operator *(const Mat4<Type>& m) {
 
 		return Vec2(
 		           x * m[0] + y * m[4] + m[12],
@@ -186,8 +186,8 @@ namespace Odin {
 		       );
 	}
 
-	inline Vec2& Vec2::operator *=(const Mat4& m) {
-		float32 tx = x, ty = y;
+	template <typename Type> inline Vec2<Type>& Vec2<Type>::operator *=(const Mat4<Type>& m) {
+		Type tx = x, ty = y;
 
 		x = tx * m[0] + ty * m[4] + m[12];
 		y = tx * m[1] + ty * m[5] + m[13];
@@ -195,121 +195,121 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Vec2 Vec2::operator +(const Vec2& v) {
+	template <typename Type> inline Vec2<Type> Vec2<Type>::operator +(const Vec2<Type>& v) {
 
 		return Vec2(x + v.x, y + v.y);
 	}
 
-	inline Vec2 Vec2::operator -(const Vec2& v) {
+	template <typename Type> inline Vec2<Type> Vec2<Type>::operator -(const Vec2<Type>& v) {
 
 		return Vec2(x - v.x, y - v.y);
 	}
 
-	inline Vec2 Vec2::operator *(const Vec2& v) {
+	template <typename Type> inline Vec2<Type> Vec2<Type>::operator *(const Vec2<Type>& v) {
 
 		return Vec2(x * v.x, y * v.y);
 	}
 
-	inline Vec2 Vec2::operator /(const Vec2& v) {
-		float32 vx = v.x, vy = v.y;
+	template <typename Type> inline Vec2<Type> Vec2<Type>::operator /(const Vec2<Type>& v) {
+		Type vx = v.x, vy = v.y;
 
-		vx = vx != 0.0f ? 1.0f / vx : 0.0f;
-		vy = vy != 0.0f ? 1.0f / vy : 0.0f;
+		vx = vx != 0 ? 1 / vx : 0;
+		vy = vy != 0 ? 1 / vy : 0;
 
 		return Vec2(x * vx, y * vy);
 	}
 
-	inline void Vec2::operator +=(const Vec2& v) {
+	template <typename Type> inline void Vec2<Type>::operator +=(const Vec2<Type>& v) {
 		x += v.x;
 		y += v.y;
 	}
 
-	inline void Vec2::operator -=(const Vec2& v) {
+	template <typename Type> inline void Vec2<Type>::operator -=(const Vec2<Type>& v) {
 		x -= v.x;
 		y -= v.y;
 	}
 
-	inline void Vec2::operator *=(const Vec2& v) {
+	template <typename Type> inline void Vec2<Type>::operator *=(const Vec2<Type>& v) {
 		x *= v.x;
 		y *= v.y;
 	}
 
-	inline void Vec2::operator /=(const Vec2& v) {
-		float32 vx = v.x, vy = v.y;
+	template <typename Type> inline void Vec2<Type>::operator /=(const Vec2<Type>& v) {
+		Type vx = v.x, vy = v.y;
 
-		x *= vx != 0.0f ? 1.0f / vx : 0.0f;
-		y *= vy != 0.0f ? 1.0f / vy : 0.0f;
+		x *= vx != 0 ? 1 / vx : 0;
+		y *= vy != 0 ? 1 / vy : 0;
 	}
 
 
-	inline Vec2 Vec2::operator +(float32 s) {
+	template <typename Type> inline Vec2<Type> Vec2<Type>::operator +(Type s) {
 
 		return Vec2(x + s, y + s);
 	}
 
-	inline Vec2 Vec2::operator -(float32 s) {
+	template <typename Type> inline Vec2<Type> Vec2<Type>::operator -(Type s) {
 
 		return Vec2(x - s, y - s);
 	}
 
-	inline Vec2 Vec2::operator *(float32 s) {
+	template <typename Type> inline Vec2<Type> Vec2<Type>::operator *(Type s) {
 
 		return Vec2(x * s, y * s);
 	}
 
-	inline Vec2 Vec2::operator /(float32 s) {
-		float32 d = s != 0.0f ? 1.0f / s : 0.0f;
+	template <typename Type> inline Vec2<Type> Vec2<Type>::operator /(Type s) {
+		Type d = s != 0 ? 1 / s : 0;
 
 		return Vec2(x * d, y * d);
 	}
 
-	inline void Vec2::operator +=(float32 s) {
+	template <typename Type> inline void Vec2<Type>::operator +=(Type s) {
 		x += s;
 		y += s;
 	}
 
-	inline void Vec2::operator -=(float32 s) {
+	template <typename Type> inline void Vec2<Type>::operator -=(Type s) {
 		x -= s;
 		y -= s;
 	}
 
-	inline void Vec2::operator *=(float32 s) {
+	template <typename Type> inline void Vec2<Type>::operator *=(Type s) {
 		x *= s;
 		y *= s;
 	}
 
-	inline void Vec2::operator /=(float32 s) {
-		float32 d = s != 0.0f ? 1.0f / s : 0.0f;
+	template <typename Type> inline void Vec2<Type>::operator /=(Type s) {
+		Type d = s != 0 ? 1 / s : 0;
 
 		x *= d;
 		y *= d;
 	}
 
-	inline Vec2& Vec2::operator =(const Vec2& v) {
+	template <typename Type> inline Vec2<Type>& Vec2<Type>::operator =(const Vec2<Type>& v) {
 		x = v.x;
 		y = v.y;
 
 		return *this;
 	}
 
-	inline Vec2& Vec2::operator =(const Vec2 && v) {
+	template <typename Type> inline Vec2<Type>& Vec2<Type>::operator =(const Vec2<Type> && v) {
 		x = std::move(v.x);
 		y = std::move(v.y);
 
 		return *this;
 	}
 
-	inline bool Vec2::operator ==(const Vec2& v) {
+	template <typename Type> inline bool Vec2<Type>::operator ==(const Vec2<Type>& v) {
 
 		return !(x != v.x || y != v.y);
 	}
 
-	inline bool Vec2::operator !=(const Vec2& v) {
+	template <typename Type> inline bool Vec2<Type>::operator !=(const Vec2<Type>& v) {
 
 		return x != v.x || y != v.y;
 	}
 
-	inline std::string Vec2::ToString(int32 p) {
+	template <typename Type> inline std::string Vec2<Type>::ToString(int32 p) {
 
 		return "Vec2(" + util.ToString(x, p) + ", " + util.ToString(y, p) + ")";
 	}

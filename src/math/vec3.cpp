@@ -1,81 +1,81 @@
-#ifndef _ODIN_VEC3_CPP
-#define _ODIN_VEC3_CPP
+#ifndef _ODIN_VEC3_CPP_
+#define _ODIN_VEC3_CPP_
 
 namespace Odin {
 
-	const Vec3 Vec3::ZERO(0.0f, 0.0f, 0.0f);
-	const Vec3 Vec3::UNIT_X(1.0f, 0.0f, 0.0f);
-	const Vec3 Vec3::UNIT_Y(0.0f, 1.0f, 0.0f);
-	const Vec3 Vec3::UNIT_Z(0.0f, 0.0f, 1.0f);
-	const Vec3 Vec3::NEGATIVE_UNIT_X(-1.0f, 0.0f, 0.0f);
-	const Vec3 Vec3::NEGATIVE_UNIT_Y(0.0f, -1.0f, 0.0f);
-	const Vec3 Vec3::NEGATIVE_UNIT_Z(0.0f, 0.0f, -1.0f);
-	const Vec3 Vec3::UNIT_SCALE(1.0f, 1.0f, 1.0f);
+	template <typename Type> const Vec3<Type> Vec3<Type>::ZERO(0, 0, 0);
+	template <typename Type> const Vec3<Type> Vec3<Type>::UNIT_X(1, 0, 0);
+	template <typename Type> const Vec3<Type> Vec3<Type>::UNIT_Y(0, 1, 0);
+	template <typename Type> const Vec3<Type> Vec3<Type>::UNIT_Z(0, 0, 1);
+	template <typename Type> const Vec3<Type> Vec3<Type>::NEGATIVE_UNIT_X(-1, 0, 0);
+	template <typename Type> const Vec3<Type> Vec3<Type>::NEGATIVE_UNIT_Y(0, -1, 0);
+	template <typename Type> const Vec3<Type> Vec3<Type>::NEGATIVE_UNIT_Z(0, 0, -1);
+	template <typename Type> const Vec3<Type> Vec3<Type>::UNIT_SCALE(1, 1, 1);
 
-	inline Vec3::Vec3(void) {
-		x = 0.0f;
-		y = 0.0f;
-		z = 0.0f;
+	template <typename Type> inline Vec3<Type>::Vec3(void) {
+		x = 0;
+		y = 0;
+		z = 0;
 	}
 
-	inline Vec3::Vec3(float32 X) {
+	template <typename Type> inline Vec3<Type>::Vec3(Type X) {
 		x = X;
 		y = X;
 		z = X;
 	}
 
-	inline Vec3::Vec3(float32 X, float32 Y) {
+	template <typename Type> inline Vec3<Type>::Vec3(Type X, Type Y) {
 		x = X;
 		y = Y;
-		z = 0.0f;
+		z = 0;
 	}
 
-	inline Vec3::Vec3(float32 X, float32 Y, float32 Z) {
+	template <typename Type> inline Vec3<Type>::Vec3(Type X, Type Y, Type Z) {
 		x = X;
 		y = Y;
 		z = Z;
 	}
 
-	inline Vec3::Vec3(const Vec2& v) {
+	template <typename Type> inline Vec3<Type>::Vec3(const Vec2<Type>& v) {
 		x = v.x;
 		y = v.y;
-		z = 0.0f;
+		z = 0;
 	}
 
-	inline Vec3::Vec3(const Vec3& v) {
+	template <typename Type> inline Vec3<Type>::Vec3(const Vec3<Type>& v) {
 		x = v.x;
 		y = v.y;
 		z = v.z;
 	}
 
-	inline Vec3::Vec3(const Vec3&& v) {
+	template <typename Type> inline Vec3<Type>::Vec3(const Vec3<Type>&& v) {
 		x = std::move(v.x);
 		y = std::move(v.y);
 		z = std::move(v.z);
 	}
 
-	inline Vec3::Vec3(const Vec4& v) {
+	template <typename Type> inline Vec3<Type>::Vec3(const Vec4<Type>& v) {
 		x = v.x;
 		y = v.y;
 		z = v.z;
 	}
 
-	inline Vec3::Vec3(const Color& c) {
+	template <typename Type> inline Vec3<Type>::Vec3(const Color<Type>& c) {
 		x = c.r;
 		y = c.g;
 		z = c.b;
 	}
 
-	inline Vec3::~Vec3(void) {}
+	template <typename Type> inline Vec3<Type>::~Vec3(void) {}
 
-	inline Vec3& Vec3::Set(float32 X, float32 Y) {
+	template <typename Type> inline Vec3<Type>& Vec3<Type>::Set(Type X, Type Y) {
 		x = X;
 		y = Y;
 
 		return *this;
 	}
 
-	inline Vec3& Vec3::Set(float32 X, float32 Y, float32 Z) {
+	template <typename Type> inline Vec3<Type>& Vec3<Type>::Set(Type X, Type Y, Type Z) {
 		x = X;
 		y = Y;
 		z = Z;
@@ -83,20 +83,20 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Vec3& Vec3::Zero(void) {
-		x = 0.0f;
-		y = 0.0f;
-		z = 0.0f;
+	template <typename Type> inline Vec3<Type>& Vec3<Type>::Zero(void) {
+		x = 0;
+		y = 0;
+		z = 0;
 
 		return *this;
 	}
 
-	inline float32 Vec3::Dot(const Vec3 v) {
+	template <typename Type> inline Type Vec3<Type>::Dot(const Vec3<Type> v) {
 
 		return x * v.x + y * v.y + z * v.z;
 	}
 
-	inline Vec3 Vec3::Cross(const Vec3 v) {
+	template <typename Type> inline Vec3<Type> Vec3<Type>::Cross(const Vec3<Type> v) {
 
 		return Vec3(
 		           y * v.z - z * v.y,
@@ -105,25 +105,25 @@ namespace Odin {
 		       );
 	}
 
-	inline float32 Vec3::LengthSq(void) {
+	template <typename Type> inline Type Vec3<Type>::LengthSq(void) {
 
 		return x * x + y * y + z * z;
 	}
 
-	inline float32 Vec3::Length(void) {
-		float32 lenSq = x * x + y * y + z * z;
+	template <typename Type> inline Type Vec3<Type>::Length(void) {
+		Type lenSq = x * x + y * y + z * z;
 
-		return lenSq == 0.0f ? 0.0f : sqrtf(lenSq);
+		return lenSq == 0 ? 0 : sqrtf(lenSq);
 	}
 
-	inline float32 Vec3::Normalize(void) {
-		float32 lenSq = x * x + y * y + z * z;
+	template <typename Type> inline Type Vec3<Type>::Normalize(void) {
+		Type lenSq = x * x + y * y + z * z;
 
-		if (lenSq == 0.0f) {
-			return 0.0f;
+		if (lenSq == 0) {
+			return 0;
 		}
 
-		float32 len = sqrtf(lenSq), invLen = 1.0f / len;
+		Type len = sqrtf(lenSq), invLen = 1 / len;
 
 		x *= invLen;
 		y *= invLen;
@@ -132,7 +132,7 @@ namespace Odin {
 		return len;
 	}
 
-	inline Vec3& Vec3::Lerp(const Vec3& v, float32 t) {
+	template <typename Type> inline Vec3<Type>& Vec3<Type>::Lerp(const Vec3<Type>& v, Type t) {
 		x = Mathf.Lerp(x, v.x, t);
 		y = Mathf.Lerp(y, v.y, t);
 		z = Mathf.Lerp(z, v.z, t);
@@ -140,10 +140,10 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Vec3& Vec3::Min(const Vec3& v) {
-		float32 vx = v.x,
-		        vy = v.y,
-		        vz = v.z;
+	template <typename Type> inline Vec3<Type>& Vec3<Type>::Min(const Vec3<Type>& v) {
+		Type vx = v.x,
+		     vy = v.y,
+		     vz = v.z;
 
 		x = vx < x ? vx : x;
 		y = vy < y ? vy : y;
@@ -152,10 +152,10 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Vec3& Vec3::Max(const Vec3& v) {
-		float32 vx = v.x,
-		        vy = v.y,
-		        vz = v.z;
+	template <typename Type> inline Vec3<Type>& Vec3<Type>::Max(const Vec3<Type>& v) {
+		Type vx = v.x,
+		     vy = v.y,
+		     vz = v.z;
 
 		x = vx > x ? vx : x;
 		y = vy > y ? vy : y;
@@ -164,7 +164,7 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Vec3& Vec3::operator -() {
+	template <typename Type> inline Vec3<Type>& Vec3<Type>::operator -() {
 		x = -x;
 		y = -y;
 		z = -z;
@@ -172,25 +172,25 @@ namespace Odin {
 		return *this;
 	}
 
-	inline float32 Vec3::operator [] (int32 i) const {
+	template <typename Type> inline Type Vec3<Type>::operator [] (int32 i) const {
 		return (&x)[i];
 	}
 
-	inline float32& Vec3::operator [] (int32 i) {
+	template <typename Type> inline Type& Vec3<Type>::operator [] (int32 i) {
 		return (&x)[i];
 	}
 
-	inline Vec3 Vec3::operator *(const Mat2& m) {
+	template <typename Type> inline Vec3<Type> Vec3<Type>::operator *(const Mat2<Type>& m) {
 
 		return Vec3(
 		           x * m[0] + y * m[2],
 		           x * m[1] + y * m[3],
-		           0.0f
+		           0
 		       );
 	}
 
-	inline Vec3& Vec3::operator *=(const Mat2& m) {
-		float32 tx = x, ty = y;
+	template <typename Type> inline Vec3<Type>& Vec3<Type>::operator *=(const Mat2<Type>& m) {
+		Type tx = x, ty = y;
 
 		x = tx * m[0] + ty * m[2];
 		y = tx * m[1] + ty * m[3];
@@ -198,17 +198,17 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Vec3 Vec3::operator *(const Mat32& m) {
+	template <typename Type> inline Vec3<Type> Vec3<Type>::operator *(const Mat32<Type>& m) {
 
 		return Vec3(
 		           x * m[0] + y * m[2] + m[4],
 		           x * m[1] + y * m[3] + m[5],
-		           0.0f
+		           0
 		       );
 	}
 
-	inline Vec3& Vec3::operator *=(const Mat32& m) {
-		float32 tx = x, ty = y;
+	template <typename Type> inline Vec3<Type>& Vec3<Type>::operator *=(const Mat32<Type>& m) {
+		Type tx = x, ty = y;
 
 		x = tx * m[0] + ty * m[2] + m[4];
 		y = tx * m[1] + ty * m[3] + m[5];
@@ -216,7 +216,7 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Vec3 Vec3::operator *(const Mat4& m) {
+	template <typename Type> inline Vec3<Type> Vec3<Type>::operator *(const Mat4<Type>& m) {
 
 		return Vec3(
 		           x * m[0] + y * m[4] + z * m[8] + m[12],
@@ -225,8 +225,8 @@ namespace Odin {
 		       );
 	}
 
-	inline Vec3& Vec3::operator *=(const Mat4& m) {
-		float32 tx = x, ty = y, tz = z;
+	template <typename Type> inline Vec3<Type>& Vec3<Type>::operator *=(const Mat4<Type>& m) {
+		Type tx = x, ty = y, tz = z;
 
 		x = tx * m[0] + ty * m[4] + tz * m[8] + m[12];
 		y = tx * m[1] + ty * m[5] + tz * m[9] + m[13];
@@ -235,106 +235,106 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Vec3 Vec3::operator +(const Vec3& v) {
+	template <typename Type> inline Vec3<Type> Vec3<Type>::operator +(const Vec3<Type>& v) {
 
 		return Vec3(x + v.x, y + v.y, z + v.z);
 	}
 
-	inline Vec3 Vec3::operator -(const Vec3& v) {
+	template <typename Type> inline Vec3<Type> Vec3<Type>::operator -(const Vec3<Type>& v) {
 
 		return Vec3(x - v.x, y - v.y, z - v.z);
 	}
 
-	inline Vec3 Vec3::operator *(const Vec3& v) {
+	template <typename Type> inline Vec3<Type> Vec3<Type>::operator *(const Vec3<Type>& v) {
 
 		return Vec3(x * v.x, y * v.y, z * v.z);
 	}
 
-	inline Vec3 Vec3::operator /(const Vec3& v) {
-		float32 vx = v.x, vy = v.y, vz = v.y;
+	template <typename Type> inline Vec3<Type> Vec3<Type>::operator /(const Vec3<Type>& v) {
+		Type vx = v.x, vy = v.y, vz = v.y;
 
-		vx = vx != 0.0f ? 1.0f / vx : 0.0f;
-		vy = vy != 0.0f ? 1.0f / vy : 0.0f;
-		vz = vz != 0.0f ? 1.0f / vz : 0.0f;
+		vx = vx != 0 ? 1 / vx : 0;
+		vy = vy != 0 ? 1 / vy : 0;
+		vz = vz != 0 ? 1 / vz : 0;
 
 		return Vec3(x * vx, y * vy, z * vz);
 	}
 
-	inline void Vec3::operator +=(const Vec3& v) {
+	template <typename Type> inline void Vec3<Type>::operator +=(const Vec3<Type>& v) {
 		x += v.x;
 		y += v.y;
 		z += v.z;
 	}
 
-	inline void Vec3::operator -=(const Vec3& v) {
+	template <typename Type> inline void Vec3<Type>::operator -=(const Vec3<Type>& v) {
 		x -= v.x;
 		y -= v.y;
 		z -= v.z;
 	}
 
-	inline void Vec3::operator *=(const Vec3& v) {
+	template <typename Type> inline void Vec3<Type>::operator *=(const Vec3<Type>& v) {
 		x *= v.x;
 		y *= v.y;
 		z *= v.z;
 	}
 
-	inline void Vec3::operator /=(const Vec3& v) {
-		float32 vx = v.x, vy = v.y, vz = v.z;
+	template <typename Type> inline void Vec3<Type>::operator /=(const Vec3<Type>& v) {
+		Type vx = v.x, vy = v.y, vz = v.z;
 
-		x *= vx != 0.0f ? 1.0f / vx : 0.0f;
-		y *= vy != 0.0f ? 1.0f / vy : 0.0f;
-		z *= vz != 0.0f ? 1.0f / vz : 0.0f;
+		x *= vx != 0 ? 1 / vx : 0;
+		y *= vy != 0 ? 1 / vy : 0;
+		z *= vz != 0 ? 1 / vz : 0;
 	}
 
 
-	inline Vec3 Vec3::operator +(float32 s) {
+	template <typename Type> inline Vec3<Type> Vec3<Type>::operator +(Type s) {
 
 		return Vec3(x + s, y + s, z + s);
 	}
 
-	inline Vec3 Vec3::operator -(float32 s) {
+	template <typename Type> inline Vec3<Type> Vec3<Type>::operator -(Type s) {
 
 		return Vec3(x - s, y - s, z - s);
 	}
 
-	inline Vec3 Vec3::operator *(float32 s) {
+	template <typename Type> inline Vec3<Type> Vec3<Type>::operator *(Type s) {
 
 		return Vec3(x * s, y * s, z * s);
 	}
 
-	inline Vec3 Vec3::operator /(float32 s) {
-		float32 d = s != 0.0f ? 1.0f / s : 0.0f;
+	template <typename Type> inline Vec3<Type> Vec3<Type>::operator /(Type s) {
+		Type d = s != 0 ? 1 / s : 0;
 
 		return Vec3(x * d, y * d, z * d);
 	}
 
-	inline void Vec3::operator +=(float32 s) {
+	template <typename Type> inline void Vec3<Type>::operator +=(Type s) {
 		x += s;
 		y += s;
 		z += s;
 	}
 
-	inline void Vec3::operator -=(float32 s) {
+	template <typename Type> inline void Vec3<Type>::operator -=(Type s) {
 		x -= s;
 		y -= s;
 		z -= s;
 	}
 
-	inline void Vec3::operator *=(float32 s) {
+	template <typename Type> inline void Vec3<Type>::operator *=(Type s) {
 		x *= s;
 		y *= s;
 		z *= s;
 	}
 
-	inline void Vec3::operator /=(float32 s) {
-		float32 d = s != 0.0f ? 1.0f / s : 0.0f;
+	template <typename Type> inline void Vec3<Type>::operator /=(Type s) {
+		Type d = s != 0 ? 1 / s : 0;
 
 		x *= d;
 		y *= d;
 		z *= d;
 	}
 
-	inline Vec3& Vec3::operator =(const Vec3& v) {
+	template <typename Type> inline Vec3<Type>& Vec3<Type>::operator =(const Vec3<Type>& v) {
 		x = v.x;
 		y = v.y;
 		z = v.z;
@@ -342,7 +342,7 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Vec3& Vec3::operator =(const Vec3 && v) {
+	template <typename Type> inline Vec3<Type>& Vec3<Type>::operator =(const Vec3<Type> && v) {
 		x = std::move(v.x);
 		y = std::move(v.y);
 		z = std::move(v.z);
@@ -350,17 +350,17 @@ namespace Odin {
 		return *this;
 	}
 
-	inline bool Vec3::operator ==(const Vec3& v) {
+	template <typename Type> inline bool Vec3<Type>::operator ==(const Vec3<Type>& v) {
 
 		return !(x != v.x || y != v.y || z != v.z);
 	}
 
-	inline bool Vec3::operator !=(const Vec3& v) {
+	template <typename Type> inline bool Vec3<Type>::operator !=(const Vec3<Type>& v) {
 
 		return x != v.x || y != v.y || z != v.z;
 	}
 
-	inline std::string Vec3::ToString(int32 p) {
+	template <typename Type> inline std::string Vec3<Type>::ToString(int32 p) {
 
 		return "Vec3(" + util.ToString(x, p) + ", " + util.ToString(y, p) + ", " + util.ToString(z, p) + ")";
 	}

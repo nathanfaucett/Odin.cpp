@@ -1,92 +1,92 @@
-#ifndef _ODIN_VEC4_CPP
-#define _ODIN_VEC4_CPP
+#ifndef _ODIN_VEC4_CPP_
+#define _ODIN_VEC4_CPP_
 
 namespace Odin {
 
-	const Vec4 Vec4::ZERO(0.0f, 0.0f, 0.0f, 0.0f);
-	const Vec4 Vec4::UNIT_X(1.0f, 0.0f, 0.0f, 0.0f);
-	const Vec4 Vec4::UNIT_Y(0.0f, 1.0f, 0.0f, 0.0f);
-	const Vec4 Vec4::UNIT_Z(0.0f, 0.0f, 1.0f, 0.0f);
-	const Vec4 Vec4::UNIT_W(0.0f, 0.0f, 0.0f, 1.0f);
-	const Vec4 Vec4::NEGATIVE_UNIT_X(-1.0f, 0.0f, 0.0f, 0.0f);
-	const Vec4 Vec4::NEGATIVE_UNIT_Y(0.0f, -1.0f, 0.0f, 0.0f);
-	const Vec4 Vec4::NEGATIVE_UNIT_Z(0.0f, 0.0f, -1.0f, 0.0f);
-	const Vec4 Vec4::NEGATIVE_UNIT_W(0.0f, 0.0f, 0.0f, -1.0f);
-	const Vec4 Vec4::UNIT_SCALE(1.0f, 1.0f, 1.0f, 1.0f);
+	template <typename Type> const Vec4<Type> Vec4<Type>::ZERO(0, 0, 0, 0);
+	template <typename Type> const Vec4<Type> Vec4<Type>::UNIT_X(1, 0, 0, 0);
+	template <typename Type> const Vec4<Type> Vec4<Type>::UNIT_Y(0, 1, 0, 0);
+	template <typename Type> const Vec4<Type> Vec4<Type>::UNIT_Z(0, 0, 1, 0);
+	template <typename Type> const Vec4<Type> Vec4<Type>::UNIT_W(0, 0, 0, 1);
+	template <typename Type> const Vec4<Type> Vec4<Type>::NEGATIVE_UNIT_X(-1, 0, 0, 0);
+	template <typename Type> const Vec4<Type> Vec4<Type>::NEGATIVE_UNIT_Y(0, -1, 0, 0);
+	template <typename Type> const Vec4<Type> Vec4<Type>::NEGATIVE_UNIT_Z(0, 0, -1, 0);
+	template <typename Type> const Vec4<Type> Vec4<Type>::NEGATIVE_UNIT_W(0, 0, 0, -1);
+	template <typename Type> const Vec4<Type> Vec4<Type>::UNIT_SCALE(1, 1, 1, 1);
 
-	inline Vec4::Vec4(void) {
-		x = 0.0f;
-		y = 0.0f;
-		z = 0.0f;
-		w = 1.0f;
+	template <typename Type> inline Vec4<Type>::Vec4(void) {
+		x = 0;
+		y = 0;
+		z = 0;
+		w = 1;
 	}
 
-	inline Vec4::Vec4(float32 X) {
+	template <typename Type> inline Vec4<Type>::Vec4(Type X) {
 		x = X;
 		y = X;
 		z = X;
 		w = X;
 	}
 
-	inline Vec4::Vec4(float32 X, float32 Y, float32 Z) {
+	template <typename Type> inline Vec4<Type>::Vec4(Type X, Type Y, Type Z) {
 		x = X;
 		y = Y;
 		z = Z;
-		w = 1.0f;
+		w = 1;
 	}
 
-	inline Vec4::Vec4(float32 X, float32 Y, float32 Z, float32 W) {
+	template <typename Type> inline Vec4<Type>::Vec4(Type X, Type Y, Type Z, Type W) {
 		x = X;
 		y = Y;
 		z = Z;
 		w = W;
 	}
 
-	inline Vec4::Vec4(const Vec2& v) {
+	template <typename Type> inline Vec4<Type>::Vec4(const Vec2<Type>& v) {
 		x = v.x;
 		y = v.y;
-		z = 0.0f;
-		w = 1.0f;
+		z = 0;
+		w = 1;
 	}
 
-	inline Vec4::Vec4(const Vec3& v) {
+	template <typename Type> inline Vec4<Type>::Vec4(const Vec3<Type>& v) {
 		x = v.x;
 		y = v.y;
 		z = v.z;
-		w = 1.0f;
+		w = 1;
 	}
 
-	inline Vec4::Vec4(const Vec4& v) {
+	template <typename Type> inline Vec4<Type>::Vec4(const Vec4<Type>& v) {
 		x = v.x;
 		y = v.y;
 		z = v.z;
 		w = v.w;
 	}
 
-	inline Vec4::Vec4(const Vec4&& v) {
+	template <typename Type> inline Vec4<Type>::Vec4(const Vec4<Type>&& v) {
 		x = std::move(v.x);
 		y = std::move(v.y);
 		z = std::move(v.z);
 		w = std::move(v.w);
 	}
 
-	inline Vec4::Vec4(const Color& c) {
+	template <typename Type> inline Vec4<Type>::Vec4(const Color<Type>& c) {
 		x = c.r;
 		y = c.g;
 		z = c.b;
-		w = 1.0f;
+		w = 1;
 	}
 
-	inline Vec4::~Vec4(void) {}
+	template <typename Type> inline Vec4<Type>::~Vec4(void) {}
 
-	inline Vec4& Vec4::Set(float32 X, float32 Y) {
+	template <typename Type> inline Vec4<Type>& Vec4<Type>::Set(Type X, Type Y) {
 		x = X;
 		y = Y;
 
 		return *this;
 	}
 
-	inline Vec4& Vec4::Set(float32 X, float32 Y, float32 Z) {
+	template <typename Type> inline Vec4<Type>& Vec4<Type>::Set(Type X, Type Y, Type Z) {
 		x = X;
 		y = Y;
 		z = Z;
@@ -94,7 +94,7 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Vec4& Vec4::Set(float32 X, float32 Y, float32 Z, float32 W) {
+	template <typename Type> inline Vec4<Type>& Vec4<Type>::Set(Type X, Type Y, Type Z, Type W) {
 		x = X;
 		y = Y;
 		z = Z;
@@ -103,40 +103,40 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Vec4& Vec4::Zero(void) {
-		x = 0.0f;
-		y = 0.0f;
-		z = 0.0f;
-		w = 0.0f;
+	template <typename Type> inline Vec4<Type>& Vec4<Type>::Zero(void) {
+		x = 0;
+		y = 0;
+		z = 0;
+		w = 0;
 
 		return *this;
 	}
 
-	inline float32 Vec4::Dot(const Vec4 v) {
+	template <typename Type> inline Type Vec4<Type>::Dot(const Vec4<Type> v) {
 
 		return x * v.x + y * v.y + z * v.z + w * v.w;
 	}
 
-	inline float32 Vec4::LengthSq(void) {
+	template <typename Type> inline Type Vec4<Type>::LengthSq(void) {
 
 		return x * x + y * y + z * z + w * w;
 	}
 
-	inline float32 Vec4::Length(void) {
-		float32 lenSq = x * x + y * y + z * z + w * w;
+	template <typename Type> inline Type Vec4<Type>::Length(void) {
+		Type lenSq = x * x + y * y + z * z + w * w;
 
-		return lenSq == 0.0f ? 0.0f : sqrtf(lenSq);
+		return lenSq == 0 ? 0 : sqrtf(lenSq);
 	}
 
-	inline float32 Vec4::Normalize(void) {
-		float32 lenSq = x * x + y * y + z * z + w * w;
+	template <typename Type> inline Type Vec4<Type>::Normalize(void) {
+		Type lenSq = x * x + y * y + z * z + w * w;
 
-		if (lenSq == 0.0f) {
-			return 0.0f;
+		if (lenSq == 0) {
+			return 0;
 		}
 
-		float32 len = sqrtf(lenSq),
-		        invLen = 1.0f / len;
+		Type len = sqrtf(lenSq),
+		     invLen = 1 / len;
 
 		x *= invLen;
 		y *= invLen;
@@ -146,7 +146,7 @@ namespace Odin {
 		return len;
 	}
 
-	inline Vec4& Vec4::Lerp(const Vec4& v, float32 t) {
+	template <typename Type> inline Vec4<Type>& Vec4<Type>::Lerp(const Vec4<Type>& v, Type t) {
 		x = Mathf.Lerp(x, v.x, t);
 		y = Mathf.Lerp(y, v.y, t);
 		z = Mathf.Lerp(z, v.z, t);
@@ -155,11 +155,11 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Vec4& Vec4::Min(const Vec4& v) {
-		float32 vx = v.x,
-		        vy = v.y,
-		        vz = v.z,
-		        vw = v.w;
+	template <typename Type> inline Vec4<Type>& Vec4<Type>::Min(const Vec4<Type>& v) {
+		Type vx = v.x,
+		     vy = v.y,
+		     vz = v.z,
+		     vw = v.w;
 
 		x = vx < x ? vx : x;
 		y = vy < y ? vy : y;
@@ -169,11 +169,11 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Vec4& Vec4::Max(const Vec4& v) {
-		float32 vx = v.x,
-		        vy = v.y,
-		        vz = v.z,
-		        vw = v.w;
+	template <typename Type> inline Vec4<Type>& Vec4<Type>::Max(const Vec4<Type>& v) {
+		Type vx = v.x,
+		     vy = v.y,
+		     vz = v.z,
+		     vw = v.w;
 
 		x = vx > x ? vx : x;
 		y = vy > y ? vy : y;
@@ -183,7 +183,7 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Vec4& Vec4::operator -() {
+	template <typename Type> inline Vec4<Type>& Vec4<Type>::operator -() {
 		x = -x;
 		y = -y;
 		z = -z;
@@ -192,115 +192,115 @@ namespace Odin {
 		return *this;
 	}
 
-	inline float32 Vec4::operator [] (int32 i) const {
+	template <typename Type> inline Type Vec4<Type>::operator [] (int32 i) const {
 		return (&x)[i];
 	}
 
-	inline float32& Vec4::operator [] (int32 i) {
+	template <typename Type> inline Type& Vec4<Type>::operator [] (int32 i) {
 		return (&x)[i];
 	}
 
-	inline Vec4 Vec4::operator +(const Vec4& v) {
+	template <typename Type> inline Vec4<Type> Vec4<Type>::operator +(const Vec4<Type>& v) {
 
 		return Vec4(x + v.x, y + v.y, z + v.z, w + v.w);
 	}
 
-	inline Vec4 Vec4::operator -(const Vec4& v) {
+	template <typename Type> inline Vec4<Type> Vec4<Type>::operator -(const Vec4<Type>& v) {
 
 		return Vec4(x - v.x, y - v.y, z - v.z, w - v.w);
 	}
 
-	inline Vec4 Vec4::operator *(const Vec4& v) {
+	template <typename Type> inline Vec4<Type> Vec4<Type>::operator *(const Vec4<Type>& v) {
 
 		return Vec4(x * v.x, y * v.y, z * v.z, w * v.w);
 	}
 
-	inline Vec4 Vec4::operator /(const Vec4& v) {
-		float32 vx = v.x, vy = v.y, vz = v.y, vw = v.w;
+	template <typename Type> inline Vec4<Type> Vec4<Type>::operator /(const Vec4<Type>& v) {
+		Type vx = v.x, vy = v.y, vz = v.y, vw = v.w;
 
-		vx = vx != 0.0f ? 1.0f / vx : 0.0f;
-		vy = vy != 0.0f ? 1.0f / vy : 0.0f;
-		vz = vz != 0.0f ? 1.0f / vz : 0.0f;
-		vw = vw != 0.0f ? 1.0f / vw : 0.0f;
+		vx = vx != 0 ? 1 / vx : 0;
+		vy = vy != 0 ? 1 / vy : 0;
+		vz = vz != 0 ? 1 / vz : 0;
+		vw = vw != 0 ? 1 / vw : 0;
 
 		return Vec4(x * vx, y * vy, z * vz, w * vw);
 	}
 
-	inline void Vec4::operator +=(const Vec4& v) {
+	template <typename Type> inline void Vec4<Type>::operator +=(const Vec4<Type>& v) {
 		x += v.x;
 		y += v.y;
 		z += v.z;
 		w += v.w;
 	}
 
-	inline void Vec4::operator -=(const Vec4& v) {
+	template <typename Type> inline void Vec4<Type>::operator -=(const Vec4<Type>& v) {
 		x -= v.x;
 		y -= v.y;
 		z -= v.z;
 		w -= v.w;
 	}
 
-	inline void Vec4::operator *=(const Vec4& v) {
+	template <typename Type> inline void Vec4<Type>::operator *=(const Vec4<Type>& v) {
 		x *= v.x;
 		y *= v.y;
 		z *= v.z;
 		w *= v.w;
 	}
 
-	inline void Vec4::operator /=(const Vec4& v) {
-		float32 vx = v.x, vy = v.y, vz = v.z, vw = v.w;
+	template <typename Type> inline void Vec4<Type>::operator /=(const Vec4<Type>& v) {
+		Type vx = v.x, vy = v.y, vz = v.z, vw = v.w;
 
-		x *= vx != 0.0f ? 1.0f / vx : 0.0f;
-		y *= vy != 0.0f ? 1.0f / vy : 0.0f;
-		z *= vz != 0.0f ? 1.0f / vz : 0.0f;
-		w *= vw != 0.0f ? 1.0f / vw : 0.0f;
+		x *= vx != 0 ? 1 / vx : 0;
+		y *= vy != 0 ? 1 / vy : 0;
+		z *= vz != 0 ? 1 / vz : 0;
+		w *= vw != 0 ? 1 / vw : 0;
 	}
 
 
-	inline Vec4 Vec4::operator +(float32 s) {
+	template <typename Type> inline Vec4<Type> Vec4<Type>::operator +(Type s) {
 
 		return Vec4(x + s, y + s, z + s, w + s);
 	}
 
-	inline Vec4 Vec4::operator -(float32 s) {
+	template <typename Type> inline Vec4<Type> Vec4<Type>::operator -(Type s) {
 
 		return Vec4(x - s, y - s, z - s, w - s);
 	}
 
-	inline Vec4 Vec4::operator *(float32 s) {
+	template <typename Type> inline Vec4<Type> Vec4<Type>::operator *(Type s) {
 
 		return Vec4(x * s, y * s, z * s, w * s);
 	}
 
-	inline Vec4 Vec4::operator /(float32 s) {
-		float32 d = s != 0.0f ? 1.0f / s : 0.0f;
+	template <typename Type> inline Vec4<Type> Vec4<Type>::operator /(Type s) {
+		Type d = s != 0 ? 1 / s : 0;
 
 		return Vec4(x * d, y * d, z * d, w * d);
 	}
 
-	inline void Vec4::operator +=(float32 s) {
+	template <typename Type> inline void Vec4<Type>::operator +=(Type s) {
 		x += s;
 		y += s;
 		z += s;
 		w += s;
 	}
 
-	inline void Vec4::operator -=(float32 s) {
+	template <typename Type> inline void Vec4<Type>::operator -=(Type s) {
 		x -= s;
 		y -= s;
 		z -= s;
 		w -= s;
 	}
 
-	inline void Vec4::operator *=(float32 s) {
+	template <typename Type> inline void Vec4<Type>::operator *=(Type s) {
 		x *= s;
 		y *= s;
 		z *= s;
 		w *= s;
 	}
 
-	inline void Vec4::operator /=(float32 s) {
-		float32 d = s != 0.0f ? 1.0f / s : 0.0f;
+	template <typename Type> inline void Vec4<Type>::operator /=(Type s) {
+		Type d = s != 0 ? 1 / s : 0;
 
 		x *= d;
 		y *= d;
@@ -308,7 +308,7 @@ namespace Odin {
 		w *= d;
 	}
 
-	inline Vec4& Vec4::operator =(const Vec4& v) {
+	template <typename Type> inline Vec4<Type>& Vec4<Type>::operator =(const Vec4<Type>& v) {
 		x = v.x;
 		y = v.y;
 		z = v.z;
@@ -317,7 +317,7 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Vec4& Vec4::operator =(const Vec4 && v) {
+	template <typename Type> inline Vec4<Type>& Vec4<Type>::operator =(const Vec4<Type> && v) {
 		x = std::move(v.x);
 		y = std::move(v.y);
 		z = std::move(v.z);
@@ -326,17 +326,17 @@ namespace Odin {
 		return *this;
 	}
 
-	inline bool Vec4::operator ==(const Vec4& v) {
+	template <typename Type> inline bool Vec4<Type>::operator ==(const Vec4<Type>& v) {
 
 		return !(x != v.x || y != v.y || z != v.z || w != v.w);
 	}
 
-	inline bool Vec4::operator !=(const Vec4& v) {
+	template <typename Type> inline bool Vec4<Type>::operator !=(const Vec4<Type>& v) {
 
 		return x != v.x || y != v.y || z != v.z || w != v.w;
 	}
 
-	inline std::string Vec4::ToString(int32 p) {
+	template <typename Type> inline std::string Vec4<Type>::ToString(int32 p) {
 
 		return "Vec4(" + util.ToString(x, p) + ", " + util.ToString(y, p) + ", " + util.ToString(z, p) + ", " + util.ToString(w, p) + ")";
 	}

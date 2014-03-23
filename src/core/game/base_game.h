@@ -1,9 +1,9 @@
-#ifndef _ODIN_BASE_GAME_H
-#define _ODIN_BASE_GAME_H
+#ifndef _ODIN_BASE_GAME_H_
+#define _ODIN_BASE_GAME_H_
 
 namespace Odin {
 
-	class BaseGame {
+	class BaseGame : public Object {
 
 		private:
 			int32 m_quit;
@@ -19,6 +19,7 @@ namespace Odin {
 			inline void m_Deconstructor(void);
 
 		public:
+			Renderer renderer;
 
 			inline BaseGame(void);
 			inline ~BaseGame(void);

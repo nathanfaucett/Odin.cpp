@@ -1,44 +1,44 @@
-#ifndef _ODIN_VEC2_H
-#define _ODIN_VEC2_H
+#ifndef _ODIN_VEC2_H_
+#define _ODIN_VEC2_H_
 
 namespace Odin {
 
-	class Vec2 {
+	template <typename Type> class Vec2 {
 
 		public:
 
-			float32 x;
-			float32 y;
+			Type x;
+			Type y;
 
 			inline explicit Vec2(void);
-			inline explicit Vec2(float32 X);
-			inline explicit Vec2(float32 X, float32 Y);
-			inline Vec2(const Vec2& v);
-			inline Vec2(const Vec2&& v);
-			inline Vec2(const Vec3& v);
-			inline Vec2(const Vec4& v);
-			inline Vec2(const Color& v);
+			inline explicit Vec2(Type X);
+			inline explicit Vec2(Type X, Type Y);
+			inline Vec2(const Vec2<Type>& v);
+			inline Vec2(const Vec2<Type>&& v);
+			inline Vec2(const Vec3<Type>& v);
+			inline Vec2(const Vec4<Type>& v);
+			inline Vec2(const Color<Type>& v);
 			inline ~Vec2(void);
 
-			inline Vec2& Set(float32 X, float32 Y);
-			inline Vec2& Zero(void);
+			inline Vec2<Type>& Set(Type X, Type Y);
+			inline Vec2<Type>& Zero(void);
 
-			inline float32 Dot(const Vec2& v);
-			inline float32 Cross(const Vec2& v);
-			inline float32 LengthSq(void);
-			inline float32 Length(void);
-			inline float32 Normalize(void);
+			inline Type Dot(const Vec2<Type>& v);
+			inline Type Cross(const Vec2<Type>& v);
+			inline Type LengthSq(void);
+			inline Type Length(void);
+			inline Type Normalize(void);
 
-			inline Vec2& Lerp(const Vec2& v, float32 t);
+			inline Vec2<Type>& Lerp(const Vec2<Type>& v, Type t);
 
-			inline Vec2& Min(const Vec2& v);
-			inline Vec2& Max(const Vec2& v);
+			inline Vec2<Type>& Min(const Vec2<Type>& v);
+			inline Vec2<Type>& Max(const Vec2<Type>& v);
 
-			inline static Vec2 Min(const Vec2& a, const Vec2& b) {
-				float32 ax = a.x,
-				        ay = a.y,
-				        bx = b.x,
-				        by = b.y;
+			inline static Vec2<Type> Min(const Vec2<Type>& a, const Vec2<Type>& b) {
+				Type ax = a.x,
+				     ay = a.y,
+				     bx = b.x,
+				     by = b.y;
 
 				return Vec2(
 				           bx < ax ? bx : ax,
@@ -46,11 +46,11 @@ namespace Odin {
 				       );
 			}
 
-			inline static Vec2 Max(const Vec2& a, const Vec2& b) {
-				float32 ax = a.x,
-				        ay = a.y,
-				        bx = b.x,
-				        by = b.y;
+			inline static Vec2<Type> Max(const Vec2<Type>& a, const Vec2<Type>& b) {
+				Type ax = a.x,
+				     ay = a.y,
+				     bx = b.x,
+				     by = b.y;
 
 				return Vec2(
 				           bx > ax ? bx : ax,
@@ -58,7 +58,7 @@ namespace Odin {
 				       );
 			}
 
-			inline static Vec2 Lerp(const Vec2& a, const Vec2& b, float32 t) {
+			inline static Vec2<Type> Lerp(const Vec2<Type>& a, const Vec2<Type>& b, Type t) {
 
 				return Vec2(
 				           Mathf.Lerp(a.x, b.x, t),
@@ -66,62 +66,62 @@ namespace Odin {
 				       );
 			}
 
-			inline static float32 Dot(const Vec2& a, const Vec2& b) {
+			inline static Type Dot(const Vec2<Type>& a, const Vec2<Type>& b) {
 
 				return a.x * b.x + a.y * b.y;
 			}
 
-			inline static float32 Cross(const Vec2& a, const Vec2& b) {
+			inline static Type Cross(const Vec2<Type>& a, const Vec2<Type>& b) {
 
 				return a.x * b.y - a.y * b.x;
 			}
 
-			static const Vec2 ZERO;
-			static const Vec2 UNIT_X;
-			static const Vec2 UNIT_Y;
-			static const Vec2 NEGATIVE_UNIT_X;
-			static const Vec2 NEGATIVE_UNIT_Y;
-			static const Vec2 UNIT_SCALE;
+			static const Vec2<Type> ZERO;
+			static const Vec2<Type> UNIT_X;
+			static const Vec2<Type> UNIT_Y;
+			static const Vec2<Type> NEGATIVE_UNIT_X;
+			static const Vec2<Type> NEGATIVE_UNIT_Y;
+			static const Vec2<Type> UNIT_SCALE;
 
-			inline Vec2& operator -();
+			inline Vec2<Type>& operator -();
 
-			inline float32 operator [] (int32 i) const;
-			inline float32& operator [] (int32 i);
+			inline Type operator [] (int32 i) const;
+			inline Type& operator [] (int32 i);
 
-			inline Vec2 operator *(const Mat2& m);
-			inline Vec2& operator *=(const Mat2& m);
+			inline Vec2<Type> operator *(const Mat2<Type>& m);
+			inline Vec2<Type>& operator *=(const Mat2<Type>& m);
 
-			inline Vec2 operator *(const Mat32& m);
-			inline Vec2& operator *=(const Mat32& m);
+			inline Vec2<Type> operator *(const Mat32<Type>& m);
+			inline Vec2<Type>& operator *=(const Mat32<Type>& m);
 
-			inline Vec2 operator *(const Mat4& m);
-			inline Vec2& operator *=(const Mat4& m);
+			inline Vec2<Type> operator *(const Mat4<Type>& m);
+			inline Vec2<Type>& operator *=(const Mat4<Type>& m);
 
-			inline Vec2 operator +(const Vec2& v);
-			inline Vec2 operator -(const Vec2& v);
-			inline Vec2 operator *(const Vec2& v);
-			inline Vec2 operator /(const Vec2& v);
+			inline Vec2<Type> operator +(const Vec2<Type>& v);
+			inline Vec2<Type> operator -(const Vec2<Type>& v);
+			inline Vec2<Type> operator *(const Vec2<Type>& v);
+			inline Vec2<Type> operator /(const Vec2<Type>& v);
 
-			inline void operator +=(const Vec2& v);
-			inline void operator -=(const Vec2& v);
-			inline void operator *=(const Vec2& v);
-			inline void operator /=(const Vec2& v);
+			inline void operator +=(const Vec2<Type>& v);
+			inline void operator -=(const Vec2<Type>& v);
+			inline void operator *=(const Vec2<Type>& v);
+			inline void operator /=(const Vec2<Type>& v);
 
-			inline Vec2 operator +(float32 s);
-			inline Vec2 operator -(float32 s);
-			inline Vec2 operator *(float32 s);
-			inline Vec2 operator /(float32 s);
+			inline Vec2<Type> operator +(Type s);
+			inline Vec2<Type> operator -(Type s);
+			inline Vec2<Type> operator *(Type s);
+			inline Vec2<Type> operator /(Type s);
 
-			inline void operator +=(float32 s);
-			inline void operator -=(float32 s);
-			inline void operator *=(float32 s);
-			inline void operator /=(float32 s);
+			inline void operator +=(Type s);
+			inline void operator -=(Type s);
+			inline void operator *=(Type s);
+			inline void operator /=(Type s);
 
-			inline Vec2& operator =(const Vec2& q);
-			inline Vec2& operator =(const Vec2 && q);
+			inline Vec2<Type>& operator =(const Vec2<Type>& q);
+			inline Vec2<Type>& operator =(const Vec2<Type> && q);
 
-			inline bool operator ==(const Vec2& v);
-			inline bool operator !=(const Vec2& v);
+			inline bool operator ==(const Vec2<Type>& v);
+			inline bool operator !=(const Vec2<Type>& v);
 
 			inline std::string ToString(int32 p = 5);
 	};
