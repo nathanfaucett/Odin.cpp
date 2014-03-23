@@ -26,8 +26,8 @@ namespace Odin {
 			inline virtual void p_Sort(void);
 
 		public:
-			inline Component(void);
-			inline ~Component(void);
+			inline Component(void) = 0;
+			inline ~Component(void) = 0;
 
 			inline GameObject* GetGameObject(void);
 			inline Scene* GetScene(void);
