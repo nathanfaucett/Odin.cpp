@@ -1,10 +1,11 @@
-#ifndef _ODIN_COMPONENT_H_
-#define _ODIN_COMPONENT_H_
+#ifndef ODIN_COMPONENT_H
+#define ODIN_COMPONENT_H
 
 namespace Odin {
 
 	class Scene;
 	class GameObject;
+	class Renderer;
 
 	class Component : public Object {
 
@@ -26,11 +27,20 @@ namespace Odin {
 			inline virtual void p_Sort(void);
 
 		public:
-			inline Component(void) = 0;
-			inline ~Component(void) = 0;
+			inline Component(void);
+			inline Component(std::string Name);
+			inline Component(const Component& other);
+			inline Component(const Component&& other);
+			inline ~Component(void);
 
+			inline virtual Component& Copy(const Component& other);
+			inline virtual Component& Move(const Component&& other);
+			
 			inline GameObject* GetGameObject(void);
 			inline Scene* GetScene(void);
+			
+			inline Component& operator =(const Component& other);
+			inline Component& operator =(const Component&& other);
 	};
 }
 

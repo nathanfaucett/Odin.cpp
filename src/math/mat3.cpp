@@ -1,5 +1,5 @@
-#ifndef _ODIN_MAT3_CPP_
-#define _ODIN_MAT3_CPP_
+#ifndef ODIN_MAT3_CPP
+#define ODIN_MAT3_CPP
 
 namespace Odin {
 
@@ -482,9 +482,9 @@ namespace Odin {
 
 		return (
 		           "Mat3[\n"
-		           "  " + util.ToString(m_mat[0], p) + ", " + util.ToString(m_mat[3], p) + ", " + util.ToString(m_mat[6], p) + ",\n" +
-		           "  " + util.ToString(m_mat[1], p) + ", " + util.ToString(m_mat[4], p) + ", " + util.ToString(m_mat[7], p) + ",\n" +
-		           "  " + util.ToString(m_mat[2], p) + ", " + util.ToString(m_mat[5], p) + ", " + util.ToString(m_mat[8], p) + "\n" +
+		           "  " + Util.ToString(m_mat[0], p) + ", " + Util.ToString(m_mat[3], p) + ", " + Util.ToString(m_mat[6], p) + ",\n" +
+		           "  " + Util.ToString(m_mat[1], p) + ", " + Util.ToString(m_mat[4], p) + ", " + Util.ToString(m_mat[7], p) + ",\n" +
+		           "  " + Util.ToString(m_mat[2], p) + ", " + Util.ToString(m_mat[5], p) + ", " + Util.ToString(m_mat[8], p) + "\n" +
 		           "]"
 		       );
 	}
@@ -500,7 +500,10 @@ namespace Odin {
 
 		     det = m11 * m0 + m21 * m3 + m31 * m6;
 
-		det = det != 0 ? 1 / det : 1;
+		if (det == 0) {
+			return out.identity();
+		}
+		det = 1 / det;
 
 		out.m_mat[0] = m0 * det;
 		out.m_mat[1] = (m23 * m31 - m21 * m33) * det;

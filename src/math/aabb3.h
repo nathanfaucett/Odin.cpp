@@ -1,5 +1,5 @@
-#ifndef _ODIN_AABB3_H_
-#define _ODIN_AABB3_H_
+#ifndef ODIN_AABB3_H
+#define ODIN_AABB3_H
 
 
 namespace Odin {

@@ -1,5 +1,4 @@
-#include <iostream>
-#include "src/odin.hpp"
+#include "src/odin.cpp"
 using namespace Odin;
 
 
@@ -9,30 +8,28 @@ int main (int argc, char* argv[]) {
 
 	Init();
 
+	Game game;
 	Scene* scene = new Scene();
-
-	GameObject* camera = new GameObject();
-	GameObject* object = new GameObject();
-
-	scene->AddGameObject(object);
-	scene->AddGameObject(camera);
-
-	camera->AddComponent(new Transform());
-	camera->AddComponent(new Camera());
 	
-	object->AddComponent(new Transform());
+	GameObject* camera = new GameObject();
+	camera->AddComponent(new Transform);
+	camera->AddComponent(new Camera);
+	
+	GameObject* sprite = new GameObject();
+	camera->AddComponent(new Transform);
+	camera->AddComponent(new Sprite);
+	
+	scene->AddGameObject(camera);
+	scene->AddGameObject(sprite);
 
-	scene->Update();
+	game.SetScene(scene);
+	game.SetCamera(camera);
 
-	Transform* transform = camera->GetComponent<Transform>();
-	transform->position.Set(10.0f, 5.0f, 7.0f);
-	transform->rotation.Rotate(10.0f, 5.0f, 7.0f);
-
-	scene->Update();
-
-	std::cout << transform->GetDepth() << std::endl;
-
-	std::cout << transform->matrixWorld.ToString() << std::endl;
-
+	game.Update();
+	game.Render();
+	
+	Clear();
+	
+	std::cout << "END" << std::endl;
 	return 0;
 }

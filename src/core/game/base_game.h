@@ -1,28 +1,29 @@
-#ifndef _ODIN_BASE_GAME_H_
-#define _ODIN_BASE_GAME_H_
+#ifndef ODIN_BASE_GAME_H
+#define ODIN_BASE_GAME_H
 
 namespace Odin {
 
 	class BaseGame : public Object {
 
 		private:
-			int32 m_quit;
-			uint32 m_width, m_height;
-			std::string m_name;
 
-			sf::Window m_window;
-
-			inline void m_Init(void);
-			inline void m_InitGL(void);
-			inline void m_Update(void);
-
-			inline void m_Deconstructor(void);
+		protected:
+			inline virtual void p_Init(void);
+			inline virtual void p_Update(void);
+			inline virtual void p_Clear(void);
 
 		public:
-			Renderer renderer;
-
 			inline BaseGame(void);
+			inline BaseGame(std::string Name);
+			inline BaseGame(const BaseGame& other);
+			inline BaseGame(const BaseGame&& other);
 			inline ~BaseGame(void);
+
+			inline virtual BaseGame& Copy(const BaseGame& other);
+			inline virtual BaseGame& Move(const BaseGame&& other);
+			
+			inline BaseGame& operator =(const BaseGame& other);
+			inline BaseGame& operator =(const BaseGame&& other);
 	};
 }
 

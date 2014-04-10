@@ -1,5 +1,5 @@
-#ifndef _ODIN_MAT4_CPP_
-#define _ODIN_MAT4_CPP_
+#ifndef ODIN_MAT4_CPP
+#define ODIN_MAT4_CPP
 
 namespace Odin {
 
@@ -132,6 +132,7 @@ namespace Odin {
 		if (det == 0) {
 			return Identity();
 		}
+		det = 1 / det;
 
 		m_mat[0] = me0 * det;
 		m_mat[4] = me4 * det;
@@ -169,6 +170,7 @@ namespace Odin {
 		if (det == 0) {
 			return Identity();
 		}
+		det = 1 / det;
 
 		m_mat[0] = me0 * det;
 		m_mat[4] = me4 * det;
@@ -206,6 +208,7 @@ namespace Odin {
 		if (det == 0) {
 			return Identity();
 		}
+		det = 1 / det;
 
 		m_mat[0] = me0 * det;
 		m_mat[4] = me4 * det;
@@ -932,10 +935,10 @@ namespace Odin {
 
 		return (
 		           "Mat4[\n"
-		           "  " + util.ToString(m_mat[0], p) + ", " + util.ToString(m_mat[4], p) + ", " + util.ToString(m_mat[8], p) + ", " + util.ToString(m_mat[12], p) + ",\n" +
-		           "  " + util.ToString(m_mat[1], p) + ", " + util.ToString(m_mat[5], p) + ", " + util.ToString(m_mat[9], p) + ", " + util.ToString(m_mat[13], p) + ",\n" +
-		           "  " + util.ToString(m_mat[2], p) + ", " + util.ToString(m_mat[6], p) + ", " + util.ToString(m_mat[10], p) + ", " + util.ToString(m_mat[14], p) + ",\n" +
-		           "  " + util.ToString(m_mat[3], p) + ", " + util.ToString(m_mat[7], p) + ", " + util.ToString(m_mat[11], p) + ", " + util.ToString(m_mat[15], p) + "\n"
+		           "  " + Util.ToString(m_mat[0], p) + ", " + Util.ToString(m_mat[4], p) + ", " + Util.ToString(m_mat[8], p) + ", " + Util.ToString(m_mat[12], p) + ",\n" +
+		           "  " + Util.ToString(m_mat[1], p) + ", " + Util.ToString(m_mat[5], p) + ", " + Util.ToString(m_mat[9], p) + ", " + Util.ToString(m_mat[13], p) + ",\n" +
+		           "  " + Util.ToString(m_mat[2], p) + ", " + Util.ToString(m_mat[6], p) + ", " + Util.ToString(m_mat[10], p) + ", " + Util.ToString(m_mat[14], p) + ",\n" +
+		           "  " + Util.ToString(m_mat[3], p) + ", " + Util.ToString(m_mat[7], p) + ", " + Util.ToString(m_mat[11], p) + ", " + Util.ToString(m_mat[15], p) + "\n"
 		           "]"
 		       );
 	}
@@ -955,7 +958,8 @@ namespace Odin {
 
 		if (det == 0) {
 			return out.Identity();
-		}
+		} 
+		det = 1 / det;
 
 		out.m_mat[0] = me0 * det;
 		out.m_mat[4] = me4 * det;

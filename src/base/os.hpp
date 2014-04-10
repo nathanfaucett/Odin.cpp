@@ -1,5 +1,5 @@
-#ifndef _ODIN_OS_HPP_
-#define _ODIN_OS_HPP_
+#ifndef ODIN_OS_HPP
+#define ODIN_OS_HPP
 
 namespace Odin {
 #if defined(__WINDOWS__) || defined(_WIN32) || defined(__WIN32__)

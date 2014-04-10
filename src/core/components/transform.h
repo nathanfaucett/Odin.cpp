@@ -1,5 +1,5 @@
-#ifndef _ODIN_TRANSFORM_H_
-#define _ODIN_TRANSFORM_H_
+#ifndef ODIN_TRANSFORM_H
+#define ODIN_TRANSFORM_H
 
 namespace Odin {
 
@@ -10,8 +10,7 @@ namespace Odin {
 			Transform* m_parent;
 			Transform* m_root;
 			Array<Transform*> m_children;
-
-			bool m_matricesNeedsUpdate;
+			uint32 m_childCount;
 
 			inline void m_UpdateDepth(Transform* transform, int32 index);
 
@@ -25,24 +24,31 @@ namespace Odin {
 			inline void p_Sort(void);
 
 		public:
-			Vec3f position;
+			Vec3f position, scale;
 			Quatf rotation;
-			Vec3f scale;
 
-			Mat4f matrix;
-			Mat4f matrixWorld;
-			Mat4f modelView;
+			Mat4f matrix, matrixWorld, modelView;
 			Mat3f normalMatrix;
 
 			inline Transform(void);
+			inline Transform(std::string Name);
+			inline Transform(const Transform& other);
+			inline Transform(const Transform&& other);
 			inline ~Transform(void);
+
+			inline virtual Transform& Copy(const Transform& other);
+			inline virtual Transform& Move(const Transform&& other);
 
 			inline void UpdateMatrices(const Mat4f& viewMatrix);
 
 			inline int32 GetDepth(void);
+			inline uint32 GetChildCount(void);
 
 			inline Transform& AddChild(Transform* child);
 			inline Transform& RemoveChild(Transform* child);
+			
+			inline Transform& operator =(const Transform& other);
+			inline Transform& operator =(const Transform&& other);
 	};
 }
 

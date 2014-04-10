@@ -1,5 +1,5 @@
-#ifndef _ODIN_COLOR_CPP_
-#define _ODIN_COLOR_CPP_
+#ifndef ODIN_COLOR_CPP
+#define ODIN_COLOR_CPP
 
 
 namespace Odin {
@@ -269,7 +269,7 @@ namespace Odin {
 
 	template <typename Type> inline std::string Color<Type>::ToString(int32 p) {
 
-		return "Color(" + util.ToString(r, p) + ", " + util.ToString(g, p) + ", " + util.ToString(b, p) + ")";
+		return "Color(" + Util.ToString(r, p) + ", " + Util.ToString(g, p) + ", " + Util.ToString(b, p) + ")";
 	}
 }
 

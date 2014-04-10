@@ -1,5 +1,5 @@
-#ifndef _ODIN_AABB2_CPP_
-#define _ODIN_AABB2_CPP_
+#ifndef ODIN_AABB2_CPP
+#define ODIN_AABB2_CPP
 
 
 namespace Odin {

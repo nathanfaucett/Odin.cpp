@@ -1,5 +1,5 @@
-#ifndef _ODIN_VEC4_CPP_
-#define _ODIN_VEC4_CPP_
+#ifndef ODIN_VEC4_CPP
+#define ODIN_VEC4_CPP
 
 namespace Odin {
 
@@ -338,7 +338,7 @@ namespace Odin {
 
 	template <typename Type> inline std::string Vec4<Type>::ToString(int32 p) {
 
-		return "Vec4(" + util.ToString(x, p) + ", " + util.ToString(y, p) + ", " + util.ToString(z, p) + ", " + util.ToString(w, p) + ")";
+		return "Vec4(" + Util.ToString(x, p) + ", " + Util.ToString(y, p) + ", " + Util.ToString(z, p) + ", " + Util.ToString(w, p) + ")";
 	}
 };
 

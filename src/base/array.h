@@ -1,5 +1,5 @@
-#ifndef _ODIN_ARRAY_H_
-#define _ODIN_ARRAY_H_
+#ifndef ODIN_ARRAY_H
+#define ODIN_ARRAY_H
 
 namespace Odin {
 

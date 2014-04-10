@@ -1,56 +1,58 @@
-#ifndef _ODIN_BASE_GAME_CPP_
-#define _ODIN_BASE_GAME_CPP_
+#ifndef ODIN_BASE_GAME_CPP
+#define ODIN_BASE_GAME_CPP
 
 namespace Odin {
 
-	inline void BaseGame::m_Init(void) {
+	inline void BaseGame::p_Init(void) {
 
-		m_window.Create(sf::VideoMode(m_width, m_height, 32), m_name);
-		m_window.SetActive();
-
-		renderer.Init();
-
-		while (m_window.IsOpened()) {
-			sf::Event event;
-
-			while (m_window.GetEvent(event)) {
-
-				if (event.Type == sf::Event::Closed) {
-					m_window.Close();
-
-				} else if (event.Type == sf::Event::Resized) {
-					glViewport(0, 0, event.Size.Width, event.Size.Height);
-				}
-			}
-
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-			m_window.Display();
-
-			m_Update();
-		}
 	}
 
-	inline void BaseGame::m_Update(void) {
+	inline void BaseGame::p_Update(void) {
 		Time.Update();
-
-		renderer.Render();
 	}
 
-	inline void BaseGame::m_Deconstructor(void) {
+	inline void BaseGame::p_Clear(void) {
 
 	}
 
-	inline BaseGame::BaseGame(void) : Object() {
-		m_width = 960;
-		m_height = 640;
-		m_name = "Odin Window";
+	inline BaseGame::BaseGame(void) : Object("Odin") {
+		p_Init();
+	}
 
-		m_Init();
+	inline BaseGame::BaseGame(std::string Name) : Object(Name) {
+		p_Init();
+	}
+
+	inline BaseGame::BaseGame(const BaseGame& other) : Object() {
+		Copy(other);
+	}
+	
+	inline BaseGame::BaseGame(const BaseGame&& other) : Object() {
+		Move(std::move(other));
 	}
 
 	inline BaseGame::~BaseGame(void) {
-		m_Deconstructor();
+		p_Clear();
+	}
+
+	inline BaseGame& BaseGame::Copy(const BaseGame& other) {
+		Object::Copy(static_cast<Object>(other));
+		
+		return *this;
+	}
+
+	inline BaseGame& BaseGame::Move(const BaseGame&& other) {
+		Object::Move(std::move(static_cast<Object>(other)));
+		
+		return *this;
+	}
+
+	inline BaseGame& BaseGame::operator =(const BaseGame& other) {
+		return Copy(other);
+	}
+	
+	inline BaseGame& BaseGame::operator =(const BaseGame&& other) {
+		return Move(std::move(other));
 	}
 }
 

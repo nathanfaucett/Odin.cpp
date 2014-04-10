@@ -1,5 +1,5 @@
-#ifndef _ODIN_GAME_OBJECT_H_
-#define _ODIN_GAME_OBJECT_H_
+#ifndef ODIN_GAME_OBJECT_H
+#define ODIN_GAME_OBJECT_H
 
 namespace Odin {
 
@@ -18,8 +18,13 @@ namespace Odin {
 
 		public:
 			inline GameObject(void);
+			inline GameObject(const GameObject& other);
+			inline GameObject(const GameObject&& other);
 			inline GameObject(std::string Name);
 			inline ~GameObject(void);
+			
+			inline virtual GameObject& Copy(const GameObject& other);
+			inline virtual GameObject& Move(const GameObject&& other);
 
 			inline void Destroy(void);
 			inline Scene* GetScene(void);
@@ -28,6 +33,9 @@ namespace Odin {
 			inline GameObject& RemoveComponent(Component* component);
 
 			template <typename Type>inline Type* GetComponent(void);
+			
+			inline GameObject& operator =(const GameObject& other);
+			inline GameObject& operator =(const GameObject&& other);
 	};
 }
 

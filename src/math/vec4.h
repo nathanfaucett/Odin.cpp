@@ -1,5 +1,5 @@
-#ifndef _ODIN_VEC4_H_
-#define _ODIN_VEC4_H_
+#ifndef ODIN_VEC4_H
+#define ODIN_VEC4_H
 
 namespace Odin {
 
@@ -20,7 +20,7 @@ namespace Odin {
 			inline Vec4(const Vec3<Type>& v);
 			inline Vec4(const Vec4<Type>& v);
 			inline Vec4(const Vec4<Type>&& v);
-			inline Vec4(const Color<Type>& v);
+			inline Vec4(const Color<Type>& c);
 			inline ~Vec4(void);
 
 			inline Vec4<Type>& Set(Type X, Type Y);

@@ -1,5 +1,5 @@
-#ifndef _ODIN_MAT4_H_
-#define _ODIN_MAT4_H_
+#ifndef ODIN_MAT4_H
+#define ODIN_MAT4_H
 
 namespace Odin {
 

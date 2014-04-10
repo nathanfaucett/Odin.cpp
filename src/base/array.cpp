@@ -1,5 +1,5 @@
-#ifndef _ODIN_ARRAY_CPP_
-#define _ODIN_ARRAY_CPP_
+#ifndef ODIN_ARRAY_CPP
+#define ODIN_ARRAY_CPP
 
 namespace Odin {
 
@@ -136,8 +136,8 @@ namespace Odin {
 			array[i] = m_array[i];
 		}
 
-		delete []m_array;
 		array[length] = item;
+		delete []m_array;
 		m_array = array;
 	}
 
@@ -151,14 +151,15 @@ namespace Odin {
 			array[i] = m_array[j++];
 		}
 
-		delete []m_array;
 		array[0] = item;
+		delete []m_array;
 		m_array = array;
 	}
 
 	template <typename Type> inline Type Array<Type>::Pop(void) {
 		uint32 length = m_length - 1,
 		       i;
+
 		Type item = m_array[m_length];
 
 		m_length = length;
@@ -177,6 +178,7 @@ namespace Odin {
 	template <typename Type> inline Type Array<Type>::Shift(void) {
 		uint32 length = m_length - 1,
 		       i = 1, j = 0;
+
 		Type item = m_array[0];
 
 		m_length = length;
@@ -219,10 +221,10 @@ namespace Odin {
 		m_QuickSort(sortFunction, 0, m_length - 1);
 	}
 
-	template <typename Type> inline void Array<Type>::ForEach(std::function<bool(const Type& item, int32 index)> sortFunction) {
+	template <typename Type> inline void Array<Type>::ForEach(std::function<bool(const Type& item, int32 index)> func) {
 
 		for (uint32 i = 0, il = m_length; i < il; i++) {
-			if (sortFunction(m_array[i], i) == false) {
+			if (func(m_array[i], i) == false) {
 				break;
 			}
 		}

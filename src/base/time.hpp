@@ -1,5 +1,5 @@
-#ifndef _ODIN_TIME_HPP_
-#define _ODIN_TIME_HPP_
+#ifndef ODIN_TIME_HPP
+#define ODIN_TIME_HPP
 
 namespace Odin {
 
@@ -76,9 +76,7 @@ namespace Odin {
 
 				return m_Stamp();
 			}
-	};
-
-	Time Time;
+	} Time;
 }
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef _ODIN_MAT2_CPP_
-#define _ODIN_MAT2_CPP_
+#ifndef ODIN_MAT2_CPP
+#define ODIN_MAT2_CPP
 
 namespace Odin {
 
@@ -59,7 +59,6 @@ namespace Odin {
 		if (det == 0) {
 			return Identity();
 		}
-
 		det = 1 / det;
 
 		m_mat[0] = a22 * det;
@@ -80,7 +79,6 @@ namespace Odin {
 		if (det == 0) {
 			return Identity();
 		}
-
 		det = 1 / det;
 
 		m_mat[0] = a22 * det;
@@ -251,8 +249,8 @@ namespace Odin {
 
 		return (
 		           "Mat2[\n"
-		           "  " + util.ToString(m_mat[0], p) + ", " + util.ToString(m_mat[2], p) + ",\n" +
-		           "  " + util.ToString(m_mat[1], p) + ", " + util.ToString(m_mat[3], p) + "\n" +
+		           "  " + Util.ToString(m_mat[0], p) + ", " + Util.ToString(m_mat[2], p) + ",\n" +
+		           "  " + Util.ToString(m_mat[1], p) + ", " + Util.ToString(m_mat[3], p) + "\n" +
 		           "]"
 		       );
 	}

@@ -1,5 +1,5 @@
-#ifndef _ODIN_QUAT_CPP_
-#define _ODIN_QUAT_CPP_
+#ifndef ODIN_QUAT_CPP
+#define ODIN_QUAT_CPP
 
 namespace Odin {
 
@@ -620,7 +620,7 @@ namespace Odin {
 
 	template <typename Type> inline std::string Quat<Type>::ToString(int32 p) {
 
-		return "Quat(" + util.ToString(x, p) + ", " + util.ToString(y, p) + ", " + util.ToString(z, p) + ", " + util.ToString(w, p) + ")";
+		return "Quat(" + Util.ToString(x, p) + ", " + Util.ToString(y, p) + ", " + Util.ToString(z, p) + ", " + Util.ToString(w, p) + ")";
 	}
 };
 

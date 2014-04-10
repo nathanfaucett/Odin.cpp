@@ -1,9 +1,9 @@
-#ifndef _ODIN_UTIL_H_PP
-#define _ODIN_UTIL_H_PP
+#ifndef ODIN_UTIL_HPP
+#define ODIN_UTIL_HPP
 
 namespace Odin {
 
-	class util {
+	class Util {
 
 		private:
 
@@ -33,9 +33,7 @@ namespace Odin {
 
 				return x ? "true" : "false";
 			}
-	};
-
-	util util;
+	} Util;
 }
 
 #endif

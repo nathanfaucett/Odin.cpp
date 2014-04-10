@@ -1,5 +1,5 @@
-#ifndef _ODIN_MAT32_CPP_
-#define _ODIN_MAT32_CPP_
+#ifndef ODIN_MAT32_CPP
+#define ODIN_MAT32_CPP
 
 namespace Odin {
 
@@ -395,8 +395,8 @@ namespace Odin {
 
 		return (
 		           "Mat32[\n"
-		           "  " + util.ToString(m_mat[0], p) + ", " + util.ToString(m_mat[2], p) + ", " + util.ToString(m_mat[4], p) + ",\n" +
-		           "  " + util.ToString(m_mat[1], p) + ", " + util.ToString(m_mat[3], p) + ", " + util.ToString(m_mat[5], p) + ",\n" +
+		           "  " + Util.ToString(m_mat[0], p) + ", " + Util.ToString(m_mat[2], p) + ", " + Util.ToString(m_mat[4], p) + ",\n" +
+		           "  " + Util.ToString(m_mat[1], p) + ", " + Util.ToString(m_mat[3], p) + ", " + Util.ToString(m_mat[5], p) + ",\n" +
 		           "]"
 		       );
 	}

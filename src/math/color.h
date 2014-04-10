@@ -1,5 +1,5 @@
-#ifndef _ODIN_COLOR_H_
-#define _ODIN_COLOR_H_
+#ifndef ODIN_COLOR_H
+#define ODIN_COLOR_H
 
 
 namespace Odin {

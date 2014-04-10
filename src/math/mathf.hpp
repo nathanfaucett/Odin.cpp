@@ -1,5 +1,5 @@
-#ifndef _ODIN_MATHF_HPP_
-#define _ODIN_MATHF_HPP_
+#ifndef ODIN_MATHF_HPP
+#define ODIN_MATHF_HPP
 
 
 namespace Odin {
@@ -16,6 +16,7 @@ namespace Odin {
 	template <typename Type> class Vec3;
 	template <typename Type> class Vec4;
 
+	typedef Color<int32> Colori;
 	typedef Color<float32> Colorf;
 
 	typedef AABB2<int32> AABB2i;
@@ -113,6 +114,7 @@ namespace Odin {
 			static constexpr float64 TWO_PI_64 = PI_64 * 2.0;
 
 			static constexpr float32 Epsilon = FLT_EPSILON;
+			static constexpr float64 Epsilon_64 = DBL_EPSILON;
 
 			static constexpr float32 E = 2.71828182845904523536f;
 			static constexpr float32 SQRT2 = 1.41421356237309504880f;
@@ -121,6 +123,9 @@ namespace Odin {
 
 			static constexpr float32 TO_DEGS = 180.0f / PI;
 			static constexpr float32 TO_RADS = PI / 180.0f;
+
+			static constexpr float64 TO_DEGS_64 = 180.0 / PI_64;
+			static constexpr float64 TO_RADS_64 = PI_64 / 180.0;
 
 			inline void Init() {
 				std::srand(std::time(0));
@@ -142,8 +147,26 @@ namespace Odin {
 				return x < 0.0 ? -x : x;
 			}
 
+			inline int16 Pow(int16 x, int16 y) {
+				int16 r;
+
+				for (r = x; y > 1; y--) {
+					r *= x;
+				}
+
+				return r;
+			}
 			inline int32 Pow(int32 x, int32 y) {
 				int32 r;
+
+				for (r = x; y > 1; y--) {
+					r *= x;
+				}
+
+				return r;
+			}
+			inline int64 Pow(int64 x, int64 y) {
+				int64 r;
 
 				for (r = x; y > 1; y--) {
 					r *= x;
@@ -159,10 +182,10 @@ namespace Odin {
 			}
 
 			inline float32 Sqrt(float32 x) {
-				return x == 0.0f ? 0.0f : sqrtf(x);
+				return sqrtf(x);
 			}
 			inline float64 Sqrt(float64 x) {
-				return x == 0.0 ? 0.0 : sqrt(x);
+				return sqrt(x);
 			}
 
 			inline float32 InvSqrt(float32 x) {
@@ -173,12 +196,17 @@ namespace Odin {
 			}
 
 			inline float32 Log(float32 x) {
-
 				return logf(x);
 			}
-			inline float32 Log10(float32 x) {
+			inline float64 Log(float64 x) {
+				return log(x);
+			}
 
+			inline float32 Log10(float32 x) {
 				return log10f(x);
+			}
+			inline float64 Log10(float64 x) {
+				return log10(x);
 			}
 
 			inline float32 Cos(float32 x) {
@@ -252,20 +280,30 @@ namespace Odin {
 			}
 
 			inline float32 Floor(float32 x) {
-
 				return floorf(x);
 			}
-			inline float32 Ceil(float32 x) {
+			inline float64 Floor(float64 x) {
+				return floor(x);
+			}
 
+			inline float32 Ceil(float32 x) {
 				return ceilf(x);
 			}
-			inline float32 Round(float32 x) {
+			inline float64 Ceil(float64 x) {
+				return ceil(x);
+			}
 
+			inline float32 Round(float32 x) {
 				return floorf(x + 0.5f);
+			}
+			inline float64 Round(float64 x) {
+				return floor(x + 0.5);
 			}
 
 			inline bool Equals(float32 a, float32 b, float32 e = Epsilon) {
-
+				return Abs(a - b) < e;
+			}
+			inline bool Equals(float64 a, float64 b, float64 e = Epsilon_64) {
 				return Abs(a - b) < e;
 			}
 
@@ -277,7 +315,7 @@ namespace Odin {
 			inline float64 Modulo(float64 a, float64 b) {
 				float64 r = fmod(a, b);
 
-				return (r * b < 0.0f) ? r + b : r;
+				return (r * b < 0.0) ? r + b : r;
 			}
 
 			inline int16 Clamp(int16 x, int16 min, int16 max) {
@@ -383,33 +421,47 @@ namespace Odin {
 			}
 
 			inline float32 LerpRadian(float32 a, float32 b, float32 t) {
-
+				return Radian(a + (b - a) * t);
+			}
+			inline float64 LerpRadian(float64 a, float64 b, float64 t) {
 				return Radian(a + (b - a) * t);
 			}
 
 			inline float32 LerpAngle(float32 a, float32 b, float32 t) {
-
 				return Angle(a + (b - a) * t);
-
+			}
+			inline float64 LerpAngle(float64 a, float64 b, float64 t) {
+				return Angle(a + (b - a) * t);
 			}
 
 			inline float32 SmoothStep(float32 x, float32 min, float32 max) {
-
 				if (x <= min) {
 					return 0.0f;
 				}
 
 				if (x >= max) {
-					return 1;
+					return 1.0f;
 				}
 
 				x = (x - min) / (max - min);
 
 				return x * x * (3.0f - 2.0f * x);
 			}
+			inline float64 SmoothStep(float64 x, float64 min, float64 max) {
+				if (x <= min) {
+					return 0.0;
+				}
+
+				if (x >= max) {
+					return 1.0;
+				}
+
+				x = (x - min) / (max - min);
+
+				return x * x * (3.0 - 2.0 * x);
+			}
 
 			inline float32 SmootherStep(float32 x, float32 min, float32 max) {
-
 				if (x <= min) {
 					return 0.0f;
 				}
@@ -422,28 +474,69 @@ namespace Odin {
 
 				return x * x * x * (x * (x * 6.0f - 15.0f) + 10.0f);
 			}
+			inline float64 SmootherStep(float64 x, float64 min, float64 max) {
+				if (x <= min) {
+					return 0.0;
+				}
+
+				if (x >= max) {
+					return 1.0;
+				}
+
+				x = (x - min) / (max - min);
+
+				return x * x * x * (x * (x * 6.0 - 15.0) + 10.0);
+			}
 
 			inline float32 PingPong(float32 x, float32 length) {
-
+				return length - Abs(Modulo(x, 2 * length) - length);
+			}
+			inline float64 PingPong(float64 x, float64 length) {
 				return length - Abs(Modulo(x, 2 * length) - length);
 			}
 
 			inline float32 ToRads(float32 x) {
-
 				return Radian(x * TO_RADS);
+			}
+			inline float64 ToRads(float64 x) {
+				return Radian(x * TO_RADS_64);
 			}
 
 			inline float32 ToDegs(float32 x) {
-
 				return Angle(x * TO_DEGS);
-
+			}
+			inline float64 ToDegs(float64 x) {
+				return Angle(x * TO_DEGS_64);
 			}
 
+			inline bool IsPowerOfTwo(int16 x) {
+				return (x & (x - 1)) == 0 && x > 0;
+			}
 			inline bool IsPowerOfTwo(int32 x) {
-
+				return (x & (x - 1)) == 0 && x > 0;
+			}
+			inline bool IsPowerOfTwo(int64 x) {
 				return (x & (x - 1)) == 0 && x > 0;
 			}
 
+			inline int16 PowerOfTwo(int16 n) {
+				int16 x = n, tmp;
+
+				x--;
+				x |= x >> 1;
+				x |= x >> 2;
+				x |= x >> 4;
+				x |= x >> 8;
+				x |= x >> 16;
+				x++;
+				tmp = x >> 1;
+
+				if (Abs(tmp - n) < Abs(x - n)) {
+					return tmp;
+				}
+
+				return x;
+			}
 			inline int32 PowerOfTwo(int32 n) {
 				int32 x = n, tmp;
 
@@ -462,7 +555,35 @@ namespace Odin {
 
 				return x;
 			}
+			inline int64 PowerOfTwo(int64 n) {
+				int64 x = n, tmp;
 
+				x--;
+				x |= x >> 1;
+				x |= x >> 2;
+				x |= x >> 4;
+				x |= x >> 8;
+				x |= x >> 16;
+				x++;
+				tmp = x >> 1;
+
+				if (Abs(tmp - n) < Abs(x - n)) {
+					return tmp;
+				}
+
+				return x;
+			}
+
+			inline int16 FloorPowerOfTwo(int16 x) {
+				x--;
+				x |= x >> 1;
+				x |= x >> 2;
+				x |= x >> 4;
+				x |= x >> 8;
+				x |= x >> 16;
+				x++;
+				return x >> 1;
+			}
 			inline int32 FloorPowerOfTwo(int32 x) {
 				x--;
 				x |= x >> 1;
@@ -473,8 +594,38 @@ namespace Odin {
 				x++;
 				return x >> 1;
 			}
+			inline int64 FloorPowerOfTwo(int64 x) {
+				x--;
+				x |= x >> 1;
+				x |= x >> 2;
+				x |= x >> 4;
+				x |= x >> 8;
+				x |= x >> 16;
+				x++;
+				return x >> 1;
+			}
 
+			inline int16 CeilPowerOfTwo(int16 x) {
+				x--;
+				x |= x >> 1;
+				x |= x >> 2;
+				x |= x >> 4;
+				x |= x >> 8;
+				x |= x >> 16;
+				x++;
+				return x;
+			}
 			inline int32 CeilPowerOfTwo(int32 x) {
+				x--;
+				x |= x >> 1;
+				x |= x >> 2;
+				x |= x >> 4;
+				x |= x >> 8;
+				x |= x >> 16;
+				x++;
+				return x;
+			}
+			inline int64 CeilPowerOfTwo(int64 x) {
 				x--;
 				x |= x >> 1;
 				x |= x >> 2;
@@ -489,10 +640,16 @@ namespace Odin {
 				return (float64) std::rand() / RAND_MAX;
 			}
 			inline float64 Random64(void) {
-				return std::rand() / RAND_MAX;
+				return (float64) std::rand() / RAND_MAX;
 			}
 
+			inline int16 RandInt(int16 min, int16 max) {
+				return Round(min + (Random() * (max - min)));
+			}
 			inline int32 RandInt(int32 min, int32 max) {
+				return Round(min + (Random() * (max - min)));
+			}
+			inline int64 RandInt(int64 min, int64 max) {
 				return Round(min + (Random() * (max - min)));
 			}
 
@@ -502,9 +659,7 @@ namespace Odin {
 			inline float64 RandFloat(float64 min, float64 max) {
 				return min + (Random64() * (max - min));
 			}
-	};
-
-	Mathf Mathf;
+	} Mathf;
 }
 
 #endif

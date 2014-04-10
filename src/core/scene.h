@@ -1,20 +1,24 @@
-#ifndef _ODIN_SCENE_H_
-#define _ODIN_SCENE_H_
+#ifndef ODIN_SCENE_H
+#define ODIN_SCENE_H
 
 namespace Odin {
+	
+	class BaseGame;
 
 	class Scene : public Object {
 
 		private:
+			friend class BaseGame;
+			friend class Game;
+			friend class Renderer;
 			friend class Component;
 			friend class GameObject;
 
 			Array<GameObject*> m_gameObjects;
-			
-			Array<Array<Component*>*> m_componentsTypes;
 			std::unordered_map<const std::type_info*, Array<Component*>*> m_components;
-			
-			uint32 m_count;
+
+			uint32 m_gameObjectCount;
+			BaseGame* m_game;
 
 			inline void m_AddComponent(Component* component);
 			inline void m_RemoveComponent(Component* component);
@@ -32,16 +36,26 @@ namespace Odin {
 
 		public:
 			inline Scene(void);
+			inline Scene(const Scene& other);
+			inline Scene(const Scene&& other);
 			inline Scene(std::string Name);
 			inline ~Scene(void);
+			
+			inline virtual Scene& Copy(const Scene& other);
+			inline virtual Scene& Move(const Scene&& other);
 
 			inline Scene& AddGameObject(GameObject* gameObject);
 			inline Scene& RemoveGameObject(GameObject* gameObject);
 
-			inline uint32 Count(void);
+			inline uint32 GetGameObjectCount(void);
+			inline int32 IndexOf(GameObject* gameObject);
 			inline void SortType(Component* component);
+			template <typename Type>inline Array<Type*>* GetComponents(void);
 
 			inline void Update(void);
+			
+			inline Scene& operator =(const Scene& other);
+			inline Scene& operator =(const Scene&& other);
 	};
 }
 

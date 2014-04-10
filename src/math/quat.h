@@ -1,5 +1,5 @@
-#ifndef _ODIN_QUAT_H_
-#define _ODIN_QUAT_H_
+#ifndef ODIN_QUAT_H
+#define ODIN_QUAT_H
 
 namespace Odin {
 

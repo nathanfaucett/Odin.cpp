@@ -1,21 +1,56 @@
-#ifndef _ODIN_GAME_OBJECT_CPP_
-#define _ODIN_GAME_OBJECT_CPP_
+#ifndef ODIN_GAME_OBJECT_CPP
+#define ODIN_GAME_OBJECT_CPP
 
 namespace Odin {
 
 	inline GameObject::GameObject(void) : Object() {
-
+		p_scene = NULL;
+	}
+	
+	inline GameObject::GameObject(const GameObject& other) : Object() {
+		Copy(other);
+		p_scene = NULL;
+	}
+	
+	inline GameObject::GameObject(const GameObject&& other) : Object() {
+		Move(std::move(other));
+		p_scene = NULL;
 	}
 
 	inline GameObject::GameObject(std::string Name) : Object(Name) {
-
+		p_scene = NULL;
 	}
 
 	inline GameObject::~GameObject(void) {
 		p_Clear();
 	}
+	
+	inline GameObject& GameObject::Copy(const GameObject& other) {
+		Object::Copy(static_cast<Object>(other));
+		
+		for (auto it = other.m_components.begin(); it != other.m_components.end(); ++it) {
+			//AddComponent(it->second->Clone());
+		}
+		
+		return *this;
+	}
+	
+	inline GameObject& GameObject::Move(const GameObject&& other) {
+		Object::Move(std::move(static_cast<Object>(other)));
+		
+		for (auto it = other.m_components.begin(); it != other.m_components.end(); ++it) {
+			//AddComponent(it->second->Clone());
+		}
+		
+		return *this;
+	}
 
 	inline void GameObject::p_Clear(void) {
+
+		for (auto it = m_components.begin(); it != m_components.end(); ++it) {
+			RemoveComponent(it->second);
+		}
+
 		p_scene = NULL;
 	}
 
@@ -35,7 +70,7 @@ namespace Odin {
 		if (component == NULL) {
 			return *this;
 		}
-
+		
 		component->p_gameObject = this;
 		m_components[&typeid(*component)] = component;
 
@@ -68,6 +103,14 @@ namespace Odin {
 		}
 
 		return NULL;
+	}
+	
+	inline GameObject& GameObject::operator =(const GameObject& other) {
+		return Copy(other);
+	}
+	
+	inline GameObject& GameObject::operator =(const GameObject&& other) {
+		return Move(std::move(other));
 	}
 }
 

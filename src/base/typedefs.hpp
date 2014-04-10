@@ -1,5 +1,5 @@
-#ifndef _ODIN_TYPEDEFS_HPP_
-#define _ODIN_TYPEDEFS_HPP_
+#ifndef ODIN_TYPEDEFS_HPP
+#define ODIN_TYPEDEFS_HPP
 
 namespace Odin {
 

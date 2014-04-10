@@ -1,14 +1,40 @@
-#ifndef _ODIN_COMPONENT_CPP_
-#define _ODIN_COMPONENT_CPP_
+#ifndef ODIN_COMPONENT_CPP
+#define ODIN_COMPONENT_CPP
 
 namespace Odin {
 
-	inline Component::Component(void) : Object() {
-		
+	inline Component::Component(void) : Object() {}
+
+	inline Component::Component(std::string Name) : Object(Name) {}
+
+	inline Component::Component(const Component& other) : Object() {
+		Copy(other);
+	}
+
+	inline Component::Component(const Component&& other) : Object() {
+		Move(std::move(other));
 	}
 
 	inline Component::~Component(void) {
 		p_Clear();
+	}
+
+	inline Component& Component::Copy(const Component& other) {
+		Object::Copy(static_cast<Object>(other));
+		
+		p_updateOrder = other.p_updateOrder;
+		p_order = other.p_order;
+		
+		return *this;
+	}
+	
+	inline Component& Component::Move(const Component&& other) {
+		Object::Move(std::move(static_cast<Object>(other)));
+		
+		p_updateOrder = std::move(other.p_updateOrder);
+		p_order = std::move(other.p_order);
+		
+		return *this;
 	}
 
 	inline void Component::p_Clear(void) {
@@ -41,6 +67,14 @@ namespace Odin {
 		}
 
 		return NULL;
+	}
+	
+	inline Component& Component::operator =(const Component& other) {
+		return Copy(other);
+	}
+	
+	inline Component& Component::operator =(const Component&& other) {
+		return Move(std::move(other));
 	}
 }
 
