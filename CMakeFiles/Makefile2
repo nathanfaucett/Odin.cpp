@@ -50,38 +50,38 @@ CMAKE_SOURCE_DIR = /home/nathan/c++/odin
 CMAKE_BINARY_DIR = /home/nathan/c++/odin
 
 #=============================================================================
-# Target rules for target CMakeFiles/odin.dir
+# Target rules for target CMakeFiles/Odin.dir
 
 # All Build rule for target.
-CMakeFiles/odin.dir/all:
-	$(MAKE) -f CMakeFiles/odin.dir/build.make CMakeFiles/odin.dir/depend
-	$(MAKE) -f CMakeFiles/odin.dir/build.make CMakeFiles/odin.dir/build
+CMakeFiles/Odin.dir/all:
+	$(MAKE) -f CMakeFiles/Odin.dir/build.make CMakeFiles/Odin.dir/depend
+	$(MAKE) -f CMakeFiles/Odin.dir/build.make CMakeFiles/Odin.dir/build
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/nathan/c++/odin/CMakeFiles  1
-	@echo "Built target odin"
-.PHONY : CMakeFiles/odin.dir/all
+	@echo "Built target Odin"
+.PHONY : CMakeFiles/Odin.dir/all
 
 # Include target in all.
-all: CMakeFiles/odin.dir/all
+all: CMakeFiles/Odin.dir/all
 .PHONY : all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/odin.dir/rule: cmake_check_build_system
+CMakeFiles/Odin.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nathan/c++/odin/CMakeFiles 1
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/odin.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/Odin.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nathan/c++/odin/CMakeFiles 0
-.PHONY : CMakeFiles/odin.dir/rule
+.PHONY : CMakeFiles/Odin.dir/rule
 
 # Convenience name for target.
-odin: CMakeFiles/odin.dir/rule
-.PHONY : odin
+Odin: CMakeFiles/Odin.dir/rule
+.PHONY : Odin
 
 # clean rule for target.
-CMakeFiles/odin.dir/clean:
-	$(MAKE) -f CMakeFiles/odin.dir/build.make CMakeFiles/odin.dir/clean
-.PHONY : CMakeFiles/odin.dir/clean
+CMakeFiles/Odin.dir/clean:
+	$(MAKE) -f CMakeFiles/Odin.dir/build.make CMakeFiles/Odin.dir/clean
+.PHONY : CMakeFiles/Odin.dir/clean
 
 # clean rule for target.
-clean: CMakeFiles/odin.dir/clean
+clean: CMakeFiles/Odin.dir/clean
 .PHONY : clean
 
 #=============================================================================

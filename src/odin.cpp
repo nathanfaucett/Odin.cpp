@@ -19,9 +19,10 @@ namespace Odin {
 		}
 		SDLCheckError(__LINE__);
 
-		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 		SDLCheckError(__LINE__);
 	}
 
@@ -30,7 +31,7 @@ namespace Odin {
 	}
 
 	inline void Log(std::string msg, int32 line) {
-#ifndef NDEBUG
+		#ifndef NDEBUG
 		printf("%s", msg.c_str());
 
 		if (line != -1) {
@@ -38,7 +39,7 @@ namespace Odin {
 		}
 
 		printf("\n");
-#endif
+		#endif
 	}
 
 	inline void Delay(int16 s) {
@@ -65,7 +66,7 @@ namespace Odin {
 	}
 
 	inline void SDLCheckError(int32 line) {
-#ifndef NDEBUG
+		#ifndef NDEBUG
 		const char* error = SDL_GetError();
 
 		if (*error != '\0') {
@@ -78,13 +79,12 @@ namespace Odin {
 			printf("\n");
 			SDL_ClearError();
 		}
-
-#endif
+		#endif
 	}
 
 	inline void GLCheckError(int32 line) {
-#ifndef NDEBUG
-		uint32 error = glGetError();
+		#ifndef NDEBUG
+		GLenum error = glGetError();
 
 		if (error != GL_NO_ERROR) {
 			printf("GL Error: %s", gluErrorString(error));
@@ -95,44 +95,7 @@ namespace Odin {
 
 			printf("\n");
 		}
-
-#endif
-	}
-
-	inline uint32 CreateShader(uint32 ShaderType, const std::string& sourceString) {
-		uint32 shader = glCreateShader(ShaderType);
-		const char* source = sourceString.c_str();
-		glShaderSource(shader, 1, &source, NULL);
-
-		glCompileShader(shader);
-
-		int32 status;
-		glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
-
-		if (status == GL_FALSE) {
-			int32 infoLogLength;
-			glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLogLength);
-
-			GLchar* strInfoLog = new GLchar[infoLogLength + 1];
-			glGetShaderInfoLog(shader, infoLogLength, NULL, strInfoLog);
-
-			const char* strShaderType = NULL;
-
-			if (ShaderType == GL_VERTEX_SHADER) {
-				strShaderType = "vertex";
-
-			} else if (ShaderType == GL_GEOMETRY_SHADER) {
-				strShaderType = "geometry";
-
-			} else if (ShaderType == GL_FRAGMENT_SHADER) {
-				strShaderType = "fragment";
-			}
-
-			printf(" Compile failure in: %s shader: %s\n", strShaderType, strInfoLog);
-			delete[] strInfoLog;
-		}
-
-		return shader;
+		#endif
 	}
 
 	inline float32 Benchmark(std::function<void()> func, int32 times) {

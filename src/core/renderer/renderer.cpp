@@ -42,7 +42,7 @@ namespace Odin {
 		return *this;
 	}
 
-	inline void Renderer::m_InitGL(void) {
+	inline void Renderer::m_Init(void) {
 		m_glInitted = false;
 
 		if (m_window == NULL) {
@@ -53,18 +53,24 @@ namespace Odin {
 			Log("Renderer::m_InitGL Window::GetGLContext Failed", __LINE__);
 			return;
 		}
-
 		GLCheckError(__LINE__);
 
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
-		m_clear = GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT;
-		glClear(m_clear);
-
+		
+		m_InitGL();
 		GLCheckError(__LINE__);
 		m_glInitted = true;
 
 		m_window->Update();
+	}
+	
+	inline void Renderer::m_InitGL(void) {
+		SetClearColor();
+		#ifndef OPENGL_ES
+		SetPointSize();
+		#endif
+		SetLineWidth();
+		
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	}
 
 	inline Renderer& Renderer::SetWindow(Window* window) {
@@ -88,7 +94,7 @@ namespace Odin {
 		Transform* transform = NULL;
 		uint32 i, length;
 
-		glClear(m_clear);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		
 		for (i = 0, length = sprites->Length(); i < length; i++) {
 			sprite = (*sprites)[i];
@@ -105,6 +111,21 @@ namespace Odin {
 	
 	inline void Renderer::m_RenderSprite(Sprite* sprite, Transform* transform, Camera* camera) {
 		
+	}
+	
+	inline void Renderer::SetClearColor(const Colorf& color, const float32 alpha) {
+		glClearColor(color.r, color.g, color.b, alpha);
+		glClearColor(1.0f, 0.5f, 0.0f, 1.0f);
+	}
+	
+	#ifndef OPENGL_ES
+	inline void Renderer::SetPointSize(const float32 size) {
+		glPointSize(size);
+	}
+	#endif
+	
+	inline void Renderer::SetLineWidth(const float32 width) {
+		glPointSize(width);
 	}
 	
 	inline Renderer& Renderer::operator =(const Renderer& other) {

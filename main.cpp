@@ -7,28 +7,19 @@ int main (int argc, char* argv[]) {
 	std::cout.precision(16);
 
 	Init();
-
-	Game game;
-	Scene* scene = new Scene();
 	
-	GameObject* camera = new GameObject();
-	camera->AddComponent(new Transform);
-	camera->AddComponent(new Camera);
+	Quatf q;
+	Mat43f m;
+	m.Rotate(Mathf.PI * 0.5f, Mathf.PI * 0.5f, Mathf.PI * 0.5f);
 	
-	GameObject* sprite = new GameObject();
-	camera->AddComponent(new Transform);
-	camera->AddComponent(new Sprite);
+	q *= m;
+	std::cout << m.ToString() << std::endl;
+	std::cout << q.ToString() << std::endl;
 	
-	scene->AddGameObject(camera);
-	scene->AddGameObject(sprite);
-
-	game.SetScene(scene);
-	game.SetCamera(camera);
-
-	game.Update();
-	game.Render();
+	q.Zero().RotateZ(Mathf.PI * 0.5f);
+	std::cout << m.ToString() << std::endl;
+	std::cout << q.ToString() << std::endl;
 	
-	Clear();
 	
 	std::cout << "END" << std::endl;
 	return 0;

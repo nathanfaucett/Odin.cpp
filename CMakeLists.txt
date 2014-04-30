@@ -1,18 +1,17 @@
-cmake_minimum_required(VERSION 2.6)
-project(odin)
+cmake_minimum_required(VERSION 2.8)
 
-add_executable(odin main.cpp)
+project(Odin)
+add_executable(Odin main.cpp)
 
+include(CMakeDependentOption)
 include(FindPkgConfig)
+
 pkg_search_module(SDL2 REQUIRED sdl2)
 include_directories(${SDL2_INCLUDE_DIRS})
-target_link_libraries(odin ${SDL2_LIBRARIES})
+target_link_libraries(Odin ${SDL2_LIBRARIES})
 
 find_package(OpenGL REQUIRED)
-find_package(GLUT REQUIRED)
-include_directories(${OPENGL_INCLUDE_DIRS}  ${GLUT_INCLUDE_DIRS})
-target_link_libraries(odin ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})
+include_directories(${OPENGL_INCLUDE_DIR})
+target_link_libraries(Odin ${OPENGL_LIBRARIES})
 
-add_definitions(`sdl2-config --cflags --libs --static-libs` -lSDL2)
-add_definitions(-lGL -lGLU -lGLEW)
-add_definitions(-Wall -std=c++0x)
+add_definitions(-Wall -g -std=c++0x -lGL -lGLU -lGLEW)

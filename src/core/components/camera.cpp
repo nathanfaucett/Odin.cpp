@@ -11,7 +11,7 @@ namespace Odin {
 		m_invWidth = 1.0f / m_width;
 		m_invHeight = 1.0f / m_height;
 
-		background.Set(0.5, 0.5, 0.5);
+		background.Set(0.5f, 0.5f, 0.5f);
 
 		m_aspect = m_width / m_height;
 		m_fov = 35.0f;

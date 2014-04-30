@@ -22,7 +22,7 @@ namespace Odin {
 
 	inline Object::Object(void) {
 		m_instanceID = __OBJECT_UNIQUE_ID__.next();
-		name = "Object_"+ Util.ToString(m_instanceID);
+		name = "Object_"+ ToString(m_instanceID);
 	}
 	
 	inline Object::Object(std::string Name) {

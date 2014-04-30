@@ -1,1 +1,0 @@
-/usr/bin/c++       CMakeFiles/odin.dir/main.cpp.o  -o odin -rdynamic -lSDL2 -lpthread -lGLU -lGL -lSM -lICE -lX11 -lXext -lglut -lXmu -lXi 

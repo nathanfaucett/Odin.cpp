@@ -13,22 +13,12 @@ namespace Odin {
 
 			float64 m_start;
 
-			inline float64 m_Now(void) {
-
-				return m_Stamp() - m_start;
-			}
-
-			inline float64 m_Stamp(void) {
-
-				return (std::chrono::high_resolution_clock::now().time_since_epoch() / std::chrono::nanoseconds(1)) * 0.000000001;
-			}
-
 		public:
 			uint32 frameCount;
 			float32 delta, fixedDelta, scale, fps, time;
 
 			Time(void) {
-				m_start = m_Stamp();
+				m_start = Stamp64();
 
 				fixedDelta = 1.0f / 60.0f;
 				delta = 1.0f / 60.0f;
@@ -67,14 +57,24 @@ namespace Odin {
 				}
 			}
 
+			inline float64 Now64(void) {
+
+				return Stamp64() - m_start;
+			}
+
+			inline float64 Stamp64(void) {
+
+				return (std::chrono::high_resolution_clock::now().time_since_epoch() / std::chrono::nanoseconds(1)) * 0.000000001;
+			}
+
 			inline float32 Now(void) {
 
-				return m_Now();
+				return Now64();
 			}
 
 			inline float32 Stamp(void) {
 
-				return m_Stamp();
+				return Stamp64();
 			}
 	} Time;
 }

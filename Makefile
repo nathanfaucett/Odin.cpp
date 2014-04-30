@@ -96,24 +96,24 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named odin
+# Target rules for targets named Odin
 
 # Build rule for target.
-odin: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 odin
-.PHONY : odin
+Odin: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 Odin
+.PHONY : Odin
 
 # fast build rule for target.
-odin/fast:
-	$(MAKE) -f CMakeFiles/odin.dir/build.make CMakeFiles/odin.dir/build
-.PHONY : odin/fast
+Odin/fast:
+	$(MAKE) -f CMakeFiles/Odin.dir/build.make CMakeFiles/Odin.dir/build
+.PHONY : Odin/fast
 
 main.o: main.cpp.o
 .PHONY : main.o
 
 # target to build an object file
 main.cpp.o:
-	$(MAKE) -f CMakeFiles/odin.dir/build.make CMakeFiles/odin.dir/main.cpp.o
+	$(MAKE) -f CMakeFiles/Odin.dir/build.make CMakeFiles/Odin.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -121,7 +121,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	$(MAKE) -f CMakeFiles/odin.dir/build.make CMakeFiles/odin.dir/main.cpp.i
+	$(MAKE) -f CMakeFiles/Odin.dir/build.make CMakeFiles/Odin.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -129,7 +129,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	$(MAKE) -f CMakeFiles/odin.dir/build.make CMakeFiles/odin.dir/main.cpp.s
+	$(MAKE) -f CMakeFiles/Odin.dir/build.make CMakeFiles/Odin.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 # Help Target
@@ -138,8 +138,8 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... Odin"
 	@echo "... edit_cache"
-	@echo "... odin"
 	@echo "... rebuild_cache"
 	@echo "... main.o"
 	@echo "... main.i"
