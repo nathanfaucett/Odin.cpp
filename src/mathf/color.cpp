@@ -138,7 +138,7 @@ namespace Odin {
 		return *this;
 	}
 
-	template <typename Type> inline Color<Type>& Color<Type>::operator -() {
+	template <typename Type> inline Color<Type>& Color<Type>::operator -(void) {
 		r = static_cast<Type>(1) - r;
 		g = static_cast<Type>(1) - g;
 		b = static_cast<Type>(1) - b;
@@ -179,7 +179,7 @@ namespace Odin {
 		return Color<Type>(r * cx, g * cy, b * cz);
 	}
 
-	template <typename Type> inline void Color<Type>::operator +=(const Color<Type>& c) {
+	template <typename Type> inline Color<Type>& Color<Type>::operator +=(const Color<Type>& c) {
 		r += c.r;
 		g += c.g;
 		b += c.b;
@@ -187,7 +187,7 @@ namespace Odin {
 		return *this;
 	}
 
-	template <typename Type> inline void Color<Type>::operator -=(const Color<Type>& c) {
+	template <typename Type> inline Color<Type>& Color<Type>::operator -=(const Color<Type>& c) {
 		r -= c.r;
 		g -= c.g;
 		b -= c.b;
@@ -195,7 +195,7 @@ namespace Odin {
 		return *this;
 	}
 
-	template <typename Type> inline void Color<Type>::operator *=(const Color<Type>& c) {
+	template <typename Type> inline Color<Type>& Color<Type>::operator *=(const Color<Type>& c) {
 		r *= c.r;
 		g *= c.g;
 		b *= c.b;
@@ -203,12 +203,14 @@ namespace Odin {
 		return *this;
 	}
 
-	template <typename Type> inline void Color<Type>::operator /=(const Color<Type>& c) {
+	template <typename Type> inline Color<Type>& Color<Type>::operator /=(const Color<Type>& c) {
 		Type cx = c.r, cy = c.g, cz = c.b;
 
 		r *= cx != static_cast<Type>(0) ? static_cast<Type>(1) / cx : static_cast<Type>(0);
 		g *= cy != static_cast<Type>(0) ? static_cast<Type>(1) / cy : static_cast<Type>(0);
 		b *= cz != static_cast<Type>(0) ? static_cast<Type>(1) / cz : static_cast<Type>(0);
+
+		return *this;
 	}
 
 
@@ -233,7 +235,7 @@ namespace Odin {
 		return Color<Type>(r * d, g * d, b * d);
 	}
 
-	template <typename Type> inline void Color<Type>::operator +=(Type s) {
+	template <typename Type> inline Color<Type>& Color<Type>::operator +=(Type s) {
 		r += s;
 		g += s;
 		b += s;
@@ -241,7 +243,7 @@ namespace Odin {
 		return *this;
 	}
 
-	template <typename Type> inline void Color<Type>::operator -=(Type s) {
+	template <typename Type> inline Color<Type>& Color<Type>::operator -=(Type s) {
 		r -= s;
 		g -= s;
 		b -= s;
@@ -249,7 +251,7 @@ namespace Odin {
 		return *this;
 	}
 
-	template <typename Type> inline void Color<Type>::operator *=(Type s) {
+	template <typename Type> inline Color<Type>& Color<Type>::operator *=(Type s) {
 		r *= s;
 		g *= s;
 		b *= s;
@@ -257,7 +259,7 @@ namespace Odin {
 		return *this;
 	}
 
-	template <typename Type> inline void Color<Type>::operator /=(Type s) {
+	template <typename Type> inline Color<Type>& Color<Type>::operator /=(Type s) {
 		Type d = s != static_cast<Type>(0) ? static_cast<Type>(1) / s : static_cast<Type>(0);
 
 		r *= d;

@@ -179,9 +179,11 @@ namespace Odin {
 		       );
 	}
 
-	template <typename Type> inline void AABB3<Type>::operator -() {
+	template <typename Type> inline AABB3<Type>& AABB3<Type>::operator -(void) {
 		-min;
 		-max;
+		
+		return *this;
 	}
 
 	template <typename Type> inline AABB3<Type> AABB3<Type>::operator +(const AABB3<Type>& other) {

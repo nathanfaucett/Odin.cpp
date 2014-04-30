@@ -93,7 +93,7 @@ namespace Odin {
 			inline Quat<Type>& FromMatrix(const Mat4<Type>& m);
 			inline Quat<Type>& FromMatrix(const Mat43<Type>& m);
 
-			inline Quat<Type>& operator -();
+			inline Quat<Type>& operator -(void);
 			inline Quat<Type> Inverse(void);
 
 			inline Quat<Type>& calculateW(void);

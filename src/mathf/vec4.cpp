@@ -195,7 +195,7 @@ namespace Odin {
 		return *this;
 	}
 
-	template <typename Type> inline Vec4<Type>& Vec4<Type>::operator -() {
+	template <typename Type> inline Vec4<Type>& Vec4<Type>::operator -(void) {
 		x = -x;
 		y = -y;
 		z = -z;

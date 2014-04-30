@@ -79,7 +79,7 @@ namespace Odin {
 		return *this;
 	}
 
-	template <typename Type> inline Mat3<Type>& Mat3<Type>::operator -() {
+	template <typename Type> inline Mat3<Type>& Mat3<Type>::operator -(void) {
 		Type m11 = m_mat[0], m12 = m_mat[3], m13 = m_mat[6],
 		     m21 = m_mat[1], m22 = m_mat[4], m23 = m_mat[7],
 		     m31 = m_mat[2], m32 = m_mat[5], m33 = m_mat[8],

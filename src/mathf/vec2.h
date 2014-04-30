@@ -85,7 +85,7 @@ namespace Odin {
 			static const Vec2<Type> NEGATIVE_UNIT_Y;
 			static const Vec2<Type> UNIT_SCALE;
 
-			inline Vec2<Type>& operator -();
+			inline Vec2<Type>& operator -(void);
 
 			inline Type operator [] (int32 i) const;
 			inline Type& operator [] (int32 i);

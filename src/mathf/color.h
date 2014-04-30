@@ -60,7 +60,7 @@ namespace Odin {
 			static const Color<Type> Yellow;
 			static const Color<Type> Orange;
 
-			inline Color<Type>& operator -();
+			inline Color<Type>& operator -(void);
 
 			inline Type operator [] (int32 i) const;
 			inline Type& operator [] (int32 i);
@@ -70,20 +70,20 @@ namespace Odin {
 			inline Color<Type> operator *(const Color<Type>& c);
 			inline Color<Type> operator /(const Color<Type>& c);
 
-			inline void operator +=(const Color<Type>& c);
-			inline void operator -=(const Color<Type>& c);
-			inline void operator *=(const Color<Type>& c);
-			inline void operator /=(const Color<Type>& c);
+			inline Color<Type>& operator +=(const Color<Type>& c);
+			inline Color<Type>& operator -=(const Color<Type>& c);
+			inline Color<Type>& operator *=(const Color<Type>& c);
+			inline Color<Type>& operator /=(const Color<Type>& c);
 
 			inline Color<Type> operator +(Type s);
 			inline Color<Type> operator -(Type s);
 			inline Color<Type> operator *(Type s);
 			inline Color<Type> operator /(Type s);
 
-			inline void operator +=(Type s);
-			inline void operator -=(Type s);
-			inline void operator *=(Type s);
-			inline void operator /=(Type s);
+			inline Color<Type>& operator +=(Type s);
+			inline Color<Type>& operator -=(Type s);
+			inline Color<Type>& operator *=(Type s);
+			inline Color<Type>& operator /=(Type s);
 
 			inline Color<Type>& operator =(const Color<Type>& c);
 			inline Color<Type>& operator =(const Color<Type> && c);

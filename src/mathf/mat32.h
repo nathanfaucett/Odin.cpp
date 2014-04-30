@@ -25,7 +25,7 @@ namespace Odin {
 			inline Mat32<Type>& Identity(void);
 			inline Mat32<Type>& SetTrace(Type x, Type y);
 
-			inline Mat32<Type>& operator -();
+			inline Mat32<Type>& operator -(void);
 			inline Mat32<Type>& Inverse(void);
 			inline Mat32<Type>& Inverse(const Mat32<Type>& m);
 

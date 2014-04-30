@@ -46,7 +46,7 @@ namespace Odin {
 				       );
 			}
 
-			inline void operator -();
+			inline AABB2<Type>& operator -(void);
 
 			inline AABB2<Type> operator +(const AABB2<Type>& other);
 

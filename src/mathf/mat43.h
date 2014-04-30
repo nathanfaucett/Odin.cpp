@@ -28,7 +28,7 @@ namespace Odin {
 			inline Mat43<Type>& Identity(void);
 			inline Mat43<Type>& SetTrace(Type x, Type y, Type z);
 
-			inline Mat43<Type>& operator -();
+			inline Mat43<Type>& operator -(void);
 			inline Mat43<Type>& Inverse(void);
 			inline Mat43<Type>& Inverse(const Mat4<Type>& m);
 			inline Mat43<Type>& Inverse(const Mat43<Type>& m);

@@ -139,7 +139,7 @@ namespace Odin {
 		return *this;
 	}
 
-	template <typename Type> inline Vec2<Type>& Vec2<Type>::operator -() {
+	template <typename Type> inline Vec2<Type>& Vec2<Type>::operator -(void) {
 		x = -x;
 		y = -y;
 

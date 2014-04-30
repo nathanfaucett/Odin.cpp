@@ -329,7 +329,7 @@ namespace Odin {
 		return *this;
 	}
 
-	template <typename Type> inline Quat<Type>& Quat<Type>::operator -() {
+	template <typename Type> inline Quat<Type>& Quat<Type>::operator -(void) {
 		Type lenSq = x * x + y * y + z * z + w * w;
 
 		if (lenSq == static_cast<Type>(0) || lenSq == static_cast<Type>(1)) {
