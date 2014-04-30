@@ -107,13 +107,13 @@ namespace Odin {
 			}
 
 			inline int16 Abs(int16 x) {
-				return x < 0 ? -x : x;
+				return x < static_cast<int16>(0) ? -x : x;
 			}
 			inline int32 Abs(int32 x) {
-				return x < 0 ? -x : x;
+				return x < static_cast<int32>(0) ? -x : x;
 			}
 			inline int64 Abs(int64 x) {
-				return x < 0 ? -x : x;
+				return x < static_cast<int64>(0) ? -x : x;
 			}
 			inline float32 Abs(float32 x) {
 				return x < 0.0f ? -x : x;
@@ -125,7 +125,7 @@ namespace Odin {
 			inline int16 Pow(int16 x, int16 y) {
 				int16 r;
 
-				for (r = x; y > 1; y--) {
+				for (r = x; y > static_cast<int16>(1); y--) {
 					r *= x;
 				}
 
@@ -134,7 +134,7 @@ namespace Odin {
 			inline int32 Pow(int32 x, int32 y) {
 				int32 r;
 
-				for (r = x; y > 1; y--) {
+				for (r = x; y > static_cast<int32>(1); y--) {
 					r *= x;
 				}
 
@@ -143,7 +143,7 @@ namespace Odin {
 			inline int64 Pow(int64 x, int64 y) {
 				int64 r;
 
-				for (r = x; y > 1; y--) {
+				for (r = x; y > static_cast<int64>(1); y--) {
 					r *= x;
 				}
 
@@ -501,13 +501,13 @@ namespace Odin {
 			}
 
 			inline int16 Sign(int16 x) {
-				return x ? x < 0 ? -1 : 1 : 0;
+				return x ? x < static_cast<int16>(0) ? -static_cast<int16>(1) : static_cast<int16>(1) : static_cast<int16>(0);
 			}
 			inline int32 Sign(int32 x) {
-				return x ? x < 0 ? -1 : 1 : 0;
+				return x ? x < static_cast<int32>(0) ? -static_cast<int32>(1) : static_cast<int32>(1) : static_cast<int32>(0);
 			}
 			inline int64 Sign(int64 x) {
-				return x ? x < 0 ? -1 : 1 : 0;
+				return x ? x < static_cast<int64>(0) ? -static_cast<int64>(1) : static_cast<int64>(1) : static_cast<int64>(0);
 			}
 			inline float32 Sign(float32 x) {
 				return x ? x < 0.0f ? -1.0f : 1.0f : 0.0f;
@@ -534,15 +534,15 @@ namespace Odin {
 
 			inline float32 LerpCos(float32 a, float32 b, float32 t) {
 				float32 ft = t * PI,
-				        f = (1 - Cos(ft)) * 0.5f;
+				        f = (1.0f - Cos(ft)) * 0.5f;
 
-				return a * (1 - f) + b * f;
+				return a * (1.0f - f) + b * f;
 			}
 			inline float64 LerpCos(float64 a, float64 b, float64 t) {
 				float64 ft = t * PI,
-				        f = (1 - Cos(ft)) * 0.5f;
+				        f = (1.0 - Cos(ft)) * 0.5;
 
-				return a * (1 - f) + b * f;
+				return a * (1.0 - f) + b * f;
 			}
 
 			inline float32 LerpCubic(float32 v0, float32 v1, float32 v2, float32 v3, float32 t) {
@@ -660,10 +660,10 @@ namespace Odin {
 				return length - Abs(Modulo(x, static_cast<int64>(2 * length)) - length);
 			}
 			inline float32 PingPong(float32 x, float32 length) {
-				return length - Abs(Modulo(x, 2 * length) - length);
+				return length - Abs(Modulo(x, 2.0f * length) - length);
 			}
 			inline float64 PingPong(float64 x, float64 length) {
-				return length - Abs(Modulo(x, 2 * length) - length);
+				return length - Abs(Modulo(x, 2.0 * length) - length);
 			}
 
 			inline int16 ToRads(int16 x) {
@@ -699,20 +699,20 @@ namespace Odin {
 			}
 
 			inline bool IsPowerOfTwo(int16 x) {
-				return (x & (x - 1)) == 0 && x > 0;
+				return (x & (x - static_cast<int16>(1))) == static_cast<int16>(0) && x > static_cast<int16>(0);
 			}
 			inline bool IsPowerOfTwo(int32 x) {
-				return (x & (x - 1)) == 0 && x > 0;
+				return (x & (x - static_cast<int32>(1))) == static_cast<int32>(0) && x > static_cast<int32>(0);
 			}
 			inline bool IsPowerOfTwo(int64 x) {
-				return (x & (x - 1)) == 0 && x > 0;
+				return (x & (x - static_cast<int64>(1))) == static_cast<int64>(0) && x > static_cast<int64>(0);
 			}
 			inline bool IsPowerOfTwo(float32 a) {
 				int32 x = static_cast<int32>(a);
 				return (x & (x - 1)) == 0 && x > 0;
 			}
 			inline bool IsPowerOfTwo(float64 a) {
-				int32 x = static_cast<int32>(a);
+				int64 x = static_cast<int64>(a);
 				return (x & (x - 1)) == 0 && x > 0;
 			}
 			
@@ -720,13 +720,13 @@ namespace Odin {
 				int16 x = n, tmp;
 
 				x--;
-				x |= x >> 1;
-				x |= x >> 2;
-				x |= x >> 4;
-				x |= x >> 8;
-				x |= x >> 16;
+				x |= x >> static_cast<int16>(1);
+				x |= x >> static_cast<int16>(2);
+				x |= x >> static_cast<int16>(4);
+				x |= x >> static_cast<int16>(8);
+				x |= x >> static_cast<int16>(16);
 				x++;
-				tmp = x >> 1;
+				tmp = x >> static_cast<int16>(1);
 
 				if (Abs(tmp - n) < Abs(x - n)) {
 					return tmp;
@@ -738,13 +738,13 @@ namespace Odin {
 				int32 x = n, tmp;
 
 				x--;
-				x |= x >> 1;
-				x |= x >> 2;
-				x |= x >> 4;
-				x |= x >> 8;
-				x |= x >> 16;
+				x |= x >> static_cast<int32>(1);
+				x |= x >> static_cast<int32>(2);
+				x |= x >> static_cast<int32>(4);
+				x |= x >> static_cast<int32>(8);
+				x |= x >> static_cast<int32>(16);
 				x++;
-				tmp = x >> 1;
+				tmp = x >> static_cast<int32>(1);
 
 				if (Abs(tmp - n) < Abs(x - n)) {
 					return tmp;
@@ -756,13 +756,13 @@ namespace Odin {
 				int64 x = n, tmp;
 
 				x--;
-				x |= x >> 1;
-				x |= x >> 2;
-				x |= x >> 4;
-				x |= x >> 8;
-				x |= x >> 16;
+				x |= x >> static_cast<int64>(1);
+				x |= x >> static_cast<int64>(2);
+				x |= x >> static_cast<int64>(4);
+				x |= x >> static_cast<int64>(8);
+				x |= x >> static_cast<int64>(16);
 				x++;
-				tmp = x >> 1;
+				tmp = x >> static_cast<int64>(1);
 
 				if (Abs(tmp - n) < Abs(x - n)) {
 					return tmp;
@@ -775,13 +775,13 @@ namespace Odin {
 					  x = n, tmp;
 
 				x--;
-				x |= x >> 1;
-				x |= x >> 2;
-				x |= x >> 4;
-				x |= x >> 8;
-				x |= x >> 16;
+				x |= x >> static_cast<int32>(1);
+				x |= x >> static_cast<int32>(2);
+				x |= x >> static_cast<int32>(4);
+				x |= x >> static_cast<int32>(8);
+				x |= x >> static_cast<int32>(16);
 				x++;
-				tmp = x >> 1;
+				tmp = x >> static_cast<int32>(1);
 
 				if (Abs(tmp - n) < Abs(x - n)) {
 					return tmp;
@@ -790,17 +790,17 @@ namespace Odin {
 				return static_cast<float32>(x);
 			}
 			inline float64 PowerOfTwo(float64 a) {
-				int32 n = static_cast<int32>(a),
+				int64 n = static_cast<int64>(a),
 					  x = n, tmp;
 
 				x--;
-				x |= x >> 1;
-				x |= x >> 2;
-				x |= x >> 4;
-				x |= x >> 8;
-				x |= x >> 16;
+				x |= x >> static_cast<int64>(1);
+				x |= x >> static_cast<int64>(2);
+				x |= x >> static_cast<int64>(4);
+				x |= x >> static_cast<int64>(8);
+				x |= x >> static_cast<int64>(16);
 				x++;
-				tmp = x >> 1;
+				tmp = x >> static_cast<int64>(1);
 
 				if (Abs(tmp - n) < Abs(x - n)) {
 					return tmp;
@@ -811,106 +811,106 @@ namespace Odin {
 
 			inline int16 FloorPowerOfTwo(int16 x) {
 				x--;
-				x |= x >> 1;
-				x |= x >> 2;
-				x |= x >> 4;
-				x |= x >> 8;
-				x |= x >> 16;
+				x |= x >> static_cast<int16>(1);
+				x |= x >> static_cast<int16>(2);
+				x |= x >> static_cast<int16>(4);
+				x |= x >> static_cast<int16>(8);
+				x |= x >> static_cast<int16>(16);
 				x++;
-				return x >> 1;
+				return x >> static_cast<int16>(1);
 			}
 			inline int32 FloorPowerOfTwo(int32 x) {
 				x--;
-				x |= x >> 1;
-				x |= x >> 2;
-				x |= x >> 4;
-				x |= x >> 8;
-				x |= x >> 16;
+				x |= x >> static_cast<int32>(1);
+				x |= x >> static_cast<int32>(2);
+				x |= x >> static_cast<int32>(4);
+				x |= x >> static_cast<int32>(8);
+				x |= x >> static_cast<int32>(16);
 				x++;
-				return x >> 1;
+				return x >> static_cast<int32>(1);
 			}
 			inline int64 FloorPowerOfTwo(int64 x) {
 				x--;
-				x |= x >> 1;
-				x |= x >> 2;
-				x |= x >> 4;
-				x |= x >> 8;
-				x |= x >> 16;
+				x |= x >> static_cast<int64>(1);
+				x |= x >> static_cast<int64>(2);
+				x |= x >> static_cast<int64>(4);
+				x |= x >> static_cast<int64>(8);
+				x |= x >> static_cast<int64>(16);
 				x++;
-				return x >> 1;
+				return x >> static_cast<int64>(1);
 			}
 			inline float32 FloorPowerOfTwo(float32 a) {
 				int32 x = static_cast<int32>(a);
 				x--;
-				x |= x >> 1;
-				x |= x >> 2;
-				x |= x >> 4;
-				x |= x >> 8;
-				x |= x >> 16;
+				x |= x >> static_cast<int32>(1);
+				x |= x >> static_cast<int32>(2);
+				x |= x >> static_cast<int32>(4);
+				x |= x >> static_cast<int32>(8);
+				x |= x >> static_cast<int32>(16);
 				x++;
-				return static_cast<float32>(x >> 1);
+				return static_cast<float32>(x >> static_cast<int32>(1));
 			}
 			inline float64 FloorPowerOfTwo(float64 a) {
 				int64 x = static_cast<int64>(a);
 				x--;
-				x |= x >> 1;
-				x |= x >> 2;
-				x |= x >> 4;
-				x |= x >> 8;
-				x |= x >> 16;
+				x |= x >> static_cast<int64>(1);
+				x |= x >> static_cast<int64>(2);
+				x |= x >> static_cast<int64>(4);
+				x |= x >> static_cast<int64>(8);
+				x |= x >> static_cast<int64>(16);
 				x++;
-				return static_cast<float64>(x >> 1);
+				return static_cast<float64>(x >> static_cast<int64>(1));
 			}
 
 			inline int16 CeilPowerOfTwo(int16 x) {
 				x--;
-				x |= x >> 1;
-				x |= x >> 2;
-				x |= x >> 4;
-				x |= x >> 8;
-				x |= x >> 16;
+				x |= x >> static_cast<int16>(1);
+				x |= x >> static_cast<int16>(2);
+				x |= x >> static_cast<int16>(4);
+				x |= x >> static_cast<int16>(8);
+				x |= x >> static_cast<int16>(16);
 				x++;
 				return x;
 			}
 			inline int32 CeilPowerOfTwo(int32 x) {
 				x--;
-				x |= x >> 1;
-				x |= x >> 2;
-				x |= x >> 4;
-				x |= x >> 8;
-				x |= x >> 16;
+				x |= x >> static_cast<int32>(1);
+				x |= x >> static_cast<int32>(2);
+				x |= x >> static_cast<int32>(4);
+				x |= x >> static_cast<int32>(8);
+				x |= x >> static_cast<int32>(16);
 				x++;
 				return x;
 			}
 			inline int64 CeilPowerOfTwo(int64 x) {
 				x--;
-				x |= x >> 1;
-				x |= x >> 2;
-				x |= x >> 4;
-				x |= x >> 8;
-				x |= x >> 16;
+				x |= x >> static_cast<int64>(1);
+				x |= x >> static_cast<int64>(2);
+				x |= x >> static_cast<int64>(4);
+				x |= x >> static_cast<int64>(8);
+				x |= x >> static_cast<int64>(16);
 				x++;
 				return x;
 			}
 			inline float32 CeilPowerOfTwo(float32 a) {
 				int32 x = static_cast<int32>(a);
 				x--;
-				x |= x >> 1;
-				x |= x >> 2;
-				x |= x >> 4;
-				x |= x >> 8;
-				x |= x >> 16;
+				x |= x >> static_cast<int32>(1);
+				x |= x >> static_cast<int32>(2);
+				x |= x >> static_cast<int32>(4);
+				x |= x >> static_cast<int32>(8);
+				x |= x >> static_cast<int32>(16);
 				x++;
 				return static_cast<float32>(x);
 			}
 			inline float64 CeilPowerOfTwo(float64 a) {
 				int64 x = static_cast<int64>(a);
 				x--;
-				x |= x >> 1;
-				x |= x >> 2;
-				x |= x >> 4;
-				x |= x >> 8;
-				x |= x >> 16;
+				x |= x >> static_cast<int64>(1);
+				x |= x >> static_cast<int64>(2);
+				x |= x >> static_cast<int64>(4);
+				x |= x >> static_cast<int64>(8);
+				x |= x >> static_cast<int64>(16);
 				x++;
 				return static_cast<float64>(x);
 			}
@@ -948,7 +948,7 @@ namespace Odin {
 	template<typename Type> inline Type Vec2Length(Type x, Type y) {
 		Type length = x * x + y * y;
 
-		return length == 0 ? 0 : Mathf.Sqrt(length);
+		return length == static_cast<Type>(0) ? static_cast<Type>(0) : Mathf.Sqrt(length);
 	}
 
 	template<typename Type> inline Type Vec3LengthSq(Type x, Type y, Type z) {
@@ -959,7 +959,7 @@ namespace Odin {
 	template<typename Type> inline Type Vec3Length(Type x, Type y, Type z) {
 		Type length = x * x + y * y + z * z;
 
-		return length == 0 ? 0 : Mathf.Sqrt(length);
+		return length == static_cast<Type>(0) ? static_cast<Type>(0) : Mathf.Sqrt(length);
 	}
 
 	template<typename Type> inline Type Vec4LengthSq(Type x, Type y, Type z, Type w) {
@@ -970,7 +970,7 @@ namespace Odin {
 	template<typename Type> inline Type Vec4Length(Type x, Type y, Type z, Type w) {
 		Type length = x * x + y * y + z * z + w * w;
 
-		return length == 0 ? 0 : Mathf.Sqrt(length);
+		return length == static_cast<Type>(0) ? static_cast<Type>(0) : Mathf.Sqrt(length);
 	}
 }
 
