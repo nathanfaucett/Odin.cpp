@@ -3,12 +3,15 @@
 
 namespace Odin {
 
-	inline Scene::Scene(void) : Object() {}
-
+	inline Scene::Scene(void) : Object() {
+		
+	}
+	inline Scene::Scene(std::string name) : Object(name) {
+		
+	}
 	inline Scene::Scene(const Scene& other) : Object() {
 		Copy(other);
 	}
-	
 	inline Scene::Scene(const Scene&& other) : Object() {
 		Move(std::move(other));
 	}
@@ -37,14 +40,6 @@ namespace Odin {
 		return *this;
 	}
 
-	inline void Scene::p_Clear(void) {
-		uint32 i = m_gameObjects.Length();
-		
-		while (i--) {
-			RemoveGameObject(m_gameObjects[i]);
-		}
-	}
-
 	inline void Scene::p_Init(void) {
 		
 		for (auto it = m_components.begin(); it != m_components.end(); ++it) {
@@ -67,14 +62,11 @@ namespace Odin {
 		}
 	}
 
-	inline void Scene::p_Update(void) {
+	inline void Scene::p_Clear(void) {
+		uint32 i = m_gameObjects.Length();
 		
-		for (auto it = m_components.begin(); it != m_components.end(); ++it) {
-			Array<Component*>* components = it->second;
-			
-			for (uint32 i = 0, length = components->Length(); i < length; i++) {
-				(*components)[i]->p_Update();
-			}
+		while (i--) {
+			RemoveGameObject(m_gameObjects[i]);
 		}
 	}
 
@@ -208,7 +200,14 @@ namespace Odin {
 	}
 
 	inline void Scene::Update(void) {
-		p_Update();
+		
+		for (auto it = m_components.begin(); it != m_components.end(); ++it) {
+			Array<Component*>* components = it->second;
+			
+			for (uint32 i = 0, length = components->Length(); i < length; i++) {
+				(*components)[i]->Update();
+			}
+		}
 	}
 	
 	template <typename Type>inline Array<Type*>* Scene::GetComponents(void) {

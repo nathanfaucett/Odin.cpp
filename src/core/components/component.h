@@ -18,23 +18,23 @@ namespace Odin {
 			float32 p_order;
 			GameObject* p_gameObject;
 
-			inline virtual void p_Clear(void);
-
 			inline virtual void p_Init(void);
 			inline virtual void p_Start(void);
-			inline virtual void p_Update(void);
+			inline virtual void p_Clear(void);
 
 			inline virtual void p_Sort(void);
 
 		public:
 			inline Component(void);
-			inline Component(std::string Name);
+			inline Component(std::string name);
 			inline Component(const Component& other);
 			inline Component(const Component&& other);
 			inline ~Component(void);
 
 			inline virtual Component& Copy(const Component& other);
 			inline virtual Component& Move(const Component&& other);
+
+			inline virtual void Update(void);
 			
 			inline GameObject* GetGameObject(void);
 			inline Scene* GetScene(void);

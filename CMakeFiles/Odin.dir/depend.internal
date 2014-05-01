@@ -27,8 +27,6 @@ CMakeFiles/Odin.dir/main.cpp.o
  /home/nathan/c++/odin/src/core/game/game.h
  /home/nathan/c++/odin/src/core/game_object.cpp
  /home/nathan/c++/odin/src/core/game_object.h
- /home/nathan/c++/odin/src/core/renderer/renderer.cpp
- /home/nathan/c++/odin/src/core/renderer/renderer.h
  /home/nathan/c++/odin/src/core/renderer/window.cpp
  /home/nathan/c++/odin/src/core/renderer/window.h
  /home/nathan/c++/odin/src/core/scene.cpp

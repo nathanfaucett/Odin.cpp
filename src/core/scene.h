@@ -28,17 +28,15 @@ namespace Odin {
 
 		protected:
 
-			inline void p_Clear(void);
-
 			inline void p_Init(void);
 			inline void p_Start(void);
-			inline void p_Update(void);
+			inline void p_Clear(void);
 
 		public:
 			inline Scene(void);
+			inline Scene(std::string name);
 			inline Scene(const Scene& other);
 			inline Scene(const Scene&& other);
-			inline Scene(std::string Name);
 			inline ~Scene(void);
 			
 			inline virtual Scene& Copy(const Scene& other);

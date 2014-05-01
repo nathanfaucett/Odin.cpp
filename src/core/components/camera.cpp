@@ -26,7 +26,7 @@ namespace Odin {
 		m_maxOrthographicSize = 1024.0f;
 	}
 
-	inline Camera::Camera(std::string Name) : Component(Name) {
+	inline Camera::Camera(std::string name) : Component(name) {
 		m_needsUpdate = true;
 
 		m_width = 960.0f;
@@ -113,19 +113,23 @@ namespace Odin {
 		return *this;
 	}
 
+	inline void Camera::p_Init(void) {
+		Component::p_Init();
+	}
+
+	inline void Camera::p_Start(void) {
+		Component::p_Start();
+	}
+
 	inline void Camera::p_Clear(void) {
 		Component::p_Clear();
 	}
 
-	inline void Camera::p_Init(void) {
-
+	inline void Camera::p_Sort(void) {
+		p_order = m_active ? 0.0f : 1.0f;
 	}
 
-	inline void Camera::p_Start(void) {
-
-	}
-
-	inline void Camera::p_Update(void) {
+	inline void Camera::Update(void) {
 		if (!m_active) {
 			return;
 		}
@@ -160,10 +164,6 @@ namespace Odin {
 		}
 
 		view.Inverse(transform->matrixWorld);
-	}
-
-	inline void Camera::p_Sort(void) {
-		p_order = m_active ? 0.0f : 1.0f;
 	}
 
 	inline Vec3f Camera::ToWorld(const Vec2f& v) {

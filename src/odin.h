@@ -51,7 +51,6 @@ namespace Odin {
 #include "core/scene.h"
 
 #include "core/renderer/window.h"
-#include "core/renderer/renderer.h"
 
 #include "core/game/base_game.h"
 #include "core/game/game.h"
@@ -70,7 +69,6 @@ namespace Odin {
 #include "core/scene.cpp"
 
 #include "core/renderer/window.cpp"
-#include "core/renderer/renderer.cpp"
 
 #include "core/game/base_game.cpp"
 #include "core/game/game.cpp"

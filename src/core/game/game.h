@@ -6,35 +6,30 @@ namespace Odin {
 	class Game : public BaseGame {
 
 		private:
-			Window m_window;
-			Renderer m_renderer;
+			SDL_Event m_event;
+			bool m_play;
+			Window* m_window;
 
 			Scene* m_scene;
 			Camera* m_camera;
 
 		protected:
-			inline void p_Init(void);
-			inline void p_Update(void);
-			inline void p_Clear(void);
+			inline virtual void p_Init(void);
+			inline virtual void p_Clear(void);
 
 		public:
 			inline Game(void);
-			inline Game(std::string Name);
-			inline Game(const Game& other);
-			inline Game(const Game&& other);
+			inline Game(std::string name);
 			inline ~Game(void);
 
-			inline virtual Game& Copy(const Game& other);
-			inline virtual Game& Move(const Game&& other);
+			inline virtual Game& SetScene(Scene* scene);
+			inline virtual Game& SetCamera(GameObject* gameObject);
+	
+			inline virtual void Init(void);
+			inline virtual void Update(void);
 
-			inline Game& SetScene(Scene* scene);
-			inline Game& SetCamera(GameObject* gameObject);
-			
-			inline Game& Update(void);
-			inline Game& Render(void);
-			
-			inline Game& operator =(const Game& other);
-			inline Game& operator =(const Game&& other);
+			inline Window* GetWindow(void);
+			inline Game& SetWindow(Window* m_window);
 	};
 }
 

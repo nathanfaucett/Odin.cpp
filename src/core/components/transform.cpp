@@ -11,7 +11,7 @@ namespace Odin {
 		p_updateOrder = -9999;
 	}
 	
-	inline Transform::Transform(std::string Name) : Component(Name) {
+	inline Transform::Transform(std::string name) : Component(name) {
 		m_parent = NULL;
 		m_root = this;
 		
@@ -86,6 +86,14 @@ namespace Odin {
 		}
 	}
 
+	inline void Transform::p_Init(void) {
+
+	}
+
+	inline void Transform::p_Start(void) {
+
+	}
+
 	inline void Transform::p_Clear(void) {
 		Component::p_Clear();
 
@@ -95,15 +103,11 @@ namespace Odin {
 		m_children.Clear();
 	}
 
-	inline void Transform::p_Init(void) {
-
+	inline void Transform::p_Sort(void) {
+		p_order = float32(m_depth);
 	}
 
-	inline void Transform::p_Start(void) {
-
-	}
-
-	inline void Transform::p_Update(void) {
+	inline void Transform::Update(void) {
 
 		matrix.Compose(position, scale, rotation);
 
@@ -119,10 +123,6 @@ namespace Odin {
 
 		Mat4Mul<float32>(viewMatrix, matrixWorld, modelView);
 		Mat3InverseMat4<float32>(modelView, normalMatrix).Transpose();
-	}
-
-	inline void Transform::p_Sort(void) {
-		p_order = float32(m_depth);
 	}
 
 	inline int32 Transform::GetDepth(void) {

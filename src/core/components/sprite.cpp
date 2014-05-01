@@ -17,7 +17,7 @@ namespace Odin {
 		m_h = 1;
 	}
 	
-	inline Sprite::Sprite(std::string Name) : Component(Name) {
+	inline Sprite::Sprite(std::string name) : Component(name) {
 		m_z = 0.0f;
 		m_alpha = 1.0f;
 		m_visible = true;
@@ -84,19 +84,19 @@ namespace Odin {
 	}
 
 	inline void Sprite::p_Init(void) {
-
+		Component::p_Init();
 	}
 
 	inline void Sprite::p_Start(void) {
-
-	}
-
-	inline void Sprite::p_Update(void) {
-
+		Component::p_Start();
 	}
 
 	inline void Sprite::p_Sort(void) {
 		p_order = m_z;
+	}
+
+	inline void Sprite::Update(void) {
+
 	}
 
 	inline Sprite& Sprite::operator =(const Sprite& other) {

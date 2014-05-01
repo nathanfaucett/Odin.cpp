@@ -26,8 +26,6 @@ CMakeFiles/Odin.dir/main.cpp.o: src/core/game/game.cpp
 CMakeFiles/Odin.dir/main.cpp.o: src/core/game/game.h
 CMakeFiles/Odin.dir/main.cpp.o: src/core/game_object.cpp
 CMakeFiles/Odin.dir/main.cpp.o: src/core/game_object.h
-CMakeFiles/Odin.dir/main.cpp.o: src/core/renderer/renderer.cpp
-CMakeFiles/Odin.dir/main.cpp.o: src/core/renderer/renderer.h
 CMakeFiles/Odin.dir/main.cpp.o: src/core/renderer/window.cpp
 CMakeFiles/Odin.dir/main.cpp.o: src/core/renderer/window.h
 CMakeFiles/Odin.dir/main.cpp.o: src/core/scene.cpp

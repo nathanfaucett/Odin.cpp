@@ -4,70 +4,32 @@
 namespace Odin {
 
 	inline Game::Game(void) : BaseGame() {
-		p_Init();
 		m_scene = NULL;
 		m_camera = NULL;
+		m_play = true;
+		
+		m_window = new Window;
+		m_window->Create();
 	}
-
-	inline Game::Game(const Game& other) : BaseGame() {
-		Copy(other);
-	}
-	
-	inline Game::Game(const Game&& other) : BaseGame() {
-		Move(std::move(other));
-	}
-
-	inline Game::Game(std::string Name) : BaseGame(Name) {
-		p_Init();
+	inline Game::Game(std::string name) : BaseGame(name) {
 		m_scene = NULL;
 		m_camera = NULL;
+		m_play = true;
+		
+		m_window = new Window;
+		m_window->Create();
 	}
-
 	inline Game::~Game(void) {
+		BaseGame::p_Clear();
 		p_Clear();
-	}
-
-	inline Game& Game::Copy(const Game& other) {
-		BaseGame::Copy(static_cast<BaseGame>(other));
-	
-		m_window = other.m_window;
-		m_renderer = other.m_renderer;
-
-		m_scene = other.m_scene;
-		m_camera = other.m_camera;
-		
-		return *this;
-	}
-
-	inline Game& Game::Move(const Game&& other) {
-		BaseGame::Move(std::move(static_cast<BaseGame>(other)));
-		
-		m_window = std::move(other.m_window);
-		m_renderer = std::move(other.m_renderer);
-
-		m_scene = std::move(other.m_scene);
-		m_camera = std::move(other.m_camera);
-		
-		return *this;
+		delete m_window;
 	}
 
 	inline void Game::p_Init(void) {
-		m_window.name = name;
-		m_window.Create(0, 0, 960, 640, false, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
-		m_renderer.SetWindow(&m_window);
+		m_window->SetTitle(p_name);
+		m_window->SetOpenGL();
 	}
-
-	inline void Game::p_Update(void) {
-		BaseGame::p_Update();
-		
-		if (m_scene != NULL) {
-			m_scene->p_Update();
-		}
-	}
-
 	inline void Game::p_Clear(void) {
-		BaseGame::p_Clear();
-		
 		m_scene = NULL;
 		m_camera = NULL;
 	}
@@ -122,33 +84,41 @@ namespace Odin {
 
 		return *this;
 	}
-
-	inline Game& Game::Update(void) {
-		p_Update();
-		return *this;
-	}
-
-	inline Game& Game::Render(void) {
-		if (m_scene == NULL) {
-			Log("Game::Render: can't render scene without an active scene, use Game::SetScene first", __LINE__);
-			return *this;
-		}
-		if (m_camera == NULL) {
-			Log("Game::Render: can't render scene without an active camera, use Game::SetCamera first", __LINE__);
-			return *this;
-		}
+	
+	inline void Game::Init(void) {
+		p_Init();
 		
-		m_renderer.Render(m_camera, m_scene);
+		while(m_play) {
+			Update();
 
-		return *this;
+			while(SDL_PollEvent(&m_event)) {
+				m_window->Update(&m_event);
+				
+				switch(m_event.type) {
+					case SDL_QUIT:
+						m_play = false;
+						break;
+				}
+			}
+		}
 	}
-
-	inline Game& Game::operator =(const Game& other) {
-		return Copy(other);
+	inline void Game::Update(void) {
+		BaseGame::Update();
+		
+		if (m_scene != NULL) {
+			m_scene->Update();
+		}
 	}
 	
-	inline Game& Game::operator =(const Game&& other) {
-		return Move(std::move(other));
+	inline Window* Game::GetWindow(void) {
+		return m_window;
+	}
+	inline Game& Game::SetWindow(Window* window) {
+		if (window == NULL || window == m_window) {
+			return *this;
+		}
+		m_window = window;
+		return *this;
 	}
 }
 

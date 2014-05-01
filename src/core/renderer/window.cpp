@@ -3,83 +3,60 @@
 
 namespace Odin {
 
-	inline Window::Window(void) : Object() {
+	inline Window::Window(void) {
 		m_window = NULL;
 		m_glContext = NULL;
+		
+		m_title = "Window";
+		m_fullscreen = false;
+		m_fullscreenDesktop = false;
+		m_opengl = false;
+		m_borderless = false;
+		m_resizable = false;
+		m_inputGrabbed = false;
+		m_inputFocus = false;
+		m_mouseFocus = false;
+		m_allowHighDPI = false;
 	}
-
-	inline Window::Window(std::string Name) : Object(Name) {
+	inline Window::Window(std::string title) {
 		m_window = NULL;
 		m_glContext = NULL;
+		
+		m_title = title;
+		m_fullscreen = false;
+		m_fullscreenDesktop = false;
+		m_opengl = false;
+		m_borderless = false;
+		m_resizable = false;
+		m_inputGrabbed = false;
+		m_inputFocus = false;
+		m_mouseFocus = false;
+		m_allowHighDPI = false;
 	}
-
-	inline Window::Window(const Window& other) : Object() {
-		Copy(other);
-	}
-	
-	inline Window::Window(const Window&& other) : Object() {
-		Move(std::move(other));
-	}
-
 	inline Window::~Window(void) {
 		Close();
 	}
 
-	inline Window& Window::Copy(const Window& other) {
-		Object::Copy(static_cast<Object>(other));
-		
-		m_window = other.m_window;
-		m_glContext = other.m_glContext;
-		
-		m_fullscreen = other.m_fullscreen;
-		
-		m_x = other.m_x;
-		m_y = other.m_y;
-		m_width = other.m_width;
-		m_height = other.m_height;
-		
-		m_windowFlags = other.m_windowFlags;
-		
-		return *this;
-	}
-	
-	inline Window& Window::Move(const Window&& other) {
-		Object::Move(std::move(static_cast<Object>(other)));
-		
-		m_window = std::move(other.m_window);
-		m_glContext = std::move(other.m_glContext);
-		
-		m_fullscreen = std::move(other.m_fullscreen);
-		
-		m_x = std::move(other.m_x);
-		m_y = std::move(other.m_y);
-		m_width = std::move(other.m_width);
-		m_height = std::move(other.m_height);
-		
-		m_windowFlags = std::move(other.m_windowFlags);
-		
-		return *this;
-	}
-
-	inline bool Window::Create(int32 x, int32 y, int32 width, int32 height, bool fullscreen, uint32 windowFlags) {
+	inline bool Window::m_Create(int32 x, int32 y, int32 width, int32 height) {
 		Close();
-
+		uint32 flags = 0;
+		
+		if (m_fullscreen) flags |= SDL_WINDOW_FULLSCREEN;
+		if (m_fullscreenDesktop && !m_fullscreen) flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+		if (m_opengl) flags |= SDL_WINDOW_OPENGL;
+		if (m_borderless) flags |= SDL_WINDOW_BORDERLESS;
+		if (m_resizable) flags |= SDL_WINDOW_RESIZABLE;
+		if (m_inputGrabbed) flags |= SDL_WINDOW_INPUT_GRABBED;
+		if (m_inputFocus) flags |= SDL_WINDOW_INPUT_FOCUS;
+		if (m_mouseFocus) flags |= SDL_WINDOW_MOUSE_FOCUS;
+		if (m_allowHighDPI) flags |= SDL_WINDOW_ALLOW_HIGHDPI;
+		
 		m_x = x;
 		m_y = y;
 		m_width = width;
 		m_height = height;
-		m_windowFlags = windowFlags;
 
-		m_window = SDL_CreateWindow(
-		               name.c_str(),
-		               m_x,
-		               m_y,
-		               m_width,
-		               m_height,
-		               m_windowFlags
-		           );
-
-		SetFullscreen(fullscreen);
+		m_window = SDL_CreateWindow(m_title.c_str(), m_x, m_y, m_width, m_height, flags);
 
 		if (m_window == NULL) {
 			Log("SDL_CreateWindow Failed", __LINE__);
@@ -88,6 +65,14 @@ namespace Odin {
 
 		SDLCheckError(__LINE__);
 		return true;
+	}
+
+	inline bool Window::Create(void) {
+		return m_Create(m_x, m_y, m_width, m_height);
+	}
+
+	inline bool Window::Create(int32 x, int32 y, int32 width, int32 height) {
+		return m_Create(x, y, width, height);
 	}
 
 	inline Window& Window::Close(void) {
@@ -100,12 +85,28 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Window& Window::Update(void) {
-		if (m_glContext == NULL || m_window == NULL) {
+	inline Window& Window::Update(const SDL_Event* event) {
+		if (m_window == NULL) {
 			return *this;
 		}
-
-		SDL_GL_SwapWindow(m_window);
+		if (m_glContext != NULL) {
+			SDL_GL_SwapWindow(m_window);
+		}
+		
+		if (event->type == SDL_WINDOWEVENT) {
+			switch (event->window.event) {
+				case SDL_WINDOWEVENT_RESIZED:
+					m_width = event->window.data1;
+					m_height = event->window.data2;
+					break;
+				
+				case SDL_WINDOWEVENT_MOVED:
+					m_x = event->window.data1;
+					m_y = event->window.data2;
+					break;
+			}
+		}
+		
 		return *this;
 	}
 
@@ -149,33 +150,99 @@ namespace Odin {
 	}
 
 	inline Window& Window::SetFullscreen(bool value) {
+		m_fullscreen = value;
+		
 		if (m_window == NULL) {
 			return *this;
 		}
 
-		m_fullscreen = value;
-
 		if (value) {
 			SDL_SetWindowFullscreen(m_window, SDL_WINDOW_FULLSCREEN);
-
-			if ((m_windowFlags & SDL_WINDOW_FULLSCREEN) != SDL_WINDOW_FULLSCREEN) {
-				m_windowFlags |= SDL_WINDOW_FULLSCREEN;
-			}
-
 		} else {
 			SDL_SetWindowFullscreen(m_window, 0);
-
-			if ((m_windowFlags & SDL_WINDOW_FULLSCREEN) == SDL_WINDOW_FULLSCREEN) {
-				m_windowFlags ^= SDL_WINDOW_FULLSCREEN;
-			}
 		}
 
 		return *this;
 	}
+	inline Window& Window::SetFullscreenDesktop(bool value) {
+		m_fullscreenDesktop = value;
+		
+		if (m_window == NULL) {
+			return *this;
+		}
 
+		if (value) {
+			SDL_SetWindowFullscreen(m_window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+		} else {
+			SDL_SetWindowFullscreen(m_window, 0);
+		}
+
+		return *this;
+	}
 	inline Window& Window::ToggleFullscreen(void) {
 		m_fullscreen = !m_fullscreen;
 		SetFullscreen(m_fullscreen);
+		return *this;
+	}
+	inline Window& Window::ToggleFullscreenDesktop(void) {
+		m_fullscreenDesktop = !m_fullscreenDesktop;
+		SetFullscreenDesktop(m_fullscreenDesktop);
+		return *this;
+	}
+	inline Window& Window::SetOpenGL(bool value) {
+		m_opengl = value;
+		if (m_opengl == value || m_window == NULL) {
+			return *this;
+		}
+		Create();
+		return *this;
+	}
+	inline Window& Window::SetBorderless(bool value) {
+		m_borderless = value;
+		if (m_borderless == value || m_window == NULL) {
+			return *this;
+		}
+		Create();
+		return *this;
+	}
+	inline Window& Window::SetResizable(bool value) {
+		m_resizable = value;
+		if (m_resizable == value || m_window == NULL) {
+			return *this;
+		}
+		Create();
+		return *this;
+	}
+	inline Window& Window::SetInputGrabbed(bool value) {
+		m_inputGrabbed = value;
+		if (m_inputGrabbed == value || m_window == NULL) {
+			return *this;
+		}
+		Create();
+		return *this;
+	}
+	inline Window& Window::SetInputFocus(bool value) {
+		m_inputFocus = value;
+		if (m_inputFocus == value || m_window == NULL) {
+			return *this;
+		}
+		Create();
+		return *this;
+	}
+	inline Window& Window::SetMouseFocus(bool value) {
+		m_mouseFocus = value;
+		if (m_mouseFocus == value || m_window == NULL) {
+			return *this;
+		}
+		Create();
+		return *this;
+	}
+	inline Window& Window::SetAllowHighDPI(bool value) {
+		m_allowHighDPI = value;
+		if (m_allowHighDPI == value || m_window == NULL) {
+			return *this;
+		}
+		Create();
 		return *this;
 	}
 
@@ -203,42 +270,46 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Window& Window::SetTitle(std::string Name) {
+	inline Window& Window::SetTitle(std::string title) {
 		if (m_window == NULL) {
 			return *this;
 		}
 
-		name = Name;
-		SDL_SetWindowTitle(m_window, name.c_str());
+		m_title = title;
+		SDL_SetWindowTitle(m_window, m_title.c_str());
 		return *this;
 	}
 
-	inline int32 Window::X(void) {
+	inline int32 Window::GetX(void) {
+		if (m_window == NULL) {
+			return m_x;
+		}
 		return m_x;
 	}
 
-	inline int32 Window::Y(void) {
+	inline int32 Window::GetY(void) {
+		if (m_window == NULL) {
+			return m_y;
+		}
 		return m_y;
 	}
 
-	inline int32 Window::Width(void) {
+	inline int32 Window::GetWidth(void) {
+		if (m_window == NULL) {
+			return m_width;
+		}
 		return m_width;
 	}
 
-	inline int32 Window::Height(void) {
+	inline int32 Window::GetHeight(void) {
+		if (m_window == NULL) {
+			return m_height;
+		}
 		return m_height;
 	}
 
 	inline SDL_Window* Window::GetSDLWindow(void) {
 		return m_window;
-	}
-
-	inline Window& Window::operator =(const Window& other) {
-		return Copy(other);
-	}
-	
-	inline Window& Window::operator =(const Window&& other) {
-		return Move(std::move(other));
 	}
 }
 

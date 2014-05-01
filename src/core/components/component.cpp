@@ -5,7 +5,7 @@ namespace Odin {
 
 	inline Component::Component(void) : Object() {}
 
-	inline Component::Component(std::string Name) : Object(Name) {}
+	inline Component::Component(std::string name) : Object(name) {}
 
 	inline Component::Component(const Component& other) : Object() {
 		Copy(other);
@@ -37,10 +37,6 @@ namespace Odin {
 		return *this;
 	}
 
-	inline void Component::p_Clear(void) {
-		p_gameObject = NULL;
-	}
-
 	inline void Component::p_Init(void) {
 
 	}
@@ -49,12 +45,16 @@ namespace Odin {
 
 	}
 
-	inline void Component::p_Update(void) {
-
+	inline void Component::p_Clear(void) {
+		p_gameObject = NULL;
 	}
 
 	inline void Component::p_Sort(void) {
 		p_order = 0.0f;
+	}
+
+	inline void Component::Update(void) {
+
 	}
 
 	inline GameObject* Component::GetGameObject(void) {

@@ -3,27 +3,22 @@
 
 namespace Odin {
 
-	class BaseGame : public Object {
+	class BaseGame {
 
 		private:
-
+			
 		protected:
+			std::string p_name;
+			
 			inline virtual void p_Init(void);
-			inline virtual void p_Update(void);
 			inline virtual void p_Clear(void);
 
 		public:
 			inline BaseGame(void);
-			inline BaseGame(std::string Name);
-			inline BaseGame(const BaseGame& other);
-			inline BaseGame(const BaseGame&& other);
+			inline BaseGame(std::string name);
 			inline ~BaseGame(void);
-
-			inline virtual BaseGame& Copy(const BaseGame& other);
-			inline virtual BaseGame& Move(const BaseGame&& other);
 			
-			inline BaseGame& operator =(const BaseGame& other);
-			inline BaseGame& operator =(const BaseGame&& other);
+			inline virtual void Update(void);
 	};
 }
 

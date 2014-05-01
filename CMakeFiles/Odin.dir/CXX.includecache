@@ -96,10 +96,6 @@ TargetConditionals.h
 
 /home/nathan/c++/odin/src/core/game_object.h
 
-/home/nathan/c++/odin/src/core/renderer/renderer.cpp
-
-/home/nathan/c++/odin/src/core/renderer/renderer.h
-
 /home/nathan/c++/odin/src/core/renderer/window.cpp
 
 /home/nathan/c++/odin/src/core/renderer/window.h
@@ -249,8 +245,6 @@ core/scene.h
 /home/nathan/c++/odin/src/core/scene.h
 core/renderer/window.h
 /home/nathan/c++/odin/src/core/renderer/window.h
-core/renderer/renderer.h
-/home/nathan/c++/odin/src/core/renderer/renderer.h
 core/game/base_game.h
 /home/nathan/c++/odin/src/core/game/base_game.h
 core/game/game.h
@@ -269,8 +263,6 @@ core/scene.cpp
 /home/nathan/c++/odin/src/core/scene.cpp
 core/renderer/window.cpp
 /home/nathan/c++/odin/src/core/renderer/window.cpp
-core/renderer/renderer.cpp
-/home/nathan/c++/odin/src/core/renderer/renderer.cpp
 core/game/base_game.cpp
 /home/nathan/c++/odin/src/core/game/base_game.cpp
 core/game/game.cpp

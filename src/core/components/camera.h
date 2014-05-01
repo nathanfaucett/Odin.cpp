@@ -21,11 +21,9 @@ namespace Odin {
 			float32 m_maxOrthographicSize;
 
 		protected:
-			inline void p_Clear(void);
-
 			inline void p_Init(void);
 			inline void p_Start(void);
-			inline void p_Update(void);
+			inline void p_Clear(void);
 
 			inline void p_Sort(void);
 
@@ -34,13 +32,15 @@ namespace Odin {
 			Colorf background;
 
 			inline Camera(void);
-			inline Camera(std::string Name);
+			inline Camera(std::string name);
 			inline Camera(const Camera& other);
 			inline Camera(const Camera&& other);
 			inline ~Camera(void);
 
 			inline virtual Camera& Copy(const Camera& other);
 			inline virtual Camera& Move(const Camera&& other);
+			
+			inline void Update(void);
 
 			inline Vec3f ToWorld(const Vec2f& v);
 			inline Vec2f ToScreen(const Vec3f& v);

@@ -17,7 +17,7 @@ namespace Odin {
 		p_scene = NULL;
 	}
 
-	inline GameObject::GameObject(std::string Name) : Object(Name) {
+	inline GameObject::GameObject(std::string name) : Object(name) {
 		p_scene = NULL;
 	}
 
