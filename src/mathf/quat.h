@@ -31,10 +31,10 @@ namespace Odin {
 			inline Type Length(void);
 			inline Type Normalize(void);
 
-			inline Quat<Type> Lerp(const Quat<Type>& q, Type t);
-			inline Quat<Type>& Slerp(const Quat<Type>& q, Type t);
+			inline Quat<Type> Lerp(const Quat<Type>& q, float32 t);
+			inline Quat<Type>& Slerp(const Quat<Type>& q, float32 t);
 
-			inline static Quat<Type> Lerp(const Quat<Type>& a, const Quat<Type>& b, Type t) {
+			inline static Quat<Type> Lerp(const Quat<Type>& a, const Quat<Type>& b, float32 t) {
 
 				return Quat(
 				           Mathf.Lerp(a.x, b.x, t),
@@ -44,7 +44,7 @@ namespace Odin {
 				       );
 			}
 
-			inline static Quat<Type> Slerp(const Quat<Type>& a, const Quat<Type>& b, Type t) {
+			inline static Quat<Type> Slerp(const Quat<Type>& a, const Quat<Type>& b, float32 t) {
 				Type ax = a.x,
 				     ay = a.y,
 				     az = a.z,

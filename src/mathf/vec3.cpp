@@ -3,14 +3,12 @@
 
 namespace Odin {
 
-	template <typename Type> const Vec3<Type> Vec3<Type>::ZERO(static_cast<Type>(0), static_cast<Type>(0), static_cast<Type>(0));
-	template <typename Type> const Vec3<Type> Vec3<Type>::UNIT_X(static_cast<Type>(1), static_cast<Type>(0), static_cast<Type>(0));
-	template <typename Type> const Vec3<Type> Vec3<Type>::UNIT_Y(static_cast<Type>(0), static_cast<Type>(1), static_cast<Type>(0));
-	template <typename Type> const Vec3<Type> Vec3<Type>::UNIT_Z(static_cast<Type>(0), static_cast<Type>(0), static_cast<Type>(1));
-	template <typename Type> const Vec3<Type> Vec3<Type>::NEGATIVE_UNIT_X(-static_cast<Type>(1), static_cast<Type>(0), static_cast<Type>(0));
-	template <typename Type> const Vec3<Type> Vec3<Type>::NEGATIVE_UNIT_Y(static_cast<Type>(0), -static_cast<Type>(1), static_cast<Type>(0));
-	template <typename Type> const Vec3<Type> Vec3<Type>::NEGATIVE_UNIT_Z(static_cast<Type>(0), static_cast<Type>(0), -static_cast<Type>(1));
-	template <typename Type> const Vec3<Type> Vec3<Type>::UNIT_SCALE(static_cast<Type>(1), static_cast<Type>(1), static_cast<Type>(1));
+	template <typename Type> const Vec3<Type> Vec3<Type>::Right(static_cast<Type>(1), static_cast<Type>(0), static_cast<Type>(0));
+	template <typename Type> const Vec3<Type> Vec3<Type>::Forward(static_cast<Type>(0), static_cast<Type>(1), static_cast<Type>(0));
+	template <typename Type> const Vec3<Type> Vec3<Type>::Up(static_cast<Type>(0), static_cast<Type>(0), static_cast<Type>(1));
+	template <typename Type> const Vec3<Type> Vec3<Type>::Left(-static_cast<Type>(1), static_cast<Type>(0), static_cast<Type>(0));
+	template <typename Type> const Vec3<Type> Vec3<Type>::Backward(static_cast<Type>(0), -static_cast<Type>(1), static_cast<Type>(0));
+	template <typename Type> const Vec3<Type> Vec3<Type>::Down(static_cast<Type>(0), static_cast<Type>(0), -static_cast<Type>(1));
 
 	template <typename Type> inline Vec3<Type>::Vec3(void) {
 		x = static_cast<Type>(0);
@@ -132,7 +130,7 @@ namespace Odin {
 		return len;
 	}
 
-	template <typename Type> inline Vec3<Type>& Vec3<Type>::Lerp(const Vec3<Type>& v, Type t) {
+	template <typename Type> inline Vec3<Type>& Vec3<Type>::Lerp(const Vec3<Type>& v, float32 t) {
 		x = Mathf.Lerp(x, v.x, t);
 		y = Mathf.Lerp(y, v.y, t);
 		z = Mathf.Lerp(z, v.z, t);

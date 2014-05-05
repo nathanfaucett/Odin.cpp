@@ -124,7 +124,7 @@ namespace Odin {
 		return len;
 	}
 
-	template <typename Type> inline Quat<Type> Quat<Type>::Lerp(const Quat<Type>& q, Type t) {
+	template <typename Type> inline Quat<Type> Quat<Type>::Lerp(const Quat<Type>& q, float32 t) {
 		x = Mathf.Lerp(x, q.x, t);
 		y = Mathf.Lerp(y, q.y, t);
 		z = Mathf.Lerp(z, q.z, t);
@@ -133,7 +133,7 @@ namespace Odin {
 		return *this;
 	}
 
-	template <typename Type> inline Quat<Type>& Quat<Type>::Slerp(const Quat<Type>& q, Type t) {
+	template <typename Type> inline Quat<Type>& Quat<Type>::Slerp(const Quat<Type>& q, float32 t) {
 		Type ax = x,
 		     ay = y,
 		     az = z,

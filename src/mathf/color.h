@@ -36,9 +36,9 @@ namespace Odin {
 			inline void CNormalize(void);
 			inline void HexNormalize(void);
 
-			inline Color<Type>& Lerp(const Color<Type>& c, Type t);
+			inline Color<Type>& Lerp(const Color<Type>& c, float32 t);
 
-			inline static Color<Type> Lerp(const Color<Type>& a, const Color<Type>& b, Type t) {
+			inline static Color<Type> Lerp(const Color<Type>& a, const Color<Type>& b, float32 t) {
 
 				return Color(
 				           Mathf.Lerp(a.r, b.r, t),
@@ -53,10 +53,14 @@ namespace Odin {
 			}
 
 			static const Color<Type> Black;
-			static const Color<Type> White;
-			static const Color<Type> Red;
-			static const Color<Type> Green;
 			static const Color<Type> Blue;
+			static const Color<Type> Cyan;
+			static const Color<Type> Grey;
+			static const Color<Type> Green;
+			static const Color<Type> Gray;
+			static const Color<Type> Magenta;
+			static const Color<Type> Red;
+			static const Color<Type> White;
 			static const Color<Type> Yellow;
 			static const Color<Type> Orange;
 

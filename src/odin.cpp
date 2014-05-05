@@ -65,6 +65,12 @@ namespace Odin {
 		exit(1);
 	}
 
+	inline void QuitError(std::string msg) {
+		printf("Force Quit Error: %s\n", msg.c_str());
+		Clear();
+		exit(1);
+	}
+
 	inline void SDLCheckError(int32 line) {
 		#ifndef NDEBUG
 		const char* error = SDL_GetError();

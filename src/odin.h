@@ -1,18 +1,23 @@
 #ifndef ODIN_H
 #define ODIN_H
 
-#include <GL/glew.h>
+#ifdef EMSCRIPTEN
+	#include "emscripten.h"
+#endif
 
+#define GLEW_STATIC
+#include <GL/glew.h>
+#include <GL/glut.h>
+#include <GL/glu.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #if OPENGL_ES
 	#include <SDL2/SDL_opengles.h>
 #else
 	#include <SDL2/SDL_opengl.h>
 #endif
 
-#include <GL/glu.h>
-
-#include "base/base.hpp"
+#include "core/core.hpp"
 
 namespace Odin {
 
@@ -27,6 +32,8 @@ namespace Odin {
 	inline void Delay(float32 s);
 	inline void Delay(float64 s);
 
+	inline void QuitError(std::string msg);
+	inline void GlewQuitError(std::string msg);
 	inline void SDLQuitError(std::string msg);
 	inline void SDLCheckError(int32 line = -1);
 
@@ -42,35 +49,45 @@ namespace Odin {
 #include "mathf/mathf.hpp"
 #include "phys2d/phys2d.h"
 
-#include "core/components/component.h"
-#include "core/components/transform.h"
-#include "core/components/camera.h"
-#include "core/components/sprite.h"
+#include "assets/asset.h"
+#include "assets/texture.h"
 
-#include "core/game_object.h"
-#include "core/scene.h"
+#include "scene_graph/components/component.h"
+#include "scene_graph/components/transform.h"
+#include "scene_graph/components/camera.h"
+#include "scene_graph/components/sprite.h"
 
-#include "core/renderer/window.h"
+#include "scene_graph/game_object.h"
+#include "scene_graph/scene.h"
 
-#include "core/game/base_game.h"
-#include "core/game/game.h"
+#include "renderer/window.h"
+#include "renderer/opengl_renderer.h"
+#include "renderer/renderer.h"
+
+#include "game/base_game.h"
+#include "game/game.h"
 
 
 /*===============================
  * Source Files
  *===============================*/
 
-#include "core/components/component.cpp"
-#include "core/components/transform.cpp"
-#include "core/components/camera.cpp"
-#include "core/components/sprite.cpp"
+#include "assets/asset.cpp"
+#include "assets/texture.cpp"
 
-#include "core/game_object.cpp"
-#include "core/scene.cpp"
+#include "scene_graph/components/component.cpp"
+#include "scene_graph/components/transform.cpp"
+#include "scene_graph/components/camera.cpp"
+#include "scene_graph/components/sprite.cpp"
 
-#include "core/renderer/window.cpp"
+#include "scene_graph/game_object.cpp"
+#include "scene_graph/scene.cpp"
 
-#include "core/game/base_game.cpp"
-#include "core/game/game.cpp"
+#include "renderer/window.cpp"
+#include "renderer/opengl_renderer.cpp"
+#include "renderer/renderer.cpp"
+
+#include "game/base_game.cpp"
+#include "game/game.cpp"
 
 #endif

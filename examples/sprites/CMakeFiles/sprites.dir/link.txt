@@ -1,0 +1,1 @@
+/usr/bin/c++    -I/usr/include    CMakeFiles/sprites.dir/main.cpp.o  -o sprites -rdynamic -lSDL2 -lpthread -lGLU -lGL -lSM -lICE -lX11 -lXext -lGLEW 

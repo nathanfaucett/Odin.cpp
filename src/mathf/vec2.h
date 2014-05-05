@@ -29,7 +29,7 @@ namespace Odin {
 			inline Type Length(void);
 			inline Type Normalize(void);
 
-			inline Vec2<Type>& Lerp(const Vec2<Type>& v, Type t);
+			inline Vec2<Type>& Lerp(const Vec2<Type>& v, float32 t);
 
 			inline Vec2<Type>& Min(const Vec2<Type>& v);
 			inline Vec2<Type>& Max(const Vec2<Type>& v);
@@ -60,7 +60,7 @@ namespace Odin {
 				       );
 			}
 
-			inline static Vec2<Type> Lerp(const Vec2<Type>& a, const Vec2<Type>& b, Type t) {
+			inline static Vec2<Type> Lerp(const Vec2<Type>& a, const Vec2<Type>& b, float32 t) {
 
 				return Vec2(
 				           Mathf.Lerp(a.x, b.x, t),
@@ -78,12 +78,10 @@ namespace Odin {
 				return a.x * b.y - a.y * b.x;
 			}
 
-			static const Vec2<Type> ZERO;
-			static const Vec2<Type> UNIT_X;
-			static const Vec2<Type> UNIT_Y;
-			static const Vec2<Type> NEGATIVE_UNIT_X;
-			static const Vec2<Type> NEGATIVE_UNIT_Y;
-			static const Vec2<Type> UNIT_SCALE;
+			static const Vec2<Type> Right;
+			static const Vec2<Type> Up;
+			static const Vec2<Type> Left;
+			static const Vec2<Type> Down;
 
 			inline Vec2<Type>& operator -(void);
 

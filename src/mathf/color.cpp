@@ -6,10 +6,14 @@ namespace Odin {
 	
 	
 	template <typename Type> const Color<Type> Color<Type>::Black(static_cast<Type>(0), static_cast<Type>(0), static_cast<Type>(0));
-	template <typename Type> const Color<Type> Color<Type>::White(static_cast<Type>(1), static_cast<Type>(1), static_cast<Type>(1));
-	template <typename Type> const Color<Type> Color<Type>::Red(static_cast<Type>(1), static_cast<Type>(0), static_cast<Type>(0));
-	template <typename Type> const Color<Type> Color<Type>::Green(static_cast<Type>(0), static_cast<Type>(1), static_cast<Type>(0));
 	template <typename Type> const Color<Type> Color<Type>::Blue(static_cast<Type>(0), static_cast<Type>(0), static_cast<Type>(1));
+	template <typename Type> const Color<Type> Color<Type>::Cyan(static_cast<Type>(0), static_cast<Type>(1), static_cast<Type>(1));
+	template <typename Type> const Color<Type> Color<Type>::Grey(static_cast<Type>(0.5), static_cast<Type>(0.5), static_cast<Type>(0.5));
+	template <typename Type> const Color<Type> Color<Type>::Green(static_cast<Type>(0), static_cast<Type>(1), static_cast<Type>(0));
+	template <typename Type> const Color<Type> Color<Type>::Gray(static_cast<Type>(0.5), static_cast<Type>(0.5), static_cast<Type>(0.5));
+	template <typename Type> const Color<Type> Color<Type>::Magenta(static_cast<Type>(1), static_cast<Type>(0), static_cast<Type>(1));
+	template <typename Type> const Color<Type> Color<Type>::Red(static_cast<Type>(1), static_cast<Type>(0), static_cast<Type>(0));
+	template <typename Type> const Color<Type> Color<Type>::White(static_cast<Type>(1), static_cast<Type>(1), static_cast<Type>(1));
 	template <typename Type> const Color<Type> Color<Type>::Yellow(static_cast<Type>(1), static_cast<Type>(1), static_cast<Type>(0));
 	template <typename Type> const Color<Type> Color<Type>::Orange(static_cast<Type>(0), static_cast<Type>(0.5), static_cast<Type>(0));
 
@@ -130,7 +134,7 @@ namespace Odin {
 		b = b > static_cast<Type>(255) ? static_cast<Type>(255) : b < static_cast<Type>(0) ? static_cast<Type>(0) : b;
 	}
 
-	template <typename Type> inline Color<Type>& Color<Type>::Lerp(const Color<Type>& c, Type t) {
+	template <typename Type> inline Color<Type>& Color<Type>::Lerp(const Color<Type>& c, float32 t) {
 		r = Mathf.Lerp(r, c.r, t);
 		g = Mathf.Lerp(g, c.g, t);
 		b = Mathf.Lerp(b, c.b, t);

@@ -528,6 +528,9 @@ namespace Odin {
 			inline float32 Lerp(float32 a, float32 b, float32 t) {
 				return a + (b - a) * t;
 			}
+			inline float64 Lerp(float64 a, float64 b, float32 t) {
+				return a + (b - a) * t;
+			}
 			inline float64 Lerp(float64 a, float64 b, float64 t) {
 				return a + (b - a) * t;
 			}
