@@ -43,7 +43,7 @@ namespace Odin {
 		
 		if (scene == NULL) return;
 		
-		
+		Array<Sprite*>* sprites = scene->GetComponents<Sprite>();
 	}
 	
 	inline void Renderer::m_RenderSprite(Camera* camera, Sprite* sprite) {
