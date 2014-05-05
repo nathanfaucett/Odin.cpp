@@ -1,1 +1,0 @@
-/home/nathan/c++/odin/examples/sprites/CMakeFiles/sprites.dir
