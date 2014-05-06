@@ -20,14 +20,11 @@ namespace Odin {
 	}
 
 	inline BaseGame::~BaseGame(void) {
-		p_Clear();
+		
 	}
 
 	inline void BaseGame::p_Init(void) {
 		Resume();
-	}
-	inline void BaseGame::p_Clear(void) {
-		p_scene = NULL;
 	}
 	inline void BaseGame::p_StartLoop(void) {
 		#ifdef EMSCRIPTEN
@@ -52,6 +49,9 @@ namespace Odin {
 
 	inline void BaseGame::Update(void) {
 		Time.Update();
+	}
+	inline void BaseGame::Clear(void) {
+		p_scene = NULL;
 	}
 	
 	inline void BaseGame::Pause(void) {

@@ -10,33 +10,16 @@ namespace Odin {
 		scale.Set(1.0f, 1.0f, 1.0f);
 		p_updateOrder = -9999;
 	}
-	
-	inline Transform::Transform(std::string name) : Component(name) {
-		m_parent = NULL;
-		m_root = this;
-		
-		scale.Set(1.0f, 1.0f, 1.0f);
-		p_updateOrder = -9999;
-	}
-	
-	inline Transform::Transform(const Transform& other) : Component() {
-		Copy(other);
-	}
-	
-	inline Transform::Transform(const Transform&& other) : Component() {
-		Move(std::move(other));
-	}
 
 	inline Transform::~Transform(void) {
-		p_Clear();
+		Clear();
 	}
 	
 	inline Transform* Transform::Clone(void) {
-		return new Transform(*this);
+		return &((new Transform())->Copy(*this));
 	}
 	
 	inline Transform& Transform::Copy(const Transform& other) {
-		Component::Copy(static_cast<Component>(other));
 		
 		if (other.m_parent != NULL) {
 			other.m_parent->AddChild(this);
@@ -53,28 +36,6 @@ namespace Odin {
 		matrixWorld = other.matrixWorld;
 		modelView = other.modelView;
 		normalMatrix = other.normalMatrix;
-		
-		return *this;
-	}
-	
-	inline Transform& Transform::Move(const Transform&& other) {
-		Component::Move(std::move(static_cast<Component>(other)));
-		
-		if (other.m_parent != NULL) {
-			other.m_parent->AddChild(this);
-		}
-		for (uint32 i = 0, length = other.m_childCount; i < length; i++) {
-			AddChild(other.m_children[i]);
-		}
-		
-		position = std::move(other.position);
-		scale = std::move(other.scale);
-		rotation = std::move(other.rotation);
-
-		matrix = std::move(other.matrix);
-		matrixWorld = std::move(other.matrixWorld);
-		modelView = std::move(other.modelView);
-		normalMatrix = std::move(other.normalMatrix);
 		
 		return *this;
 	}
@@ -98,15 +59,6 @@ namespace Odin {
 
 	}
 
-	inline void Transform::p_Clear(void) {
-		Component::p_Clear();
-
-		m_parent = NULL;
-		m_root = this;
-		m_depth = 0;
-		m_children.Clear();
-	}
-
 	inline void Transform::p_Sort(void) {
 		p_order = float32(m_depth);
 	}
@@ -121,6 +73,13 @@ namespace Odin {
 		} else {
 			matrixWorld = matrix;
 		}
+	}
+
+	inline void Transform::Clear(void) {
+		m_parent = NULL;
+		m_root = this;
+		m_depth = 0;
+		m_children.Clear();
 	}
 
 	inline void Transform::UpdateMatrices(const Mat4f& viewMatrix) {
@@ -207,14 +166,6 @@ namespace Odin {
 		}
 
 		return *this;
-	}
-
-	inline Transform& Transform::operator =(const Transform& other) {
-		return Copy(other);
-	}
-	
-	inline Transform& Transform::operator =(const Transform&& other) {
-		return Move(std::move(other));
 	}
 }
 

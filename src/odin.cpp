@@ -41,6 +41,15 @@ namespace Odin {
 		printf("\n");
 		#endif
 	}
+	inline void LogError(std::string msg, int32 line) {
+		printf("Error: %s", msg.c_str());
+
+		if (line != -1) {
+			printf(" + near line: %i", line);
+		}
+
+		printf("\n");
+	}
 
 	inline void Delay(int16 s) {
 		SDL_Delay(s * 1000);

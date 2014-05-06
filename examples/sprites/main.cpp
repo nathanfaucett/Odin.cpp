@@ -4,18 +4,20 @@ using namespace Odin;
 
 int main (int argc, char* argv[]) {
 	std::cout << "START" << std::endl;
-	std::cout.precision(16);
 
 	Init();
 	
-	Game game;
+	Game* game = new Game();
 
-	Window* window = game.GetWindow();
+	Assets.Add(new Texture("face", "../assets/images/face.png"));
+	Assets.Load();
+	
+	Window* window = game->GetWindow();
 	window->SetRect(0, 0, 960, 640);
 	window->SetResizable();
 
 	Scene* scene = new Scene();
-	game.SetScene(scene);
+	game->SetScene(scene);
 
 	GameObject* cameraObject = new GameObject();
 	Transform* cameraTransform = new Transform();
@@ -26,12 +28,17 @@ int main (int argc, char* argv[]) {
 
 	GameObject* spriteObject = new GameObject();
 	spriteObject->AddComponent(new Transform());
-	spriteObject->AddComponent(new Sprite());
+	Sprite* sprite = new Sprite();
+	sprite->texture = Assets.Get<Texture>("face");
+	spriteObject->AddComponent(sprite);
 	scene->AddGameObject(spriteObject);
 	
-	game.SetCamera(cameraObject);
+	game->SetCamera(cameraObject);
 	
-	game.Init();
+	game->Init();
+	
+	delete game;
+	Clear();
 	
 	std::cout << "END" << std::endl;
 	return 0;

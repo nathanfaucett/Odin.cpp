@@ -27,48 +27,16 @@ namespace Odin {
 		m_maxOrthographicSize = 1024.0f;
 	}
 
-	inline Camera::Camera(std::string name) : Component(name) {
-		m_needsUpdate = true;
-		autoUpdate = true;
-
-		m_width = 960.0f;
-		m_height = 640.0f;
-		m_invWidth = 1.0f / m_width;
-		m_invHeight = 1.0f / m_height;
-
-		background.Set(0.5f, 0.5f, 0.5f);
-
-		m_aspect = m_width / m_height;
-		m_fov = 35.0f;
-
-		m_near = 0.0625f;
-		m_far = 16384.0f;
-
-		m_orthographic = false;
-		m_orthographicSize = 2.0f;
-
-		m_minOrthographicSize = Mathf.Epsilon;
-		m_maxOrthographicSize = 1024.0f;
-	}
-
-	inline Camera::Camera(const Camera& other) : Component() {
-		Copy(other);
-	}
-	
-	inline Camera::Camera(const Camera&& other) : Component() {
-		Move(std::move(other));
-	}
-
 	inline Camera::~Camera(void) {
-		p_Clear();
+		Clear();
 	}
 	
 	inline Camera* Camera::Clone(void) {
-		return new Camera(*this);
+		return &((new Camera())->Copy(*this));
 	}
 
 	inline Camera& Camera::Copy(const Camera& other) {
-		Component::Copy(static_cast<Component>(other));
+		
 		m_needsUpdate = true;
 		autoUpdate = other.autoUpdate;
 		
@@ -94,43 +62,12 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Camera& Camera::Move(const Camera&& other) {
-		Component::Move(std::move(static_cast<Component>(other)));
-		m_needsUpdate = true;
-		autoUpdate = std::move(other.autoUpdate);
-		
-		m_width = std::move(other.m_width);
-		m_height = std::move(other.m_height);
-		m_invWidth = std::move(other.m_invWidth);
-		m_invHeight = std::move(other.m_invHeight);
-
-		background = std::move(other.background);
-
-		m_aspect = std::move(other.m_aspect);
-		m_fov = std::move(other.m_fov);
-
-		m_near = std::move(other.m_near);
-		m_far = std::move(other.m_far);
-
-		m_orthographic = std::move(other.m_orthographic);
-		m_orthographicSize = std::move(other.m_orthographicSize);
-
-		m_minOrthographicSize = std::move(other.m_minOrthographicSize);
-		m_maxOrthographicSize = std::move(other.m_maxOrthographicSize);
-		
-		return *this;
-	}
-
 	inline void Camera::p_Init(void) {
 		Component::p_Init();
 	}
 
 	inline void Camera::p_Start(void) {
 		Component::p_Start();
-	}
-
-	inline void Camera::p_Clear(void) {
-		Component::p_Clear();
 	}
 
 	inline void Camera::p_Sort(void) {
@@ -172,6 +109,30 @@ namespace Odin {
 		}
 
 		view.Inverse(transform->matrixWorld);
+	}
+
+	inline void Camera::Clear(void) {
+		m_needsUpdate = true;
+		autoUpdate = true;
+
+		m_width = 960.0f;
+		m_height = 640.0f;
+		m_invWidth = 1.0f / m_width;
+		m_invHeight = 1.0f / m_height;
+
+		background.Set(0.5f, 0.5f, 0.5f);
+
+		m_aspect = m_width / m_height;
+		m_fov = 35.0f;
+
+		m_near = 0.0625f;
+		m_far = 16384.0f;
+
+		m_orthographic = false;
+		m_orthographicSize = 2.0f;
+
+		m_minOrthographicSize = Mathf.Epsilon;
+		m_maxOrthographicSize = 1024.0f;
 	}
 
 	inline Vec3f Camera::ToWorld(const Vec2f& v) {
@@ -280,14 +241,6 @@ namespace Odin {
 		m_orthographic = !m_orthographic;
 		m_needsUpdate = true;
 		return *this;
-	}
-
-	inline Camera& Camera::operator =(const Camera& other) {
-		return Copy(other);
-	}
-	
-	inline Camera& Camera::operator =(const Camera&& other) {
-		return Move(std::move(other));
 	}
 }
 

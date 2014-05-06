@@ -52,10 +52,14 @@ namespace Odin {
 			Window* p_window;
 			SDL_Surface* p_screenSurface;
 			
+            Array<uint32> p_textures;
+            Array<uint32> p_vertexBuffers;
+            Array<uint32> p_programs;
+			
 		public:
 			
 			inline OpenGLRenderer(void);
-			inline ~OpenGLRenderer(void);
+			inline virtual ~OpenGLRenderer(void);
 			
 			inline void SetWindow(Window* window);
 			inline Window* GetWindow(Window* window);
@@ -66,8 +70,13 @@ namespace Odin {
 			inline uint32 CreateProgram(Array<uint32>& shaderList);
 			
 			template <typename Type> inline uint32 CreateVertexBuffer(Array<Type>& items, uint32 type = GL_ARRAY_BUFFER, uint32 draw = GL_STATIC_DRAW);
+			template <typename Type> inline uint32 CreateVertexBuffer(Type items[], uint32 type = GL_ARRAY_BUFFER, uint32 draw = GL_STATIC_DRAW);
 			
 			inline uint32 CreateTexture(Texture* texture);
+			
+			inline void DeleteProgram(uint32 program);
+			inline void DeleteVertexBuffer(uint32 vertexBuffer);
+			inline void DeleteTexture(uint32 texture);
 			
 			inline void ClearCanvas(bool color = true, bool depth = true, bool stencil = true);
 			inline void ClearColor(void);

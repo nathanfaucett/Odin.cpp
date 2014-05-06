@@ -215,6 +215,10 @@ namespace Odin {
 
 		return m_length;
 	}
+	
+	template <typename Type> inline Type& Array<Type>::GetRawArray(void) {
+		return m_array;
+	}
 
 	template <typename Type> inline void Array<Type>::Sort(std::function<float32(const Type& a, const Type& b)> sortFunction) {
 

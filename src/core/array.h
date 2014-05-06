@@ -35,9 +35,9 @@ namespace Odin {
 
 			inline int32 IndexOf(const Type& item);
 			inline uint32 Length(void);
+			inline Type& GetRawArray(void);
 
 			inline void Sort(std::function<float32(const Type& a, const Type& b)> sortFunction);
-
 			inline void ForEach(std::function<bool(const Type& item, int32 index)> sortFunction);
 
 			inline Array<Type>& operator =(const Array<Type>& other);

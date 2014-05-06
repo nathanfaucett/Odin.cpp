@@ -5,6 +5,7 @@ namespace Odin {
 	
 	inline Texture::Texture(std::string name, std::string src) : Asset(name, src) {
 		m_image = NULL;
+		m_needsUpdate = true;
 		
 		m_width = 0;
 		m_height = 0;

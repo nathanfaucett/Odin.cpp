@@ -28,17 +28,15 @@ namespace Odin {
 
 			inline void p_Init(void);
 			inline void p_Start(void);
-			inline void p_Clear(void);
 
 		public:
 			inline Scene(void);
-			inline Scene(std::string name);
-			inline Scene(const Scene& other);
-			inline Scene(const Scene&& other);
+			inline Scene(const Scene&) = default;
+			inline Scene(Scene&&) = default;
 			inline ~Scene(void);
 			
-			inline virtual Scene& Copy(const Scene& other);
-			inline virtual Scene& Move(const Scene&& other);
+			inline Scene* Clone(void);
+			inline Scene& Copy(const Scene& other);
 
 			inline Scene& AddGameObject(GameObject* gameObject);
 			inline Scene& RemoveGameObject(GameObject* gameObject);
@@ -46,12 +44,13 @@ namespace Odin {
 			inline uint32 GetGameObjectCount(void);
 			inline int32 IndexOf(GameObject* gameObject);
 			inline void SortType(Component* component);
-			template <typename Type>inline Array<Type*>* GetComponents(void);
+			template <typename Type> inline Array<Type*>* GetComponents(void);
 
+			inline void Clear(void);
 			inline void Update(void);
 			
-			inline Scene& operator =(const Scene& other);
-			inline Scene& operator =(const Scene&& other);
+			inline Scene& operator=(const Scene&)& = default;
+			inline Scene& operator=(Scene&&)& = default;
 	};
 }
 

@@ -6,52 +6,30 @@ namespace Odin {
 	inline GameObject::GameObject(void) : Object() {
 		p_scene = NULL;
 	}
-	
-	inline GameObject::GameObject(const GameObject& other) : Object() {
-		Copy(other);
-		p_scene = NULL;
-	}
-	
-	inline GameObject::GameObject(const GameObject&& other) : Object() {
-		Move(std::move(other));
-		p_scene = NULL;
-	}
-
-	inline GameObject::GameObject(std::string name) : Object(name) {
-		p_scene = NULL;
-	}
 
 	inline GameObject::~GameObject(void) {
-		p_Clear();
+		
+		for (auto it = m_components.begin(); it != m_components.end(); ++it) {
+			RemoveComponent(it->second);
+			delete it->second;
+		}
+		
+		if (p_scene != NULL) {
+			p_scene->RemoveGameObject(this);
+		}
+	}
+	
+	inline GameObject* GameObject::Clone(void) {
+		return &((new GameObject())->Copy(*this));
 	}
 	
 	inline GameObject& GameObject::Copy(const GameObject& other) {
-		Object::Copy(static_cast<Object>(other));
 		
 		for (auto it = other.m_components.begin(); it != other.m_components.end(); ++it) {
 			AddComponent(it->second->Clone());
 		}
 		
 		return *this;
-	}
-	
-	inline GameObject& GameObject::Move(const GameObject&& other) {
-		Object::Move(std::move(static_cast<Object>(other)));
-		
-		for (auto it = other.m_components.begin(); it != other.m_components.end(); ++it) {
-			AddComponent(it->second->Clone());
-		}
-		
-		return *this;
-	}
-
-	inline void GameObject::p_Clear(void) {
-
-		for (auto it = m_components.begin(); it != m_components.end(); ++it) {
-			RemoveComponent(it->second);
-		}
-
-		p_scene = NULL;
 	}
 
 	inline void GameObject::Destroy(void) {
@@ -59,7 +37,7 @@ namespace Odin {
 			p_scene->RemoveGameObject(this);
 		}
 
-		p_Clear();
+		Clear();
 	}
 
 	inline Scene* GameObject::GetScene(void) {
@@ -85,15 +63,26 @@ namespace Odin {
 		if (component == NULL) {
 			return *this;
 		}
-
+		
 		component->p_gameObject = NULL;
-		m_components.erase(&typeid(*component));
+		m_components[&typeid(*component)] = NULL;
 
 		if (p_scene != NULL) {
 			p_scene->m_RemoveComponent(component);
 		}
 
 		return *this;
+	}
+
+	inline void GameObject::Clear(void) {
+
+		for (auto it = m_components.begin(); it != m_components.end(); ++it) {
+			RemoveComponent(it->second);
+		}
+		
+		if (p_scene != NULL) {
+			p_scene->RemoveGameObject(this);
+		}
 	}
 
 	template <typename Type>inline Type* GameObject::GetComponent(void) {
@@ -103,14 +92,6 @@ namespace Odin {
 		}
 
 		return NULL;
-	}
-	
-	inline GameObject& GameObject::operator =(const GameObject& other) {
-		return Copy(other);
-	}
-	
-	inline GameObject& GameObject::operator =(const GameObject&& other) {
-		return Move(std::move(other));
 	}
 }
 

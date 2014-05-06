@@ -23,8 +23,6 @@ namespace Odin {
 		protected:
 			inline void p_Init(void);
 			inline void p_Start(void);
-			inline void p_Clear(void);
-
 			inline void p_Sort(void);
 
 		public:
@@ -33,16 +31,15 @@ namespace Odin {
 			Colorf background;
 
 			inline Camera(void);
-			inline Camera(std::string name);
-			inline Camera(const Camera& other);
-			inline Camera(const Camera&& other);
+			inline Camera(const Camera&) = default;
+			inline Camera(Camera&&) = default;
 			inline ~Camera(void);
 			
-			inline virtual Camera* Clone(void);
-			inline virtual Camera& Copy(const Camera& other);
-			inline virtual Camera& Move(const Camera&& other);
+			inline Camera* Clone(void);
+			inline Camera& Copy(const Camera& other);
 			
 			inline void Update(void);
+			inline void Clear(void);
 
 			inline Vec3f ToWorld(const Vec2f& v);
 			inline Vec2f ToScreen(const Vec3f& v);
@@ -68,8 +65,8 @@ namespace Odin {
 			inline bool IsOrthographic(void);
 			inline Camera& ToggleOrthographic(void);
 			
-			inline Camera& operator =(const Camera& other);
-			inline Camera& operator =(const Camera&& other);
+			inline Camera& operator=(const Camera&)& = default;
+			inline Camera& operator=(Camera&&)& = default;
 	};
 }
 

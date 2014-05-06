@@ -7,30 +7,34 @@ namespace Odin {
 		p_camera = NULL;
 		m_play = true;
 		
+		m_renderer = new Renderer();
 		m_window = new Window(p_name);
 	}
 	inline Game::Game(std::string name) : BaseGame(name) {
 		p_camera = NULL;
 		m_play = true;
 		
+		m_renderer = new Renderer();
 		m_window = new Window(p_name);
 	}
 	inline Game::~Game(void) {
-		BaseGame::p_Clear();
-		p_Clear();
+		delete m_renderer;
 		delete m_window;
+		
+		if (p_scene != NULL) {
+			delete p_scene;
+		} else {
+			if (p_camera != NULL) delete p_camera;
+		}
 	}
 
 	inline void Game::p_Init(void) {
 		m_window->SetOpenGL();
 		m_window->Create();
 		m_window->GetGLContext();
-		m_renderer.SetWindow(m_window);
+		m_renderer->SetWindow(m_window);
 		
 		BaseGame::p_Init();
-	}
-	inline void Game::p_Clear(void) {
-		p_camera = NULL;
 	}
 	inline void Game::p_Loop(void) {
 		
@@ -93,7 +97,11 @@ namespace Odin {
 			p_scene->Update();
 		}
 		
-		m_renderer.Render(p_camera, p_scene);
+		m_renderer->Render(p_camera, p_scene);
+	}
+	inline void Game::Clear(void) {
+		BaseGame::Clear();
+		p_camera = NULL;
 	}
 	
 	inline Window* Game::GetWindow(void) {

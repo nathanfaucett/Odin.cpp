@@ -101,7 +101,7 @@ namespace Odin {
 
 			static constexpr float64 TO_DEGS_64 = 180.0 / PI_64;
 			static constexpr float64 TO_RADS_64 = PI_64 / 180.0;
-
+			
 			inline void Init() {
 				std::srand(std::time(0));
 			}

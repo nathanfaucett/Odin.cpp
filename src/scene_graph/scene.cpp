@@ -6,37 +6,25 @@ namespace Odin {
 	inline Scene::Scene(void) : Object() {
 		m_gameObjectCount = 0;
 	}
-	inline Scene::Scene(std::string name) : Object(name) {
-		m_gameObjectCount = 0;
-	}
-	inline Scene::Scene(const Scene& other) : Object() {
-		Copy(other);
-	}
-	inline Scene::Scene(const Scene&& other) : Object() {
-		Move(std::move(other));
-	}
-
 	inline Scene::~Scene(void) {
-		p_Clear();
+		uint32 i = m_gameObjects.Length();
+		
+		while (i--) {
+			GameObject* gameObject = m_gameObjects[i];
+			RemoveGameObject(gameObject);
+			delete gameObject;
+		}
+	}
+	
+	inline Scene* Scene::Clone(void) {
+		return &((new Scene())->Copy(*this));
 	}
 	
 	inline Scene& Scene::Copy(const Scene& other) {
-		Object::Copy(static_cast<Object>(other));
 		m_gameObjectCount = 0;
 		
 		for (uint32 i = 0, length = other.m_gameObjectCount; i < length; i++) {
 			AddGameObject(new GameObject(*(other.m_gameObjects[i])));
-		}
-		
-		return *this;
-	}
-	
-	inline Scene& Scene::Move(const Scene&& other) {
-		Object::Move(std::move(static_cast<Object>(other)));
-		m_gameObjectCount = 0;
-		
-		for (uint32 i = 0, length = other.m_gameObjectCount; i < length; i++) {
-			AddGameObject(new GameObject(std::move(*(other.m_gameObjects[i]))));
 		}
 		
 		return *this;
@@ -64,14 +52,6 @@ namespace Odin {
 		}
 	}
 
-	inline void Scene::p_Clear(void) {
-		uint32 i = m_gameObjects.Length();
-		
-		while (i--) {
-			RemoveGameObject(m_gameObjects[i]);
-		}
-	}
-
 	inline Scene& Scene::AddGameObject(GameObject* gameObject) {
 		if (gameObject == NULL) {
 			return *this;
@@ -90,7 +70,7 @@ namespace Odin {
 			}
 
 		} else {
-
+			LogError("Scene::AddGameObject(GameObject* gameObject) gameObject already member of Scene");
 		}
 
 		return *this;
@@ -161,7 +141,7 @@ namespace Odin {
 			}
 
 		} else {
-
+			LogError("Scene::RemoveGameObject(GameObject* gameObject) gameObject not a member of Scene");
 		}
 
 		return *this;
@@ -177,7 +157,6 @@ namespace Odin {
 
 		if (m_components.count(type) != 0) {
 			types = m_components[type];
-
 		} else {
 			return;
 		}
@@ -211,22 +190,22 @@ namespace Odin {
 			}
 		}
 	}
+
+	inline void Scene::Clear(void) {
+		uint32 i = m_gameObjects.Length();
+		
+		while (i--) {
+			RemoveGameObject(m_gameObjects[i]);
+		}
+	}
 	
-	template <typename Type>inline Array<Type*>* Scene::GetComponents(void) {
+	template <typename Type> inline Array<Type*>* Scene::GetComponents(void) {
 		
 		if (m_components.count(&typeid(Type)) != 0) {
 			return reinterpret_cast<Array<Type*>*>(m_components[&typeid(Type)]);
 		}
 
 		return NULL;
-	}
-	
-	inline Scene& Scene::operator =(const Scene& other) {
-		return Copy(other);
-	}
-	
-	inline Scene& Scene::operator =(const Scene&& other) {
-		return Move(std::move(other));
 	}
 }
 

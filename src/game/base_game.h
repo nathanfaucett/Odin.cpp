@@ -15,16 +15,16 @@ namespace Odin {
 			Scene* p_scene;
 			
 			inline virtual void p_Init(void);
-			inline virtual void p_Clear(void);
 			inline virtual void p_Loop(void);
 			inline void p_StartLoop(void);
 
 		public:
 			inline BaseGame(void);
 			inline BaseGame(std::string name);
-			inline ~BaseGame(void);
+			inline virtual ~BaseGame(void);
 			
 			inline virtual void Update(void);
+			inline virtual void Clear(void);
 			
 			inline void Pause(void);
 			inline void Resume(void);

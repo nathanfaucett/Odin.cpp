@@ -9,6 +9,12 @@ namespace Odin {
 		m_enabledAttributes = NULL;
 	}
 	inline OpenGLRenderer::~OpenGLRenderer(void) {
+		uint32 i, il;
+		
+		for (i = 0, il = p_textures.Length(); i < il; i++) DeleteTexture(p_textures[i]);
+		for (i = 0, il = p_vertexBuffers.Length(); i < il; i++) DeleteVertexBuffer(p_vertexBuffers[i]);
+		for (i = 0, il = p_programs.Length(); i < il; i++) DeleteProgram(p_programs[i]);
+		
 		p_window = NULL;
 		if (p_screenSurface != NULL) SDL_FreeSurface(p_screenSurface);
 		if (m_enabledAttributes != NULL) delete []m_enabledAttributes;
@@ -197,35 +203,14 @@ namespace Odin {
 		glDetachShader(program, vertexShader);
 		glDetachShader(program, fragmentShader);
 	
+		p_programs.Push(program);
 		return program;
 	}
 	inline uint32 OpenGLRenderer::CreateProgram(std::string vertexShaderSource, std::string fragmentShaderSource) {
-		uint32 program = glCreateProgram();
-    
 		uint32 vertexShader = CreateShader(GL_VERTEX_SHADER, vertexShaderSource);
 		uint32 fragmentShader = CreateShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
 	
-		glAttachShader(program, vertexShader);
-		glAttachShader(program, fragmentShader);
-		
-		glLinkProgram(program);
-		
-		int32 status;
-		glGetProgramiv(program, GL_LINK_STATUS, &status);
-		if (status == false) {
-			int32 infoLogLength;
-			glGetProgramiv(program, GL_INFO_LOG_LENGTH, &infoLogLength);
-			
-			char8 *strInfoLog = new char8[infoLogLength + 1];
-			glGetProgramInfoLog(program, infoLogLength, NULL, strInfoLog);
-			fprintf(stderr, "Linker failure: %s\n", strInfoLog);
-			delete[] strInfoLog;
-		}
-		
-		glDetachShader(program, vertexShader);
-		glDetachShader(program, fragmentShader);
-	
-		return program;
+		return CreateProgram(vertexShader, fragmentShader);
 	}
 	inline uint32 OpenGLRenderer::CreateProgram(Array<uint32>& shaderList) {
 		uint32 program = glCreateProgram();
@@ -251,24 +236,40 @@ namespace Odin {
 		for(uint32 i = 0, il = shaderList.Length(); i < il; i++) {
 			glDetachShader(program, shaderList[i]);
 		}
-	
+		
+		p_programs.Push(program);
 		return program;
 	}
 	
-	template <typename Type> inline uint32 OpenGLRenderer::CreateVertexBuffer(Array<Type>& items, uint32 type, uint32 draw) {
+	template <typename Type> inline uint32 OpenGLRenderer::CreateVertexBuffer(Array<Type>& array, uint32 type, uint32 draw) {
+		uint32 vertexBuffer;
+		Type& items = array.GetRawArray();
+		
+		glGenBuffers(1, &vertexBuffer);
+		glBindBuffer(type, vertexBuffer);
+		glBufferData(type, sizeof(items), items, draw);
+		
+		p_vertexBuffers.Push(vertexBuffer);
+		return vertexBuffer;
+	}
+	
+	template <typename Type> inline uint32 OpenGLRenderer::CreateVertexBuffer(Type items[], uint32 type, uint32 draw) {
 		uint32 vertexBuffer;
 		
 		glGenBuffers(1, &vertexBuffer);
 		glBindBuffer(type, vertexBuffer);
 		glBufferData(type, sizeof(items), items, draw);
 		
+		p_vertexBuffers.Push(vertexBuffer);
 		return vertexBuffer;
 	}
 	
 	inline uint32 OpenGLRenderer::CreateTexture(Texture* texture) {
+		if (!texture->m_needsUpdate) return texture->m_textureID;
+		
 		SDL_Surface* image = texture->m_image;
 		if (image == NULL) {
-			printf("texture %s image is NULL", texture->p_name.c_str());
+			std::cout << "texture " << texture->p_name.c_str() << " image is NULL" << std::endl;
 			return 0;
 		}
 		image = SDL_ConvertSurface(image, p_screenSurface->format, 0);
@@ -321,9 +322,21 @@ namespace Odin {
 		if (mipmap && isPOT) {
 			glGenerateMipmap(GL_TEXTURE_2D);
 		}
-		glBindTexture(GL_TEXTURE_2D, 0);
+		
+		p_textures.Push(textureID);
+		texture->m_needsUpdate = false;
 		
 		return textureID;
+	}
+	
+	inline void OpenGLRenderer::DeleteProgram(uint32 program) {
+		glDeleteProgram(program);
+	}
+	inline void OpenGLRenderer::DeleteVertexBuffer(uint32 vertexBuffer) {
+		glDeleteBuffers(1, &vertexBuffer);
+	}
+	inline void OpenGLRenderer::DeleteTexture(uint32 texture) {
+		glDeleteTextures(1, &texture);
 	}
 	
 	inline void OpenGLRenderer::ClearCanvas(bool color, bool depth, bool stencil) {

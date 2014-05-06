@@ -25,6 +25,7 @@ namespace Odin {
 	inline void Clear();
 
 	inline void Log(std::string msg, int32 line = -1);
+	inline void LogError(std::string msg, int32 line = -1);
 
 	inline void Delay(int16 s);
 	inline void Delay(int32 s);
@@ -51,6 +52,7 @@ namespace Odin {
 
 #include "assets/asset.h"
 #include "assets/texture.h"
+#include "assets/assets.h"
 
 #include "scene_graph/components/component.h"
 #include "scene_graph/components/transform.h"
@@ -74,6 +76,7 @@ namespace Odin {
 
 #include "assets/asset.cpp"
 #include "assets/texture.cpp"
+#include "assets/assets.cpp"
 
 #include "scene_graph/components/component.cpp"
 #include "scene_graph/components/transform.cpp"

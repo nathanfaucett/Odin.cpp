@@ -7,15 +7,14 @@ namespace Odin {
 
 		private:
 			bool m_play;
+			Renderer* m_renderer;
 			Window* m_window;
-			Renderer m_renderer;
 
 		protected:
 			SDL_Event p_event;
 			Camera* p_camera;
 
-			inline virtual void p_Init(void);
-			inline virtual void p_Clear(void);     
+			inline virtual void p_Init(void); 
 			inline virtual void p_Loop(void);
 
 		public:
@@ -27,6 +26,7 @@ namespace Odin {
 
 			inline virtual void Init(void);
 			inline virtual void Update(void);
+			inline virtual void Clear(void);   
 
 			inline Window* GetWindow(void);
 			inline Game& SetWindow(Window* m_window);

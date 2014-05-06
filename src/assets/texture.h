@@ -25,13 +25,15 @@ namespace Odin {
             TextureFormat m_format;
             TextureWrap m_wrap;
             TextureType m_type;
+			
+			bool m_needsUpdate;
 		protected:
 
 		public:
 			inline Texture(std::string name, std::string src);
-			inline ~Texture(void);
+			inline virtual ~Texture(void);
 			
-			inline void Load(void);
+			inline virtual void Load(void);
 	};
 }
 

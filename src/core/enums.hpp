@@ -2,6 +2,7 @@
 #define ODIN_ENUMS_HPP
 
 namespace Odin {
+	
 	enum class FrontFace : GLenum {
 		CounterClockWise = GL_CCW,
 		ClockWise = GL_CW

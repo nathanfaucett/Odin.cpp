@@ -13,27 +13,24 @@ namespace Odin {
 		protected:
 			inline void p_Init(void);
 			inline void p_Start(void);
-			inline void p_Clear(void);
-
 			inline void p_Sort(void);
 
 		public:
 			Texture* texture;
 			
 			inline Sprite(void);
-			inline Sprite(std::string name);
-			inline Sprite(const Sprite& other);
-			inline Sprite(const Sprite&& other);
+			inline Sprite(const Sprite&) = default;
+			inline Sprite(Sprite&&) = default;
 			inline ~Sprite(void);
 
 			inline virtual Sprite* Clone(void);
 			inline virtual Sprite& Copy(const Sprite& other);
-			inline virtual Sprite& Move(const Sprite&& other);
 			
 			inline void Update(void);
+			inline void Clear(void);
 			
-			inline Sprite& operator =(const Sprite& other);
-			inline Sprite& operator =(const Sprite&& other);
+			inline Sprite& operator=(const Sprite&)& = default;
+			inline Sprite& operator=(Sprite&&)& = default;
 	};
 }
 
