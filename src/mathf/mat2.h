@@ -15,6 +15,10 @@ namespace Odin {
 			inline Mat2(const Mat2<Type>& m);
 			inline Mat2(const Mat2<Type>&& m);
 			inline ~Mat2(void);
+			
+			inline const Type* GetArray(void) const {
+				return m_mat;
+			}
 
 			inline Mat2<Type>& Identity(void);
 			inline Mat2<Type>& SetTrace(Type x, Type y);
@@ -32,7 +36,6 @@ namespace Odin {
 			inline Mat2<Type>& Rotate(Type a);
 
 			inline Type operator [] (int32 i) const;
-
 			inline Type& operator [] (int32 i);
 
 			inline Mat2<Type> operator *(const Mat2<Type>& m);

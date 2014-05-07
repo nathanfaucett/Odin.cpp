@@ -7,6 +7,8 @@ namespace Odin {
 		
 		private:
 			friend class OpenGLRenderer;
+			friend class Renderer;
+			
 			SDL_Surface* m_image;
 			uint32 m_textureID;
 			

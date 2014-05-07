@@ -36,8 +36,10 @@ namespace Odin {
 			}
 		#else
 			p_resumed = false;
+			
 			while(!p_quit) {
-				while(p_running) {
+				if (p_running) {
+					std::cout << Time.fps << std::endl;
 					p_Loop();
 				}
 			}

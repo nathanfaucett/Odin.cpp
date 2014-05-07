@@ -24,6 +24,10 @@ namespace Odin {
 			inline Mat43(const Mat43<Type>& m);
 			inline Mat43(const Mat43<Type>&& m);
 			inline ~Mat43(void);
+			
+			inline const Type* GetArray(void) const {
+				return m_mat;
+			}
 
 			inline Mat43<Type>& Identity(void);
 			inline Mat43<Type>& SetTrace(Type x, Type y, Type z);

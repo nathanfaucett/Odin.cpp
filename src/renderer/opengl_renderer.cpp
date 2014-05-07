@@ -10,17 +10,29 @@ namespace Odin {
 	}
 	inline OpenGLRenderer::~OpenGLRenderer(void) {
 		uint32 i, il;
-		
 		for (i = 0, il = p_textures.Length(); i < il; i++) DeleteTexture(p_textures[i]);
 		for (i = 0, il = p_vertexBuffers.Length(); i < il; i++) DeleteVertexBuffer(p_vertexBuffers[i]);
 		for (i = 0, il = p_programs.Length(); i < il; i++) DeleteProgram(p_programs[i]);
+		p_textures.Clear();
+		p_vertexBuffers.Clear();
+		p_programs.Clear();
 		
 		p_window = NULL;
 		if (p_screenSurface != NULL) SDL_FreeSurface(p_screenSurface);
 		if (m_enabledAttributes != NULL) delete []m_enabledAttributes;
 	}
 
-	inline void OpenGLRenderer::m_InitGL(void) {
+	inline void OpenGLRenderer::m_ClearGL(void) {
+		if (p_window != NULL) {
+			uint32 i, il;
+			for (i = 0, il = p_textures.Length(); i < il; i++) DeleteTexture(p_textures[i]);
+			for (i = 0, il = p_vertexBuffers.Length(); i < il; i++) DeleteVertexBuffer(p_vertexBuffers[i]);
+			for (i = 0, il = p_programs.Length(); i < il; i++) DeleteProgram(p_programs[i]);
+			p_textures.Clear();
+			p_vertexBuffers.Clear();
+			p_programs.Clear();
+		}
+		
 		m_precision = "highp";
 		m_extensions.Clear();
 
@@ -41,7 +53,8 @@ namespace Odin {
 		m_program = -1;
 		m_programForce = true;
 		m_textureIndex = 0;
-		m_activeTexture = -1;
+		m_activeTexture = 0;
+		m_activeTextureLocation = -1;
 		m_viewportX = 0.0f;
 		m_viewportY = 0.0f;
 		m_viewportWidth = 1.0f;
@@ -61,21 +74,9 @@ namespace Odin {
 		m_stencilFunction = StencilFunction::Always;
 		m_stencilReferenceValue = 0;
 		m_stencilMask = 1;
-		
-		SetViewport(0.0f, 0.0f, 1.0f, 1.0f);
-		SetDepthTest();
-		SetDepthWrite();
-		SetBlending();
-		SetClearColor();
-		SetClearDepth();
-		SetClearStencil();
-		SetFrontFace();
-		SetCullFace();
-		SetLineWidth();
-		SetStencilFunction(CullFace::Back);
 	}
 	
-	inline void OpenGLRenderer::m_GetGPUInfo(void) {
+	inline void OpenGLRenderer::m_InitGL(void) {
 		int32 tmp1, tmp2;
 		#ifdef Mobile
 		bool isMobile = true;
@@ -130,6 +131,17 @@ namespace Odin {
 		if (m_enabledAttributes != NULL) delete []m_enabledAttributes;
 		m_enabledAttributes = new uint32[m_maxAttributes];
 		for (int32 i = 0; i < m_maxAttributes; i++) m_enabledAttributes[i] = 0;
+		
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		gluOrtho2D(-1, 1, -1, 1);
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		
+		glViewport(0.0f, 0.0f, 1.0f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glDepthMask(true);
+		glEnable(GL_DEPTH_TEST);
 	}
 	
 	inline void OpenGLRenderer::SetWindow(Window* window) {
@@ -138,8 +150,8 @@ namespace Odin {
 		p_window = window;
 		p_screenSurface = SDL_GetWindowSurface(p_window->GetSDLWindow());
 		
+		m_ClearGL();
 		m_InitGL();
-		m_GetGPUInfo();
 	}
 	inline Window* OpenGLRenderer::GetWindow(Window* window) {
 		return p_window;
@@ -199,9 +211,13 @@ namespace Odin {
 			fprintf(stderr, "Linker failure: %s\n", strInfoLog);
 			delete[] strInfoLog;
 		}
+		GLCheckError(__LINE__);
 		
 		glDetachShader(program, vertexShader);
+		glDeleteShader(vertexShader);
+		
 		glDetachShader(program, fragmentShader);
+		glDeleteShader(fragmentShader);
 	
 		p_programs.Push(program);
 		return program;
@@ -232,33 +248,25 @@ namespace Odin {
 			fprintf(stderr, "Linker failure: %s\n", strInfoLog);
 			delete[] strInfoLog;
 		}
+		GLCheckError(__LINE__);
 		
 		for(uint32 i = 0, il = shaderList.Length(); i < il; i++) {
 			glDetachShader(program, shaderList[i]);
+			glDeleteShader(shaderList[i]);
 		}
 		
 		p_programs.Push(program);
 		return program;
 	}
 	
-	template <typename Type> inline uint32 OpenGLRenderer::CreateVertexBuffer(Array<Type>& array, uint32 type, uint32 draw) {
-		uint32 vertexBuffer;
-		Type& items = array.GetRawArray();
-		
-		glGenBuffers(1, &vertexBuffer);
-		glBindBuffer(type, vertexBuffer);
-		glBufferData(type, sizeof(items), items, draw);
-		
-		p_vertexBuffers.Push(vertexBuffer);
-		return vertexBuffer;
-	}
-	
-	template <typename Type> inline uint32 OpenGLRenderer::CreateVertexBuffer(Type items[], uint32 type, uint32 draw) {
+	template <typename Type> inline uint32 OpenGLRenderer::CreateVertexBuffer(Type items[], int32 size, uint32 type, uint32 draw) {
 		uint32 vertexBuffer;
 		
 		glGenBuffers(1, &vertexBuffer);
+		
 		glBindBuffer(type, vertexBuffer);
-		glBufferData(type, sizeof(items), items, draw);
+		glBufferData(type, size, items, draw);
+		glBindBuffer(type, 0);
 		
 		p_vertexBuffers.Push(vertexBuffer);
 		return vertexBuffer;
@@ -269,8 +277,7 @@ namespace Odin {
 		
 		SDL_Surface* image = texture->m_image;
 		if (image == NULL) {
-			std::cout << "texture " << texture->p_name.c_str() << " image is NULL" << std::endl;
-			return 0;
+			QuitError("texture "+ texture->p_name +" image is NULL");
 		}
 		image = SDL_ConvertSurface(image, p_screenSurface->format, 0);
 		bool isPOT = Mathf.IsPowerOfTwo(image->w) && Mathf.IsPowerOfTwo(image->h);
@@ -322,6 +329,7 @@ namespace Odin {
 		if (mipmap && isPOT) {
 			glGenerateMipmap(GL_TEXTURE_2D);
 		}
+		glBindTexture(GL_TEXTURE_2D, 0);
 		
 		p_textures.Push(textureID);
 		texture->m_needsUpdate = false;
@@ -359,7 +367,10 @@ namespace Odin {
 	}
 
 	inline void OpenGLRenderer::EnableAttribute(uint32 attribute) {
-		if (attribute >= static_cast<uint32>(m_maxAttributes)) return;
+		if (attribute >= static_cast<uint32>(m_maxAttributes)) {
+			LogError("OpenGLRenderer::EnableAttribute(uint32 attribute) Max attributes excedded for this machine "+ ToString(m_maxAttributes), __LINE__);
+			return;
+		}
 		
 		if (m_enabledAttributes[attribute] == 0) {
 			glEnableVertexAttribArray(attribute);
@@ -385,19 +396,44 @@ namespace Odin {
 		}
 	}
 	
+	inline void OpenGLRenderer::BindBuffer(int32 location, uint32 buffer, uint32 arrayType, int32 itemSize, uint32 type, const void* first) {
+		EnableAttribute(location);
+		glBindBuffer(arrayType, buffer);
+		glVertexAttribPointer(location, itemSize, type, GL_FALSE, sizeof(type) * itemSize, first);
+	}
+	
+	inline void OpenGLRenderer::BindTexture(int32 location, Texture* texture) {
+		uint32 textureID = CreateTexture(texture);
+		
+		if (m_textureIndex >= m_maxTextures) {
+			LogError("OpenGLRenderer::BindTexture(int32 location, Texture* texture) Max textures excedded for this machine "+ ToString(m_maxTextures), __LINE__);
+			return;
+		}
+		
+		if (m_activeTextureLocation != location && m_activeTexture != textureID) {
+			glActiveTexture(GL_TEXTURE0 + m_textureIndex);
+			glBindTexture(GL_TEXTURE_2D, textureID);
+			glUniform1i(location, m_textureIndex);
+			
+			m_textureIndex++;
+			m_activeTextureLocation = location;
+			m_activeTexture = textureID;
+		}
+	}
+	
 	inline void OpenGLRenderer::SetProgram(uint32 program) {
 		
 		if (m_program != program) {
 			m_program = program;
 			m_programForce = true;
+			m_activeTexture = 0;
+			m_activeTextureLocation = -1;
+			m_textureIndex = 0;
 
 			glUseProgram(program);
 		} else {
 			m_programForce = false;
 		}
-
-		m_textureIndex = 0;
-		m_activeTexture = -1;
 	}
 	
 	inline void OpenGLRenderer::SetViewport(float32 x, float32 y, float32 width, float32 height) {

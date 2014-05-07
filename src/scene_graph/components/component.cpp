@@ -43,6 +43,16 @@ namespace Odin {
 		return p_gameObject;
 	}
 
+	template <typename Type>inline Type* Component::GetComponent(void) {
+		if (p_gameObject == NULL) return NULL;
+	
+		if (p_gameObject->m_components.count(&typeid(Type)) != 0) {
+			return static_cast<Type*>(p_gameObject->m_components[&typeid(Type)]);
+		}
+
+		return NULL;
+	}
+
 	inline Scene* Component::GetScene(void) {
 		if (p_gameObject != NULL) {
 			return p_gameObject->p_scene;

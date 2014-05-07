@@ -216,7 +216,7 @@ namespace Odin {
 		return m_length;
 	}
 	
-	template <typename Type> inline Type& Array<Type>::GetRawArray(void) {
+	template <typename Type> inline Type& Array<Type>::GetArray(void) {
 		return m_array;
 	}
 

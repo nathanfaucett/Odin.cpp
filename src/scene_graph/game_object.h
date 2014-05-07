@@ -31,7 +31,7 @@ namespace Odin {
 			
 			inline void Clear(void);
 			
-			template <typename Type>inline Type* GetComponent(void);
+			template <typename Type> inline Type* GetComponent(void);
 			
 			inline GameObject& operator=(const GameObject&)& = default;
 			inline GameObject& operator=(GameObject&&)& = default;
