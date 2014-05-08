@@ -50,6 +50,8 @@ namespace Odin {
 #include "mathf/mathf.hpp"
 #include "phys2d/phys2d.h"
 
+#include "config/game_config.hpp"
+
 #include "assets/asset.h"
 #include "assets/texture.h"
 #include "assets/assets.h"

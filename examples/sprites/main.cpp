@@ -21,6 +21,7 @@ class Mover : public Component {
 			if (transform == NULL) return;
 			
 			transform->position.x = Mathf.Sin(Time.time);
+			transform->rotation.RotateZ(Mathf.PI * 0.5f * Time.delta);
 		}
 		inline void Clear(void) {
 			
@@ -55,10 +56,10 @@ int main (int argc, char* argv[]) {
 	cameraObject->AddComponent(new Camera());
 	scene->AddGameObject(cameraObject);
 
-	for (uint32 i = 0, il = 100; i < il; i++) {
+	for (uint32 i = 0, il = 10; i < il; i++) {
 		GameObject* spriteObject = new GameObject();
 		Transform* spriteTransform = new Transform();
-		spriteTransform->position.Set(Mathf.RandFloat(-1.0f, 1.0f), Mathf.RandFloat(-1.0f, 1.0f), Mathf.RandFloat(-5.0f, -2.0f));
+		spriteTransform->position.Set(Mathf.RandFloat(-1.0f, 1.0f), Mathf.RandFloat(-1.0f, 1.0f), Mathf.RandFloat(-15.0f, -5.0f));
 		spriteObject->AddComponent(spriteTransform);
 		Sprite* sprite = new Sprite();
 		sprite->texture = Assets.Get<Texture>("face");

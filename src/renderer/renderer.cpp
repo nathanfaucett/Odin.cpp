@@ -31,8 +31,8 @@ namespace Odin {
 		
 		float32 uvBuffers[12] = {
 			0.0f, 0.0f,
-			1.0f, 0.0f,
 			0.0f, 1.0f,
+			1.0f, 0.0f,
 			1.0f, 1.0f,
 		};
 		m_spriteUvBuffers = CreateVertexBuffer<float32>(uvBuffers, sizeof(uvBuffers));
@@ -59,7 +59,7 @@ namespace Odin {
 				varying vec2 vUv;
 				
 				void main(void) {
-					fragColor = vec4(texture2D(texture, vUv));
+					fragColor = texture2D(texture, vUv);
 				}
 			)
 		);

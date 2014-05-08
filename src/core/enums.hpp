@@ -39,7 +39,9 @@ namespace Odin {
 	};
 	enum class TextureFormat : uint32 {
 		RGB = GL_RGB,
+		BGR = GL_BGR,
 		RGBA = GL_RGBA,
+		BGRA = GL_BGRA,
 		Luminance = GL_LUMINANCE,
 		Alpha = GL_ALPHA,
 		LuminanceAlpha = GL_LUMINANCE_ALPHA

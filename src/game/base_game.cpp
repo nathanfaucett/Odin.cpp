@@ -36,12 +36,13 @@ namespace Odin {
 			}
 		#else
 			p_resumed = false;
+			float32 target = 1.0f / GameConfig.fps,
+					start = 0.0f;
 			
 			while(!p_quit) {
-				if (p_running) {
-					std::cout << Time.fps << std::endl;
-					p_Loop();
-				}
+				start = Time.Now();
+				if (p_running) p_Loop();
+				Delay(Mathf.Clamp(0.0f, target, Time.Now() - start));
 			}
 		#endif
 	}

@@ -61,14 +61,14 @@ namespace Odin {
 		m_viewportHeight = 1.0f;
 		m_depthTest = true;
 		m_depthWrite = true;
-		m_blendingDisabled = true;
-		m_blending = Blending::None;
+		m_blendingDisabled = false;
+		m_blending = Blending::Default;
 		m_clearColor.Zero();
 		m_clearAlpha = 1.0f;
 		m_clearDepth = 1.0f;
 		m_clearStencil = 0;
 		m_frontFace = FrontFace::CounterClockWise;
-		m_cullFaceDisabled = true;
+		m_cullFaceDisabled = false;
 		m_cullFace = CullFace::Back;
 		m_lineWidth = 1.0f;
 		m_stencilFunction = StencilFunction::Always;
@@ -140,8 +140,20 @@ namespace Odin {
 		
 		glViewport(0.0f, 0.0f, 1.0f, 1.0f);
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClearDepth(1.0f);
+		glClearStencil(0);
 		glDepthMask(true);
 		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LEQUAL);
+		
+		glFrontFace(GL_CCW);
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+		glLineWidth(1.0f);
+		
+		glEnable(GL_BLEND);
+		glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
+		glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 	}
 	
 	inline void OpenGLRenderer::SetWindow(Window* window) {
@@ -313,9 +325,24 @@ namespace Odin {
 			}
 		}
 		
+		int32 bytesPerPixel = image->format->BytesPerPixel;
+		if (bytesPerPixel == 4) {
+			if (image->format->Rmask == 0x000000ff) {
+				format = TextureFormat::RGBA; 
+			} else {
+				format = TextureFormat::BGRA; 
+			}
+		} else if (bytesPerPixel == 3) { 
+            if (image->format->Rmask == 0x000000ff) {
+				format = TextureFormat::RGB; 
+            } else {
+				format = TextureFormat::BGR; 
+            }
+        } 
+		
 		glGenTextures(1, &textureID);
 		glBindTexture(GL_TEXTURE_2D, textureID);
-		glTexImage2D(GL_TEXTURE_2D, 0, static_cast<uint32>(format), image->w, image->h, 0, static_cast<uint32>(format), static_cast<uint32>(type), image->pixels);
+		glTexImage2D(GL_TEXTURE_2D, 0, bytesPerPixel, image->w, image->h, 0, static_cast<uint32>(format), static_cast<uint32>(type), image->pixels);
 		
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, minFilter);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, magFilter);
@@ -469,28 +496,32 @@ namespace Odin {
 			switch (blending) {
 				case Blending::Additive:
 					if (m_blendingDisabled) glEnable(GL_BLEND);
+					glBlendEquation(GL_FUNC_ADD);
 					glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 					break;
 				
 				case Blending::Subtractive:
 					if (m_blendingDisabled) glEnable(GL_BLEND);
+					glBlendEquation(GL_FUNC_ADD);
 					glBlendFunc(GL_ZERO, GL_ONE_MINUS_SRC_COLOR);
 					break;
 				
 				case Blending::Multiply:
 					if (m_blendingDisabled) glEnable(GL_BLEND);
+					glBlendEquation(GL_FUNC_ADD);
 					glBlendFunc(GL_ZERO, GL_SRC_COLOR);
 					break;
 				
 				case Blending::Screen:
 					if (m_blendingDisabled) glEnable(GL_BLEND);
+					glBlendEquation(GL_FUNC_ADD);
 					glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_COLOR);
 					break;
 				
 				case Blending::Default:
 					if (m_blendingDisabled) glEnable(GL_BLEND);
-					glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-					//glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+					glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
+					glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 					break;
 				
 				case Blending::None:
