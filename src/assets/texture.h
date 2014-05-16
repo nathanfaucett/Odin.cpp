@@ -7,7 +7,6 @@ namespace Odin {
 		
 		private:
 			friend class OpenGLRenderer;
-			friend class Renderer;
 			
 			SDL_Surface* m_image;
 			uint32 m_textureID;
@@ -21,7 +20,7 @@ namespace Odin {
             bool m_flipY;
             bool m_premultiplyAlpha;
 
-            int32 m_anisotropy;
+            float32 m_anisotropy;
 
             TextureFilter m_filter;
             TextureFormat m_format;
@@ -36,6 +35,30 @@ namespace Odin {
 			inline virtual ~Texture(void);
 			
 			inline virtual void Load(void);
+			
+			inline virtual void SetGenerateMipmap(bool value);
+			inline virtual bool GetGenerateMipmap(void);
+			
+			inline virtual void SetFlipY(bool value);
+			inline virtual bool GetFlipY(void);
+			
+			inline virtual void SetPremultiplyAlpha(bool value);
+			inline virtual bool GetPremultiplyAlpha(void);
+			
+			inline virtual void SetAnisotropy(float32 value);
+			inline virtual float32 GetAnisotropy(void);
+			
+			inline virtual void SetFilter(TextureFilter value);
+			inline virtual TextureFilter GetFilter(void);
+			
+			inline virtual void SetFormat(TextureFormat value);
+			inline virtual TextureFormat GetFormat(void);
+			
+			inline virtual void SetWrap(TextureWrap value);
+			inline virtual TextureWrap GetWrap(void);
+			
+			inline virtual void SetType(TextureType value);
+			inline virtual TextureType GetType(void);
 	};
 }
 

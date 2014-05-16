@@ -5,7 +5,7 @@ namespace Odin {
 	
 	class Assets;
 	
-	class Asset {
+	class Asset : public Object {
 		
 		private:
 			friend class Assets;

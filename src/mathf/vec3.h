@@ -94,12 +94,12 @@ namespace Odin {
 				       );
 			}
 
-			static const Vec3<Type> Right;
-			static const Vec3<Type> Forward;
-			static const Vec3<Type> Up;
-			static const Vec3<Type> Left;
-			static const Vec3<Type> Backward;
-			static const Vec3<Type> Down;
+			static Vec3<Type> Right;
+			static Vec3<Type> Forward;
+			static Vec3<Type> Up;
+			static Vec3<Type> Left;
+			static Vec3<Type> Backward;
+			static Vec3<Type> Down;
 
 			inline Vec3<Type>& operator -(void);
 
@@ -133,6 +133,16 @@ namespace Odin {
 			inline Vec3<Type>& operator -=(const Vec3<Type>& v);
 			inline Vec3<Type>& operator *=(const Vec3<Type>& v);
 			inline Vec3<Type>& operator /=(const Vec3<Type>& v);
+
+			inline Vec3<Type> operator +(const Vec2<Type>& v);
+			inline Vec3<Type> operator -(const Vec2<Type>& v);
+			inline Vec3<Type> operator *(const Vec2<Type>& v);
+			inline Vec3<Type> operator /(const Vec2<Type>& v);
+
+			inline Vec3<Type>& operator +=(const Vec2<Type>& v);
+			inline Vec3<Type>& operator -=(const Vec2<Type>& v);
+			inline Vec3<Type>& operator *=(const Vec2<Type>& v);
+			inline Vec3<Type>& operator /=(const Vec2<Type>& v);
 
 
 			inline Vec3<Type> operator +(Type s);

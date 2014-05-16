@@ -8,7 +8,6 @@ namespace Odin {
 		p_scene = NULL;
 		
 		p_quit = false;
-		p_running = false;
 	}
 
 	inline BaseGame::BaseGame(std::string name) {
@@ -16,75 +15,25 @@ namespace Odin {
 		p_scene = NULL;
 		
 		p_quit = false;
-		p_running = false;
 	}
 
 	inline BaseGame::~BaseGame(void) {
 		
 	}
 
-	inline void BaseGame::p_Init(void) {
-		Resume();
-	}
-	inline void BaseGame::p_StartLoop(void) {
-		#ifdef EMSCRIPTEN
-			if (p_resumed) {
-				p_resumed = false;
-				emscripten_resume_main_loop(p_Loop, 60, 1);
-			} else {
-				emscripten_set_main_loop(p_Loop, 60, 1);
-			}
-		#else
-			p_resumed = false;
-			float32 target = 1.0f / GameConfig.fps,
-					start = 0.0f;
-			
-			while(!p_quit) {
-				start = Time.Now();
-				if (p_running) p_Loop();
-				Delay(Mathf.Clamp(0.0f, target, Time.Now() - start));
-			}
-		#endif
-	}
-	inline void BaseGame::p_Loop(void) {
-		
-	}
-
 	inline void BaseGame::Update(void) {
 		Time.Update();
+		Input.mouseWheel = 0;
 	}
 	inline void BaseGame::Clear(void) {
 		p_scene = NULL;
 	}
 	
-	inline void BaseGame::Pause(void) {
-		if (p_running == false) return;
-		p_running = false;
-		
-		#ifdef EMSCRIPTEN
-			emscripten_pause_main_loop(p_Loop, 60, 1);
-		#endif
-	}
-	inline void BaseGame::Resume(void) {
-		if (p_running == true) return;
-		p_running = true;
-		p_resumed = true;
-		
-		p_StartLoop();
-	}
 	inline void BaseGame::Quit(void) {
-		p_running = false;
 		p_quit = true;
-		
-		#ifdef EMSCRIPTEN
-			emscripten_pause_main_loop(p_Loop, 60, 1);
-		#endif
-	}
-	inline bool BaseGame::IsPaused(void) {
-		return !p_running;
 	}
 	inline bool BaseGame::IsRunning(void) {
-		return p_running;
+		return p_quit == false;
 	}
 
 	inline BaseGame& BaseGame::SetScene(Scene* scene) {

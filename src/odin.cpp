@@ -51,19 +51,19 @@ namespace Odin {
 	}
 
 	inline void Delay(int16 s) {
-		SDL_Delay(s * 1000);
+		SDL_Delay(static_cast<uint32>(s * 1000));
 	}
 	inline void Delay(int32 s) {
-		SDL_Delay(s * 1000);
+		SDL_Delay(static_cast<uint32>(s * 1000));
 	}
 	inline void Delay(int64 s) {
-		SDL_Delay(s * 1000);
+		SDL_Delay(static_cast<uint32>(s * 1000));
 	}
 	inline void Delay(float32 s) {
-		SDL_Delay(s * 1000.0f);
+		SDL_Delay(static_cast<uint32>(s * 1000));
 	}
 	inline void Delay(float64 s) {
-		SDL_Delay(s * 1000.0);
+		SDL_Delay(static_cast<uint32>(s * 1000));
 	}
 
 	inline void SDLQuitError(std::string msg) {
@@ -112,17 +112,33 @@ namespace Odin {
 		#endif
 	}
 
-	inline float32 Benchmark(std::function<void()> func, int32 times) {
-		float32 start = 0.0f, avg = 0.0f,
-		        d = 1.0f / float32(times);
+	
+	inline std::pair<double, double> __RUN_BENCHMARK__(std::function<void()> func, uint32 times) {
+		float64 start = 0.0,
+				time = 0.0;
 
-		for (int32 i = 0; i < times; i++) {
-			start = Time.Now();
+		for (uint32 j = 0; j < times; j++) {
+			start = Time.Now64();
 			func();
-			avg += Time.Now() - start;
+			time += Time.Now64() - start;
 		}
+		
+        return std::make_pair((times / time), (time / times));
+	}
+	inline void Benchmark(std::string name, std::function<void()> func, uint32 times) {
+		float64 ops_sec = 0.0,
+				avg_time = 0.0;
 
-		return (avg * d);
+		for (uint32 j = 0; j < times; j++) {
+			std::pair<double, double> values = __RUN_BENCHMARK__(func, times);
+			ops_sec += values.first;
+			avg_time += values.second;
+		}
+		
+		std::cout << std::endl << "===== Benchmark =====" << std::endl << name << ":" << std::endl;
+        std::cout << "\t" << (ops_sec / times) << "(ops/sec)" << std::endl;
+		std::cout << "\t" << (avg_time / times) << "(average time/call)" << std::endl;
+		std::cout << "===== Benchmark =====" << std::endl << std::endl;
 	}
 }
 

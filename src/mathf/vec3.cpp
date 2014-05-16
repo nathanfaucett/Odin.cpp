@@ -3,12 +3,12 @@
 
 namespace Odin {
 
-	template <typename Type> const Vec3<Type> Vec3<Type>::Right(static_cast<Type>(1), static_cast<Type>(0), static_cast<Type>(0));
-	template <typename Type> const Vec3<Type> Vec3<Type>::Forward(static_cast<Type>(0), static_cast<Type>(1), static_cast<Type>(0));
-	template <typename Type> const Vec3<Type> Vec3<Type>::Up(static_cast<Type>(0), static_cast<Type>(0), static_cast<Type>(1));
-	template <typename Type> const Vec3<Type> Vec3<Type>::Left(-static_cast<Type>(1), static_cast<Type>(0), static_cast<Type>(0));
-	template <typename Type> const Vec3<Type> Vec3<Type>::Backward(static_cast<Type>(0), -static_cast<Type>(1), static_cast<Type>(0));
-	template <typename Type> const Vec3<Type> Vec3<Type>::Down(static_cast<Type>(0), static_cast<Type>(0), -static_cast<Type>(1));
+	template <typename Type> Vec3<Type> Vec3<Type>::Right(static_cast<Type>(1), static_cast<Type>(0), static_cast<Type>(0));
+	template <typename Type> Vec3<Type> Vec3<Type>::Forward(static_cast<Type>(0), static_cast<Type>(1), static_cast<Type>(0));
+	template <typename Type> Vec3<Type> Vec3<Type>::Up(static_cast<Type>(0), static_cast<Type>(0), static_cast<Type>(1));
+	template <typename Type> Vec3<Type> Vec3<Type>::Left(-static_cast<Type>(1), static_cast<Type>(0), static_cast<Type>(0));
+	template <typename Type> Vec3<Type> Vec3<Type>::Backward(static_cast<Type>(0), -static_cast<Type>(1), static_cast<Type>(0));
+	template <typename Type> Vec3<Type> Vec3<Type>::Down(static_cast<Type>(0), static_cast<Type>(0), -static_cast<Type>(1));
 
 	template <typename Type> inline Vec3<Type>::Vec3(void) {
 		x = static_cast<Type>(0);
@@ -373,6 +373,60 @@ namespace Odin {
 		x *= vx != static_cast<Type>(0) ? static_cast<Type>(1) / vx : static_cast<Type>(0);
 		y *= vy != static_cast<Type>(0) ? static_cast<Type>(1) / vy : static_cast<Type>(0);
 		z *= vz != static_cast<Type>(0) ? static_cast<Type>(1) / vz : static_cast<Type>(0);
+		
+		return *this;
+	}
+
+	template <typename Type> inline Vec3<Type> Vec3<Type>::operator +(const Vec2<Type>& v) {
+
+		return Vec3<Type>(x + v.x, y + v.y, z);
+	}
+
+	template <typename Type> inline Vec3<Type> Vec3<Type>::operator -(const Vec2<Type>& v) {
+
+		return Vec3<Type>(x - v.x, y - v.y, z);
+	}
+
+	template <typename Type> inline Vec3<Type> Vec3<Type>::operator *(const Vec2<Type>& v) {
+
+		return Vec3<Type>(x * v.x, y * v.y, z);
+	}
+
+	template <typename Type> inline Vec3<Type> Vec3<Type>::operator /(const Vec2<Type>& v) {
+		Type vx = v.x, vy = v.y;
+
+		vx = vx != static_cast<Type>(0) ? static_cast<Type>(1) / vx : static_cast<Type>(0);
+		vy = vy != static_cast<Type>(0) ? static_cast<Type>(1) / vy : static_cast<Type>(0);
+
+		return Vec3<Type>(x * vx, y * vy, z);
+	}
+
+	template <typename Type> inline Vec3<Type>& Vec3<Type>::operator +=(const Vec2<Type>& v) {
+		x += v.x;
+		y += v.y;
+		
+		return *this;
+	}
+
+	template <typename Type> inline Vec3<Type>& Vec3<Type>::operator -=(const Vec2<Type>& v) {
+		x -= v.x;
+		y -= v.y;
+		
+		return *this;
+	}
+
+	template <typename Type> inline Vec3<Type>& Vec3<Type>::operator *=(const Vec2<Type>& v) {
+		x *= v.x;
+		y *= v.y;
+		
+		return *this;
+	}
+
+	template <typename Type> inline Vec3<Type>& Vec3<Type>::operator /=(const Vec2<Type>& v) {
+		Type vx = v.x, vy = v.y, vz = v.z;
+
+		x *= vx != static_cast<Type>(0) ? static_cast<Type>(1) / vx : static_cast<Type>(0);
+		y *= vy != static_cast<Type>(0) ? static_cast<Type>(1) / vy : static_cast<Type>(0);
 		
 		return *this;
 	}

@@ -6,7 +6,7 @@ namespace Odin {
 	class Object {
 
 		private:
-			int32 m_instanceID;
+			uint32 m_instanceID;
 
 		protected:
 
@@ -14,7 +14,7 @@ namespace Odin {
 			inline explicit Object(void);
 			inline ~Object(void);
 
-			inline int32 GetInstanceID(void);
+			inline uint32 GetInstanceID(void) const;
 	};
 }
 

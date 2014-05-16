@@ -21,9 +21,6 @@ namespace Odin {
 			float32 m_maxOrthographicSize;
 
 		protected:
-			inline void p_Init(void);
-			inline void p_Start(void);
-			inline void p_Sort(void);
 
 		public:
 			bool autoUpdate;
@@ -47,7 +44,9 @@ namespace Odin {
 			inline Camera& Set(float32 width, float32 height);
 			inline Camera& SetWidth(float32 width);
 			inline float32 GetWidth(void);
+			inline float32 GetInvWidth(void);
 			inline Camera& SetHeight(float32 height);
+			inline float32 GetInvHeight(void);
 			inline float32 GetHeight(void);
 			inline float32 GetAspect(void);
 
@@ -64,6 +63,9 @@ namespace Odin {
 			inline Camera& SetOrthographic(bool value);
 			inline bool IsOrthographic(void);
 			inline Camera& ToggleOrthographic(void);
+			
+			inline Camera& SetOrthographicSize(float32 orthographicSize);
+			inline float32 GetOrthographicSize(void);
 			
 			inline Camera& operator=(const Camera&)& = default;
 			inline Camera& operator=(Camera&&)& = default;

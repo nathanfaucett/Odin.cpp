@@ -13,7 +13,7 @@ namespace Odin {
 	}
 
 	template <typename Type> inline int32 Array<Type>::m_Partition(std::function<float32(const Type& a, const Type& b)> sortFunction, int32 i, int32 j) {
-		Type pivot = m_array[j];
+		Type pivot = std::move(m_array[j]);
 		Type tmp;
 
 		while (i < j) {
@@ -29,9 +29,9 @@ namespace Odin {
 				i++;
 
 			} else if (i < j) {
-				tmp = m_array[i];
-				m_array[i] = m_array[j];
-				m_array[j] = tmp;
+				tmp = std::move(m_array[i]);
+				m_array[i] = std::move(m_array[j]);
+				m_array[j] = std::move(tmp);
 			}
 		}
 
@@ -50,7 +50,7 @@ namespace Odin {
 		Type* array = new Type[length];
 
 		for (; i < length; i++) {
-			array[i] = other.m_array[i];
+			array[i] = std::move(other.m_array[i]);
 		}
 
 		m_array = array;
@@ -97,7 +97,7 @@ namespace Odin {
 				continue;
 			}
 
-			array[j++] = m_array[i];
+			array[j++] = std::move(m_array[i]);
 		}
 
 		delete []m_array;
@@ -117,7 +117,7 @@ namespace Odin {
 				continue;
 			}
 
-			array[j++] = m_array[i];
+			array[j++] = std::move(m_array[i]);
 		}
 
 		array[index] = item;
@@ -133,7 +133,7 @@ namespace Odin {
 		Type* array = new Type[m_length];
 
 		for (; i < length; i++) {
-			array[i] = m_array[i];
+			array[i] = std::move(m_array[i]);
 		}
 
 		array[length] = item;
@@ -148,7 +148,7 @@ namespace Odin {
 		Type* array = new Type[m_length];
 
 		for (; i < m_length; i++) {
-			array[i] = m_array[j++];
+			array[i] = std::move(m_array[j++]);
 		}
 
 		array[0] = item;
@@ -166,7 +166,7 @@ namespace Odin {
 		Type* array = new Type[m_length];
 
 		for (; i < length; i++) {
-			array[i] = m_array[i];
+			array[i] = std::move(m_array[i]);
 		}
 
 		delete []m_array;
@@ -185,7 +185,7 @@ namespace Odin {
 		Type* array = new Type[m_length];
 
 		for (; i < length; i++) {
-			array[j++] = m_array[i];
+			array[j++] = std::move(m_array[i]);
 		}
 
 		delete []m_array;
@@ -241,7 +241,7 @@ namespace Odin {
 		Type* array = new Type[length];
 
 		for (; i < length; i++) {
-			array[i] = other.m_array[i];
+			array[i] = std::move(other.m_array[i]);
 		}
 
 		delete []m_array;

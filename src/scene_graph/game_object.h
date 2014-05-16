@@ -9,10 +9,12 @@ namespace Odin {
 			friend class Scene;
 			friend class Component;
 
+			Scene* m_scene;
+			
 			std::unordered_map<const std::type_info*, Component*> m_components;
 
+			inline GameObject& m_RemoveComponent(const std::type_info* component);
 		protected:
-			Scene* p_scene;
 
 		public:
 			inline GameObject(void);
@@ -27,7 +29,9 @@ namespace Odin {
 			inline Scene* GetScene(void);
 
 			inline GameObject& AddComponent(Component* component);
+			template <typename Type> inline GameObject& AddComponent(void);
 			inline GameObject& RemoveComponent(Component* component);
+			template <typename Type> inline GameObject& RemoveComponent(void);
 			
 			inline void Clear(void);
 			

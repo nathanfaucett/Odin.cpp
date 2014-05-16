@@ -11,6 +11,8 @@ namespace Odin {
 			template<typename Type2>friend inline Mat3<Type2>& Mat3Mul(const Mat3<Type2>& a, const Mat3<Type2>& b, Mat3<Type2>& out);
 			friend class Mat4<Type>;
 			Type m_mat[9];
+			
+			Vec3<Type> m_LookAt_x, m_LookAt_y, m_LookAt_z;
 
 		public:
 
@@ -51,6 +53,8 @@ namespace Odin {
 			inline Mat3<Type>& RotateY(Type angle);
 			inline Mat3<Type>& RotateZ(Type angle);
 			inline Mat3<Type>& Rotate(Type x, Type y, Type z);
+			
+			inline Mat3<Type>& LookAt(Vec3<Type>& eye, Vec3<Type>& target, Vec3<Type>& up = Vec3<Type>::Up);
 
 			inline static Mat3<Type> MakeScale(Type x, Type y, Type z) {
 

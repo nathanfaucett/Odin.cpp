@@ -78,10 +78,10 @@ namespace Odin {
 				return a.x * b.y - a.y * b.x;
 			}
 
-			static const Vec2<Type> Right;
-			static const Vec2<Type> Up;
-			static const Vec2<Type> Left;
-			static const Vec2<Type> Down;
+			static Vec2<Type> Right;
+			static Vec2<Type> Up;
+			static Vec2<Type> Left;
+			static Vec2<Type> Down;
 
 			inline Vec2<Type>& operator -(void);
 
@@ -112,6 +112,16 @@ namespace Odin {
 			inline Vec2<Type>& operator -=(const Vec2<Type>& v);
 			inline Vec2<Type>& operator *=(const Vec2<Type>& v);
 			inline Vec2<Type>& operator /=(const Vec2<Type>& v);
+
+			inline Vec2<Type> operator +(const Vec3<Type>& v);
+			inline Vec2<Type> operator -(const Vec3<Type>& v);
+			inline Vec2<Type> operator *(const Vec3<Type>& v);
+			inline Vec2<Type> operator /(const Vec3<Type>& v);
+
+			inline Vec2<Type>& operator +=(const Vec3<Type>& v);
+			inline Vec2<Type>& operator -=(const Vec3<Type>& v);
+			inline Vec2<Type>& operator *=(const Vec3<Type>& v);
+			inline Vec2<Type>& operator /=(const Vec3<Type>& v);
 
 			inline Vec2<Type> operator +(Type s);
 			inline Vec2<Type> operator -(Type s);

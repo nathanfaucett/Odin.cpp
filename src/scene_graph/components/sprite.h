@@ -7,15 +7,14 @@ namespace Odin {
 
 		private:
 			bool m_visible;
-			float32 m_width, m_height, m_alpha, m_z;
+			float32 m_width, m_height, m_alpha;
 			int32 m_x, m_y, m_w, m_h;
 			
 		protected:
-			inline void p_Init(void);
-			inline void p_Start(void);
-			inline void p_Sort(void);
 
 		public:
+			uint32 layer;
+			int32 z;
 			Texture* texture;
 			
 			inline Sprite(void);
@@ -28,6 +27,7 @@ namespace Odin {
 			
 			inline void Update(void);
 			inline void Clear(void);
+			inline static float32 Sort(Sprite* a, Sprite* b);
 			
 			inline Sprite& operator=(const Sprite&)& = default;
 			inline Sprite& operator=(Sprite&&)& = default;

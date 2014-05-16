@@ -61,7 +61,6 @@ namespace Odin {
 
 				return Stamp64() - m_start;
 			}
-
 			inline float64 Stamp64(void) {
 
 				return (std::chrono::high_resolution_clock::now().time_since_epoch() / std::chrono::nanoseconds(1)) * 0.000000001;
@@ -69,12 +68,11 @@ namespace Odin {
 
 			inline float32 Now(void) {
 
-				return Now64();
+				return static_cast<float32>(Now64());
 			}
-
 			inline float32 Stamp(void) {
 
-				return Stamp64();
+				return static_cast<float32>(Stamp64());
 			}
 	} Time;
 }

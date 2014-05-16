@@ -5,6 +5,7 @@ namespace Odin {
 
 	inline Window::Window(void) {
 		m_window = NULL;
+		m_surface = NULL;
 		m_glContext = NULL;
 		
 		m_title = "Window";
@@ -20,6 +21,7 @@ namespace Odin {
 	}
 	inline Window::Window(std::string title) {
 		m_window = NULL;
+		m_surface = NULL;
 		m_glContext = NULL;
 		
 		m_title = title;
@@ -61,8 +63,8 @@ namespace Odin {
 			Log("SDL_CreateWindow Failed", __LINE__);
 			return false;
 		}
-
 		SDLCheckError(__LINE__);
+		
 		return true;
 	}
 
@@ -78,9 +80,10 @@ namespace Odin {
 		if (m_window != NULL) {
 			SDL_DestroyWindow(m_window);
 			m_window = NULL;
+			m_surface = NULL;
+			DeleteGLContext();
 		}
-
-		DeleteGLContext();
+		
 		return *this;
 	}
 
@@ -94,6 +97,10 @@ namespace Odin {
 				case SDL_WINDOWEVENT_RESIZED:
 					width = event->window.data1;
 					height = event->window.data2;
+					if (m_surface != NULL) {
+						m_surface->w = width;
+						m_surface->h = height;
+					}
 					break;
 				
 				case SDL_WINDOWEVENT_MOVED:
@@ -107,8 +114,12 @@ namespace Odin {
 	}
 
 	inline Window& Window::Swap(void) {
-		if (m_window != NULL && m_glContext != NULL) {
-			SDL_GL_SwapWindow(m_window);
+		if (m_window != NULL) {
+			if (m_glContext != NULL) {
+				SDL_GL_SwapWindow(m_window);
+			} else {
+				SDL_UpdateWindowSurface(m_window);
+			}
 		}
 		
 		return *this;
@@ -160,12 +171,13 @@ namespace Odin {
 	}
 
 	inline Window& Window::SetFullscreen(bool value) {
-		m_fullscreen = value;
-		
-		if (m_window == NULL) {
+		if (m_fullscreen == value) {
 			return *this;
+		} else {
+			m_fullscreen = value;
 		}
-
+		if (m_window == NULL) return *this;
+		
 		if (value) {
 			SDL_SetWindowFullscreen(m_window, SDL_WINDOW_FULLSCREEN);
 		} else {
@@ -175,11 +187,12 @@ namespace Odin {
 		return *this;
 	}
 	inline Window& Window::SetFullscreenDesktop(bool value) {
-		m_fullscreenDesktop = value;
-		
-		if (m_window == NULL) {
+		if (m_fullscreenDesktop == value) {
 			return *this;
+		} else {
+			m_fullscreenDesktop = value;
 		}
+		if (m_window == NULL) return *this;
 
 		if (value) {
 			SDL_SetWindowFullscreen(m_window, SDL_WINDOW_FULLSCREEN_DESKTOP);
@@ -190,76 +203,88 @@ namespace Odin {
 		return *this;
 	}
 	inline Window& Window::ToggleFullscreen(void) {
-		m_fullscreen = !m_fullscreen;
-		SetFullscreen(m_fullscreen);
+		SetFullscreen(!m_fullscreen);
 		return *this;
 	}
 	inline Window& Window::ToggleFullscreenDesktop(void) {
-		m_fullscreenDesktop = !m_fullscreenDesktop;
-		SetFullscreenDesktop(m_fullscreenDesktop);
+		SetFullscreenDesktop(!m_fullscreenDesktop);
 		return *this;
 	}
 	inline Window& Window::SetOpenGL(bool value) {
-		m_opengl = value;
-		
-		if (m_opengl == value || m_window == NULL) {
+		if (m_opengl == value) {
 			return *this;
+		} else {
+			m_opengl = value;
 		}
+		if (m_window == NULL) return *this;
 		Create();
+		
 		return *this;
 	}
 	inline Window& Window::SetBorderless(bool value) {
-		m_borderless = value;
-		
-		if (m_borderless == value || m_window == NULL) {
+		if (m_borderless == value) {
 			return *this;
+		} else {
+			m_borderless = value;
 		}
+		if (m_window == NULL) return *this;
 		Create();
+		
 		return *this;
 	}
 	inline Window& Window::SetResizable(bool value) {
-		m_resizable = value;
-		
-		if (m_resizable == value || m_window == NULL) {
+		if (m_resizable == value) {
 			return *this;
+		} else {
+			m_resizable = value;
 		}
+		if (m_window == NULL) return *this;
 		Create();
+		
 		return *this;
 	}
 	inline Window& Window::SetInputGrabbed(bool value) {
-		m_inputGrabbed = value;
-		
-		if (m_inputGrabbed == value || m_window == NULL) {
+		if (m_inputGrabbed == value) {
 			return *this;
+		} else {
+			m_inputGrabbed = value;
 		}
+		if (m_window == NULL) return *this;
 		Create();
+		
 		return *this;
 	}
 	inline Window& Window::SetInputFocus(bool value) {
-		m_inputFocus = value;
-		
-		if (m_inputFocus == value || m_window == NULL) {
+		if (m_inputFocus == value) {
 			return *this;
+		} else {
+			m_inputFocus = value;
 		}
+		if (m_window == NULL) return *this;
 		Create();
+		
 		return *this;
 	}
 	inline Window& Window::SetMouseFocus(bool value) {
-		m_mouseFocus = value;
-		
-		if (m_mouseFocus == value || m_window == NULL) {
+		if (m_mouseFocus == value) {
 			return *this;
+		} else {
+			m_mouseFocus = value;
 		}
+		if (m_window == NULL) return *this;
 		Create();
+		
 		return *this;
 	}
 	inline Window& Window::SetAllowHighDPI(bool value) {
-		m_allowHighDPI = value;
-		
-		if (m_allowHighDPI == value || m_window == NULL) {
+		if (m_allowHighDPI == value) {
 			return *this;
+		} else {
+			m_allowHighDPI = value;
 		}
+		if (m_window == NULL) return *this;
 		Create();
+		
 		return *this;
 	}
 
@@ -267,9 +292,12 @@ namespace Odin {
 		width = Width;
 		height = Height;
 		
-		if (m_window == NULL) {
-			return *this;
+		if (m_surface != NULL) {
+			m_surface->w = width;
+			m_surface->h = height;
 		}
+		if (m_window == NULL) return *this;
+		
 		SDL_SetWindowSize(m_window, width, height);
 		return *this;
 	}
@@ -285,12 +313,16 @@ namespace Odin {
 		return *this;
 	}
 
-	inline Window& Window::SetRect(int32 X, int32 Y, int32 Width, int32 Height) {
+	inline Window& Window::SetPositionSize(int32 X, int32 Y, int32 Width, int32 Height) {
 		x = X;
 		y = Y;
 		width = Width;
 		height = Height;
 		
+		if (m_surface != NULL) {
+			m_surface->w = width;
+			m_surface->h = height;
+		}
 		if (m_window == NULL) {
 			return *this;
 		}
@@ -300,17 +332,26 @@ namespace Odin {
 	}
 
 	inline Window& Window::SetTitle(std::string title) {
-		m_title = title;
-		
-		if (m_window == NULL) {
+		if (m_title == title) {
 			return *this;
+		} else {
+			m_title = title;
 		}
+		
 		SDL_SetWindowTitle(m_window, m_title.c_str());
 		return *this;
 	}
 
 	inline SDL_Window* Window::GetSDLWindow(void) {
 		return m_window;
+	}
+	
+	inline SDL_Surface* Window::GetSDLSurface(void) {
+		if (m_window != NULL && m_surface == NULL) {
+			m_surface = SDL_GetWindowSurface(m_window);
+		}
+		
+		return m_surface;
 	}
 }
 

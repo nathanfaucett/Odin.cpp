@@ -3,12 +3,12 @@
 
 namespace Odin {
 
-	template <typename Type> const Vec4<Type> Vec4<Type>::Right(static_cast<Type>(1), static_cast<Type>(0), static_cast<Type>(0), static_cast<Type>(1));
-	template <typename Type> const Vec4<Type> Vec4<Type>::Forward(static_cast<Type>(0), static_cast<Type>(1), static_cast<Type>(0), static_cast<Type>(1));
-	template <typename Type> const Vec4<Type> Vec4<Type>::Up(static_cast<Type>(0), static_cast<Type>(0), static_cast<Type>(1), static_cast<Type>(1));
-	template <typename Type> const Vec4<Type> Vec4<Type>::Left(-static_cast<Type>(1), static_cast<Type>(0), static_cast<Type>(0), static_cast<Type>(1));
-	template <typename Type> const Vec4<Type> Vec4<Type>::Backward(static_cast<Type>(0), -static_cast<Type>(1), static_cast<Type>(0), static_cast<Type>(1));
-	template <typename Type> const Vec4<Type> Vec4<Type>::Down(static_cast<Type>(0), static_cast<Type>(0), -static_cast<Type>(1), static_cast<Type>(1));
+	template <typename Type> Vec4<Type> Vec4<Type>::Right(static_cast<Type>(1), static_cast<Type>(0), static_cast<Type>(0), static_cast<Type>(1));
+	template <typename Type> Vec4<Type> Vec4<Type>::Forward(static_cast<Type>(0), static_cast<Type>(1), static_cast<Type>(0), static_cast<Type>(1));
+	template <typename Type> Vec4<Type> Vec4<Type>::Up(static_cast<Type>(0), static_cast<Type>(0), static_cast<Type>(1), static_cast<Type>(1));
+	template <typename Type> Vec4<Type> Vec4<Type>::Left(-static_cast<Type>(1), static_cast<Type>(0), static_cast<Type>(0), static_cast<Type>(1));
+	template <typename Type> Vec4<Type> Vec4<Type>::Backward(static_cast<Type>(0), -static_cast<Type>(1), static_cast<Type>(0), static_cast<Type>(1));
+	template <typename Type> Vec4<Type> Vec4<Type>::Down(static_cast<Type>(0), static_cast<Type>(0), -static_cast<Type>(1), static_cast<Type>(1));
 	
 	template <typename Type> inline Vec4<Type>::Vec4(void) {
 		x = static_cast<Type>(0);

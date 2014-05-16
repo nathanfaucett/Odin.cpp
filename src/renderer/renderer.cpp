@@ -29,42 +29,43 @@ namespace Odin {
 		};
 		m_spriteVertexBuffers = CreateVertexBuffer<float32>(vertexBuffers, sizeof(vertexBuffers));
 		
-		float32 uvBuffers[12] = {
+		float32 uvBuffers[8] = {
 			0.0f, 0.0f,
 			0.0f, 1.0f,
 			1.0f, 0.0f,
-			1.0f, 1.0f,
+			1.0f, 1.0f
 		};
 		m_spriteUvBuffers = CreateVertexBuffer<float32>(uvBuffers, sizeof(uvBuffers));
 		
-		m_spriteProgram = CreateProgram(
-			GLSL(330,
-				layout(location = 0)in vec3 position;
-				layout(location = 1)in vec2 uv;
-				
-				uniform mat4 projection; 
-				uniform mat4 modelView; 
-				
-				varying vec2 vUv;
-				
-				void main(void) {
-					gl_Position = projection * modelView * vec4(position, 1.0f);
-					vUv = uv;
-				}
-			),
-			GLSL(330,
-				uniform sampler2D texture;
-				out vec4 fragColor;
-				
-				varying vec2 vUv;
-				
-				void main(void) {
-					fragColor = texture2D(texture, vUv);
-				}
-			)
+		std::string vertex = GLSL(110,
+			in vec3 position;
+			in vec2 uv;
+			
+			uniform mat4 projection; 
+			uniform mat4 modelView; 
+			
+			varying vec2 vUv;
+			
+			void main(void) {
+				gl_Position = projection * modelView * vec4(position, 1.0f);
+				vUv = uv;
+			}
 		);
-		m_spritePosition = 0;
-		m_spriteUv = 1;
+		std::string fragment = GLSL(110,
+			uniform sampler2D texture;
+			out vec4 fragColor;
+			
+			varying vec2 vUv;
+			
+			void main(void) {
+				fragColor = texture2D(texture, vUv);
+			}
+		);
+		
+		m_spriteProgram = CreateProgram(vertex, fragment);
+		
+		m_spritePosition = glGetAttribLocation(m_spriteProgram, "position");
+		m_spriteUv = glGetAttribLocation(m_spriteProgram, "uv");
 		m_spriteTexture = glGetUniformLocation(m_spriteProgram, "texture");
 		m_spriteProjection = glGetUniformLocation(m_spriteProgram, "projection");
 		m_spriteModelView = glGetUniformLocation(m_spriteProgram, "modelView");
@@ -74,6 +75,9 @@ namespace Odin {
 	
 	inline void Renderer::m_RenderSprite(Camera* camera, Sprite* sprite, Transform* transform) {
 		m_InitSpriteBuffers();
+		
+		SetBlending(Blending::Default);
+		SetCullFace(CullFace::Back);
 		
 		SetProgram(m_spriteProgram);
 		
@@ -85,6 +89,21 @@ namespace Odin {
 		BindTexture(m_spriteTexture, sprite->texture);
 		
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	}
+	
+	inline void Renderer::m_RenderMeshFilter(Camera* camera, MeshFilter* meshFilter, Transform* transform) {
+		Mesh* mesh = meshFilter->mesh;
+		Material* material = meshFilter->material;
+		if (mesh == NULL || material == NULL) return;
+		
+		CreateMaterial(material);
+		CreateMeshAttributes(mesh);
+		SetProgram(material->GetOpenGLShader()->program);
+		
+		BindMaterial(material, camera->projection, camera->view, transform);
+		BindMeshAttributes(material, mesh);
+		
+		glDrawElements(GL_TRIANGLES, mesh->triangleCount, GL_UNSIGNED_INT, BUFFER_OFFSET(0));
 	}
 	
 	inline void Renderer::UseClearColor(bool value) {
@@ -99,11 +118,11 @@ namespace Odin {
 	
 	inline void Renderer::Render(Camera* camera, Scene* scene) {
 		
-		if (p_window == NULL || camera == NULL) return;
+		if (p_surface == NULL || camera == NULL) return;
 
-		if (m_width != p_window->width || m_height != p_window->height) {
-			m_width = p_window->width;
-			m_height = p_window->height;
+		if (m_width != p_surface->w || m_height != p_surface->h) {
+			m_width = p_surface->w;
+			m_height = p_surface->h;
 			SetViewport(0.0f, 0.0f, m_width, m_height);
 
 			if (camera->autoUpdate) {
@@ -119,13 +138,33 @@ namespace Odin {
 		uint32 i, il;
 		
 		Array<Sprite*>* sprites = scene->GetComponents<Sprite>();
-		for (i = 0, il = sprites->Length(); i < il; i++) {
-			Sprite* sprite = (*sprites)[i];
-			GameObject* gameObject = sprite->GetGameObject();
-			Transform* transform = gameObject->GetComponent<Transform>();
+		if (sprites != NULL) {
+			DisableAttributes();
 			
-			transform->UpdateMatrices(camera->view);
-			m_RenderSprite(camera, sprite, transform);
+			for (i = 0, il = sprites->Length(); i < il; i++) {
+				Sprite* sprite = (*sprites)[i];
+				GameObject* gameObject = sprite->GetGameObject();
+				if (gameObject == NULL) continue;
+				Transform* transform = gameObject->GetComponent<Transform>();
+				if (transform == NULL) continue;
+				
+				transform->UpdateMatrices(camera->view);
+				m_RenderSprite(camera, sprite, transform);
+			}
+		}
+		
+		Array<MeshFilter*>* meshFilters = scene->GetComponents<MeshFilter>();
+		if (meshFilters != NULL) {
+			for (i = 0, il = meshFilters->Length(); i < il; i++) {
+				MeshFilter* meshFilter = (*meshFilters)[i];
+				GameObject* gameObject = meshFilter->GetGameObject();
+				if (gameObject == NULL) continue;
+				Transform* transform = gameObject->GetComponent<Transform>();
+				if (transform == NULL) continue;
+				
+				transform->UpdateMatrices(camera->view);
+				m_RenderMeshFilter(camera, meshFilter, transform);
+			}
 		}
 	}
 }

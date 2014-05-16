@@ -644,6 +644,36 @@ namespace Odin {
 
 		return *this;
 	}
+	
+	template <typename Type> inline Mat4<Type>& Mat4<Type>::LookAt(Vec3<Type>& eye, Vec3<Type>& target, Vec3<Type>& up) {
+		Vec3<Type>& x = m_LookAt_x, y = m_LookAt_y, z = m_LookAt_z;
+		
+		z = eye - target;
+		z.Normalize();
+		if (z.LengthSq() == 0.0f) z.z = 1.0f;
+
+		x = up.Cross(z);
+		x.Normalize();
+
+		if (x.LengthSq() == 0.0f) {
+			z.x += 0.000001f;
+			x = up.Cross(z);
+			x.Normalize();
+		}
+		y = z.Cross(x);
+
+		m_mat[0] = x.x;
+		m_mat[4] = y.x;
+		m_mat[8] = z.x;
+		m_mat[1] = x.y;
+		m_mat[5] = y.y;
+		m_mat[9] = z.y;
+		m_mat[2] = x.z;
+		m_mat[6] = y.z;
+		m_mat[10] = z.z;
+		
+		return *this;
+	}
 
 	template <typename Type> inline Mat4<Type>& Mat4<Type>::FromQuat(const Quat<Type>& q) {
 		Type x = q.x,

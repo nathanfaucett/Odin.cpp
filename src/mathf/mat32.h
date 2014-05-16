@@ -48,6 +48,8 @@ namespace Odin {
 			inline Vec2<Type>& GetPosition(Vec2<Type>& position);
 
 			inline Mat32<Type>& Rotate(Type a);
+			
+			inline Mat32<Type>& LookAt(Vec2<Type>& eye, Vec2<Type>& target);
 
 			inline static Mat32<Type> MakeTranslation(Type x, Type y) {
 

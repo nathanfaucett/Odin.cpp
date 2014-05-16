@@ -34,6 +34,8 @@ namespace Odin {
 			inline Type GetRotation(void);
 
 			inline Mat2<Type>& Rotate(Type a);
+			
+			inline Mat2<Type>& LookAt(Vec2<Type>& eye, Vec2<Type>& target);
 
 			inline Type operator [] (int32 i) const;
 			inline Type& operator [] (int32 i);

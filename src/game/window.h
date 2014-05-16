@@ -11,6 +11,7 @@ namespace Odin {
 				 m_inputGrabbed, m_inputFocus, m_mouseFocus, m_allowHighDPI;
 
 			SDL_Window* m_window;
+			SDL_Surface* m_surface;
 			SDL_GLContext m_glContext;
 			
 			inline bool m_Create(int32 x, int32 y, int32 width, int32 height);
@@ -21,6 +22,8 @@ namespace Odin {
 			
 			inline Window(void);
 			inline Window(std::string title);
+			inline Window(const Window&) = default;
+			inline Window(Window&&) = default;
 			inline ~Window(void);
 
 			inline bool Create(void);
@@ -49,10 +52,14 @@ namespace Odin {
 			
 			inline Window& SetPosition(int32 X, int32 Y);
 			inline Window& SetSize(int32 Width, int32 Height);
-			inline Window& SetRect(int32 X, int32 Y, int32 Width, int32 Height);
+			inline Window& SetPositionSize(int32 X, int32 Y, int32 Width, int32 Height);
 			inline Window& SetTitle(std::string title);
 
 			inline SDL_Window* GetSDLWindow(void);
+			inline SDL_Surface* GetSDLSurface(void);
+			
+			inline Window& operator=(const Window&)& = default;
+			inline Window& operator=(Window&&)& = default;
 	};
 }
 

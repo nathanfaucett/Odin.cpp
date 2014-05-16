@@ -25,7 +25,7 @@ namespace Odin {
 		inline void Body::p_ResetMassData(void) {
 			uint32 i = m_shapes.Length();
 			Vec2f totalCentroid, centroid;
-			float32 totalMass, totalInertia;
+			float32 totalMass = 0.0f, totalInertia = 0.0f;
 			
 			while(i--) {
 				Shape* shape = m_shapes[i];

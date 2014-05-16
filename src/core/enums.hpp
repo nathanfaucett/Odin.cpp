@@ -3,6 +3,19 @@
 
 namespace Odin {
 	
+	enum class InputAxisType : uint32 {
+		Button = 1 << 0,
+		Mouse = 1 << 1,
+		MouseWheel = 1 << 2,
+		Touch = 1 << 3,
+		Joystick = 1 << 4
+	};
+	enum class Side : GLenum {
+		Front = 1,
+		Back = 2,
+		FrontAndBack = 3
+	};
+	
 	enum class FrontFace : GLenum {
 		CounterClockWise = GL_CCW,
 		ClockWise = GL_CW

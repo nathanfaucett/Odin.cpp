@@ -6,7 +6,7 @@ namespace Odin {
 	struct __OBJECT_UNIQUE_ID__ {
 
 		private:
-			int32 m_instanceID;
+			uint32 m_instanceID;
 
 		public:
 			__OBJECT_UNIQUE_ID__(void) {
@@ -14,7 +14,7 @@ namespace Odin {
 			}
 			~__OBJECT_UNIQUE_ID__(void) {}
 
-			inline int32 next(void) {
+			inline uint32 next(void) {
 				return m_instanceID++;
 			}
 	} __OBJECT_UNIQUE_ID__;
@@ -26,7 +26,7 @@ namespace Odin {
 
 	inline Object::~Object(void) {}
 
-	inline int32 Object::GetInstanceID(void) {
+	inline uint32 Object::GetInstanceID(void) const {
 		return m_instanceID;
 	}
 }

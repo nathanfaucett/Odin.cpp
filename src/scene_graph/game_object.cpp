@@ -4,7 +4,7 @@
 namespace Odin {
 
 	inline GameObject::GameObject(void) : Object() {
-		p_scene = NULL;
+		m_scene = NULL;
 	}
 
 	inline GameObject::~GameObject(void) {
@@ -14,8 +14,8 @@ namespace Odin {
 			delete it->second;
 		}
 		
-		if (p_scene != NULL) {
-			p_scene->RemoveGameObject(this);
+		if (m_scene != NULL) {
+			m_scene->RemoveGameObject(this);
 		}
 	}
 	
@@ -24,38 +24,51 @@ namespace Odin {
 	}
 	
 	inline GameObject& GameObject::Copy(const GameObject& other) {
+		Clear();
 		
 		for (auto it = other.m_components.begin(); it != other.m_components.end(); ++it) {
 			AddComponent(it->second->Clone());
 		}
 		
+		if (other.m_scene) other.m_scene->AddGameObject(this);
+		
 		return *this;
 	}
 
 	inline void GameObject::Destroy(void) {
-		if (p_scene != NULL) {
-			p_scene->RemoveGameObject(this);
+		if (m_scene != NULL) {
+			m_scene->RemoveGameObject(this);
 		}
 
 		Clear();
 	}
 
 	inline Scene* GameObject::GetScene(void) {
-		return p_scene;
+		return m_scene;
 	}
 
 	inline GameObject& GameObject::AddComponent(Component* component) {
 		if (component == NULL) {
 			return *this;
 		}
+		const std::type_info* type = &typeid(*component);
+		
+		if (m_components.count(type) != 0) {
+			LogError("GameObject::AddComponent(Component* component) GameObject already has Component");
+			return *this;
+		}
 		
 		component->p_gameObject = this;
-		m_components[&typeid(*component)] = component;
+		m_components[type] = component;
 
-		if (p_scene != NULL) {
-			p_scene->m_AddComponent(component);
+		if (m_scene != NULL) {
+			m_scene->m_AddComponent(component);
 		}
 
+		return *this;
+	}
+	template <typename Type> inline GameObject& GameObject::AddComponent(void) {
+		AddComponent(new Type());
 		return *this;
 	}
 
@@ -63,12 +76,35 @@ namespace Odin {
 		if (component == NULL) {
 			return *this;
 		}
+		const std::type_info* type = &typeid(*component);
+		
+		if (m_components.count(type) == 0) {
+			LogError("GameObject::RemoveComponent(Component* component) GameObject does not have Component");
+			return *this;
+		}
 		
 		component->p_gameObject = NULL;
 		m_components[&typeid(*component)] = NULL;
 
-		if (p_scene != NULL) {
-			p_scene->m_RemoveComponent(component);
+		if (m_scene != NULL) {
+			m_scene->m_RemoveComponent(component);
+		}
+
+		return *this;
+	}
+	template <typename Type> inline GameObject& GameObject::RemoveComponent(void) {
+		const std::type_info* type = &typeid(Type);
+		Component* component = m_components[type];
+		
+		if (component == NULL) {
+			return *this;
+		}
+		
+		component->p_gameObject = NULL;
+		m_components[type] = NULL;
+
+		if (m_scene != NULL) {
+			m_scene->m_RemoveComponent(component);
 		}
 
 		return *this;
@@ -80,15 +116,16 @@ namespace Odin {
 			RemoveComponent(it->second);
 		}
 		
-		if (p_scene != NULL) {
-			p_scene->RemoveGameObject(this);
+		if (m_scene != NULL) {
+			m_scene->RemoveGameObject(this);
 		}
 	}
 
 	template <typename Type>inline Type* GameObject::GetComponent(void) {
-
-		if (m_components.count(&typeid(Type)) != 0) {
-			return static_cast<Type*>(m_components[&typeid(Type)]);
+		const std::type_info* type = &typeid(Type);
+		
+		if (m_components.count(type) != 0) {
+			return static_cast<Type*>(m_components[type]);
 		}
 
 		return NULL;

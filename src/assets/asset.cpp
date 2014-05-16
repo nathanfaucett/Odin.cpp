@@ -3,7 +3,7 @@
 
 namespace Odin {
 	
-	inline Asset::Asset(std::string name, std::string src) {
+	inline Asset::Asset(std::string name, std::string src) : Object() {
 		p_name = name;
 		p_src = src;
 		p_assets = NULL;

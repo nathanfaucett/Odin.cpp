@@ -61,7 +61,7 @@ namespace Odin {
 
 		while (i--) {
 			v = points[i];
-			assert(v != NULL);
+			if (v == NULL) continue;
 			x = v->x;
 			y = v->y;
 			z = v->z;
@@ -99,7 +99,7 @@ namespace Odin {
 
 		while (i--) {
 			v = points[i];
-			assert(v != NULL);
+			if (v == NULL) continue;
 			x = v->x;
 			y = v->y;
 			z = v->z;

@@ -13,11 +13,10 @@ namespace Odin {
 			uint32 m_childCount;
 
 			inline void m_UpdateDepth(Transform* transform, int32 index);
+			
+			Mat4f m_LookAtMat;
 
 		protected:
-			inline void p_Init(void);
-			inline void p_Start(void);
-			inline void p_Sort(void);
 
 		public:
 			Vec3f position, scale;
@@ -33,6 +32,9 @@ namespace Odin {
 
 			inline virtual Transform* Clone(void);
 			inline virtual Transform& Copy(const Transform& other);
+			
+			inline void LookAt(Vec3f& target, Vec3f& up = Vec3f::Up);
+			inline void LookAt(Transform* target, Vec3f& up = Vec3f::Up);
 			
 			inline void Update(void);
 			inline void Clear(void);

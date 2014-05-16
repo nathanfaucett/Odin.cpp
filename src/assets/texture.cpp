@@ -16,7 +16,7 @@ namespace Odin {
 		m_flipY = true;
 		m_premultiplyAlpha = false;
 
-		m_anisotropy = 0;
+		m_anisotropy = 0.0f;
 
 		m_filter = TextureFilter::Linear;
 		m_format = TextureFormat::RGBA;
@@ -38,6 +38,70 @@ namespace Odin {
 			m_invWidth = 1.0f / m_width;
 			m_invHeight = 1.0f / m_width;
 		}
+	}
+
+	inline void Texture::SetGenerateMipmap(bool value) {
+		m_generateMipmap = value;
+		m_needsUpdate = true;
+	}
+	inline bool Texture::GetGenerateMipmap(void) {
+		return m_generateMipmap;
+	}
+	
+	inline void Texture::SetFlipY(bool value) {
+		m_flipY = value;
+		m_needsUpdate = true;
+	}
+	inline bool Texture::GetFlipY(void) {
+		return m_flipY;
+	}
+	
+	inline void Texture::SetPremultiplyAlpha(bool value) {
+		m_premultiplyAlpha = value;
+		m_needsUpdate = true;
+	}
+	inline bool Texture::GetPremultiplyAlpha(void) {
+		return m_premultiplyAlpha;
+	}
+	
+	inline void Texture::SetAnisotropy(float32 value) {
+		m_anisotropy = value;
+		m_needsUpdate = true;
+	}
+	inline float32 Texture::GetAnisotropy(void) {
+		return m_anisotropy;
+	}
+	
+	inline void Texture::SetFilter(TextureFilter value) {
+		m_filter = value;
+		m_needsUpdate = true;
+	}
+	inline TextureFilter Texture::GetFilter(void) {
+		return m_filter;
+	}
+	
+	inline void Texture::SetFormat(TextureFormat value) {
+		m_format = value;
+		m_needsUpdate = true;
+	}
+	inline TextureFormat Texture::GetFormat(void) {
+		return m_format;
+	}
+	
+	inline void Texture::SetWrap(TextureWrap value) {
+		m_wrap = value;
+		m_needsUpdate = true;
+	}
+	inline TextureWrap Texture::GetWrap(void) {
+		return m_wrap;
+	}
+	
+	inline void Texture::SetType(TextureType value) {
+		m_type = value;
+		m_needsUpdate = true;
+	}
+	inline TextureType Texture::GetType(void) {
+		return m_type;
 	}
 }
 

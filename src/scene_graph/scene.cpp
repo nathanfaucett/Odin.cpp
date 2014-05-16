@@ -16,12 +16,28 @@ namespace Odin {
 		}
 	}
 	
+	inline void Scene::m_Sort(void) {
+		
+		for (auto it = m_componentsNeedsSort.begin(); it != m_componentsNeedsSort.end(); ++it) {
+			if (it->second == true) {
+				
+			}
+		}
+	}
+	template <typename Type> inline void Scene::m_SortTypes(void) {
+		const std::type_info* type = &typeid(Type);
+		Array<Type*>* components = reinterpret_cast<Array<Type*>*>(m_components[type]);
+		
+		components->Sort(Type::Sort);
+		m_componentsNeedsSort[type] = false;
+	}
+	
 	inline Scene* Scene::Clone(void) {
 		return &((new Scene())->Copy(*this));
 	}
 	
 	inline Scene& Scene::Copy(const Scene& other) {
-		m_gameObjectCount = 0;
+		Clear();
 		
 		for (uint32 i = 0, length = other.m_gameObjectCount; i < length; i++) {
 			AddGameObject(new GameObject(*(other.m_gameObjects[i])));
@@ -31,24 +47,20 @@ namespace Odin {
 	}
 
 	inline void Scene::p_Init(void) {
+		m_Sort();
 		
 		for (auto it = m_components.begin(); it != m_components.end(); ++it) {
 			Array<Component*>* components = it->second;
-
-			for (uint32 i = 0, length = components->Length(); i < length; i++) {
-				(*components)[i]->p_Init();
-			}
+			for (uint32 i = 0, il = components->Length(); i < il; i++) (*components)[i]->p_Init();
 		}
 	}
 
 	inline void Scene::p_Start(void) {
+		m_Sort();
 		
 		for (auto it = m_components.begin(); it != m_components.end(); ++it) {
 			Array<Component*>* components = it->second;
-			
-			for (uint32 i = 0, length = components->Length(); i < length; i++) {
-				(*components)[i]->p_Start();
-			}
+			for (uint32 i = 0, il = components->Length(); i < il; i++) (*components)[i]->p_Start();
 		}
 	}
 
@@ -60,15 +72,25 @@ namespace Odin {
 		int32 index = m_gameObjects.IndexOf(gameObject);
 
 		if (index == -1) {
-			gameObject->p_scene = this;
+			gameObject->m_scene = this;
 			m_gameObjects.Push(gameObject);
 
 			m_gameObjectCount++;
 
 			for (auto it = gameObject->m_components.begin(); it != gameObject->m_components.end(); ++it) {
-				m_AddComponent(it->second);
+				Component* component = it->second;
+				
+				m_AddComponent(component);
+				if (m_game != NULL) {
+					component->p_Init();
+				}
 			}
-
+			
+			if (m_game != NULL) {
+				for (auto it = gameObject->m_components.begin(); it != gameObject->m_components.end(); ++it) {
+					it->second->p_Start();
+				}
+			}
 		} else {
 			LogError("Scene::AddGameObject(GameObject* gameObject) gameObject already member of Scene");
 		}
@@ -80,58 +102,26 @@ namespace Odin {
 		if (component == NULL) {
 			return;
 		}
-
 		const std::type_info* type = &typeid(*component);
-		Array<Component*>* types = m_components[type];
-		int32 index;
+		Array<Component*>* components = m_components[type];
+		m_componentsNeedsSort[type] = true;
 
-		if (types == NULL) {
-			types = new Array<Component*>;
-			m_components[type] = types;
+		if (components == NULL) {
+			components = new Array<Component*>;
+			m_components[type] = components;
 		}
 
-		index = types->IndexOf(component);
-
-		if (index == -1) {
-			types->Push(component);
-
-			for (uint32 i = types->Length(); i-- > 0;) {
-				(*types)[i]->p_Sort();
-			}
-
-			types->Sort(m_SortComponents);
-		}
-	}
-
-	inline float32 Scene::m_SortComponents(Component* a, Component* b) {
-
-		return a->p_order - b->p_order;
-	}
-
-	inline float32 Scene::m_SortComponentTypes(Array<Component*>* a, Array<Component*>* b) {
-
-		return float32((*a)[0]->p_updateOrder) - float32((*b)[0]->p_updateOrder);
-	}
-
-	inline void Scene::SortType(Component* component) {
-		Array<Component*>* types = m_components[&typeid(*component)];
-
-		for (uint32 i = types->Length(); i-- > 0;) {
-			(*types)[i]->p_Sort();
-		}
-
-		types->Sort(m_SortComponents);
+		components->Push(component);
 	}
 
 	inline Scene& Scene::RemoveGameObject(GameObject* gameObject) {
 		if (gameObject == NULL) {
 			return *this;
 		}
-
 		int32 index = m_gameObjects.IndexOf(gameObject);
 
 		if (index != -1) {
-			gameObject->p_scene = NULL;
+			gameObject->m_scene = NULL;
 			m_gameObjects.Splice(index, 1);
 
 			m_gameObjectCount--;
@@ -139,7 +129,6 @@ namespace Odin {
 			for (auto it = gameObject->m_components.begin(); it != gameObject->m_components.end(); ++it) {
 				m_RemoveComponent(it->second);
 			}
-
 		} else {
 			LogError("Scene::RemoveGameObject(GameObject* gameObject) gameObject not a member of Scene");
 		}
@@ -151,24 +140,19 @@ namespace Odin {
 		if (component == NULL) {
 			return;
 		}
-
 		const std::type_info* type = &typeid(*component);
-		Array<Component*>* types;
+		Array<Component*>* components = m_components[type];
 
-		if (m_components.count(type) != 0) {
-			types = m_components[type];
-		} else {
-			return;
+		if (components == NULL) return;
+		
+		int32 index = components->IndexOf(component);
+		if (index != -1)  {
+			components->Splice(index, 1);
 		}
-
-		int32 index = types->IndexOf(component);
-
-		if (index != -1) {
-			types->Splice(index, 1);
-
-			if (types->Length() == 0) {
-				m_components.erase(type);
-			}
+		
+		if (components->Length() == 0) {
+			m_components[type] = NULL;
+			delete components;
 		}
 	}
 
@@ -181,13 +165,11 @@ namespace Odin {
 	}
 
 	inline void Scene::Update(void) {
+		m_Sort();
 		
 		for (auto it = m_components.begin(); it != m_components.end(); ++it) {
 			Array<Component*>* components = it->second;
-			
-			for (uint32 i = 0, length = components->Length(); i < length; i++) {
-				(*components)[i]->Update();
-			}
+			for (uint32 i = 0, il = components->Length(); i < il; i++) (*components)[i]->Update();
 		}
 	}
 
@@ -200,9 +182,9 @@ namespace Odin {
 	}
 	
 	template <typename Type> inline Array<Type*>* Scene::GetComponents(void) {
-		
-		if (m_components.count(&typeid(Type)) != 0) {
-			return reinterpret_cast<Array<Type*>*>(m_components[&typeid(Type)]);
+		const std::type_info* type = &typeid(Type);
+		if (m_components.count(type) != 0) {
+			return reinterpret_cast<Array<Type*>*>(m_components[type]);
 		}
 
 		return NULL;

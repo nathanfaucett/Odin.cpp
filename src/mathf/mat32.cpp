@@ -282,6 +282,21 @@ namespace Odin {
 		return *this;
 	}
 
+	template <typename Type> inline Mat32<Type>& Mat32<Type>::LookAt(Vec2<Type>& eye, Vec2<Type>& target) {
+		Type x = target.x - eye.x,
+			 y = target.y - eye.y,
+			 a = Mathf.Atan2(y, x) - (Mathf.HALF_PI),
+			 c = Mathf.Cos(a),
+			 s = Mathf.Sin(a);
+
+		m_mat[0] = c;
+		m_mat[1] = s;
+		m_mat[2] = -s;
+		m_mat[3] = c;
+		
+		return *this;
+	}
+
 	template <typename Type> inline Mat32<Type>& Mat32<Type>::Orthographic(Type left, Type right, Type top, Type bottom) {
 		Type w = right - left,
 		     h = top - bottom,

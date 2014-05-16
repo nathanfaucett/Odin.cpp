@@ -90,12 +90,12 @@ namespace Odin {
 				return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
 			}
 
-			static const Vec4<Type> Right;
-			static const Vec4<Type> Forward;
-			static const Vec4<Type> Up;
-			static const Vec4<Type> Left;
-			static const Vec4<Type> Backward;
-			static const Vec4<Type> Down;
+			static Vec4<Type> Right;
+			static Vec4<Type> Forward;
+			static Vec4<Type> Up;
+			static Vec4<Type> Left;
+			static Vec4<Type> Backward;
+			static Vec4<Type> Down;
 
 			inline Vec4<Type>& operator -(void);
 

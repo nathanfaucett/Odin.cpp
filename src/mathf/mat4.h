@@ -12,6 +12,8 @@ namespace Odin {
 			friend class Mat3<Type>;
 			friend class Mat43<Type>;
 			Type m_mat[16];
+			
+			Vec3<Type> m_LookAt_x, m_LookAt_y, m_LookAt_z;
 
 		public:
 
@@ -59,6 +61,8 @@ namespace Odin {
 			inline Mat4<Type>& RotateY(Type angle);
 			inline Mat4<Type>& RotateZ(Type angle);
 			inline Mat4<Type>& Rotate(Type x, Type y, Type z);
+			
+			inline Mat4<Type>& LookAt(Vec3<Type>& eye, Vec3<Type>& target, Vec3<Type>& up = Vec3<Type>::Up);
 
 			inline Mat4<Type>& FromQuat(const Quat<Type>& q);
 

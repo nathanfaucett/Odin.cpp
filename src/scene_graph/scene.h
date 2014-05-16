@@ -2,7 +2,7 @@
 #define ODIN_SCENE_H
 
 namespace Odin {
-	
+
 	class BaseGame;
 
 	class Scene : public Object {
@@ -14,15 +14,16 @@ namespace Odin {
 
 			Array<GameObject*> m_gameObjects;
 			std::unordered_map<const std::type_info*, Array<Component*>*> m_components;
+			std::unordered_map<const std::type_info*, bool> m_componentsNeedsSort;
 
 			uint32 m_gameObjectCount;
 			BaseGame* m_game;
 
 			inline void m_AddComponent(Component* component);
 			inline void m_RemoveComponent(Component* component);
-
-			inline static float32 m_SortComponents(Component* a, Component* b);
-			inline static float32 m_SortComponentTypes(Array<Component*>* a, Array<Component*>* b);
+			
+			inline void m_Sort(void);
+			template <typename Type> inline void m_SortTypes(void);
 
 		protected:
 
@@ -42,9 +43,9 @@ namespace Odin {
 			inline Scene& RemoveGameObject(GameObject* gameObject);
 
 			inline uint32 GetGameObjectCount(void);
-			inline int32 IndexOf(GameObject* gameObject);
-			inline void SortType(Component* component);
 			template <typename Type> inline Array<Type*>* GetComponents(void);
+			
+			inline int32 IndexOf(GameObject* gameObject);
 
 			inline void Clear(void);
 			inline void Update(void);

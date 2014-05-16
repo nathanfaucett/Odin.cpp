@@ -8,57 +8,28 @@ namespace Odin {
 		m_play = true;
 		
 		m_renderer = new Renderer();
-		m_window = new Window(p_name);
+		m_surface = NULL;
 	}
 	inline Game::Game(std::string name) : BaseGame(name) {
 		p_camera = NULL;
 		m_play = true;
 		
 		m_renderer = new Renderer();
-		m_window = new Window(p_name);
+		m_surface = NULL;
 	}
 	inline Game::~Game(void) {
+		if (p_scene != NULL) delete p_scene;
+		p_camera = NULL;
+		m_surface = NULL;
+		
 		delete m_renderer;
-		delete m_window;
-		
-		if (p_scene != NULL) {
-			delete p_scene;
-		} else {
-			if (p_camera != NULL) delete p_camera;
-		}
-	}
-
-	inline void Game::p_Init(void) {
-		m_window->SetOpenGL();
-		m_window->Create();
-		m_window->GetGLContext();
-		m_renderer->SetWindow(m_window);
-		
-		BaseGame::p_Init();
-	}
-	inline void Game::p_Loop(void) {
-		
-		while(SDL_PollEvent(&p_event)) {
-			m_window->Update(&p_event);
-			
-			switch(p_event.type) {
-				case SDL_QUIT:
-					Quit();
-					break;
-			}
-		}
-		
-		m_window->Swap();
-		Update();
 	}
 
 	inline Game& Game::SetCamera(GameObject* gameObject) {
-		
 		if (gameObject == NULL) {
 			Log("Game::SetCamera: GameObject can't be null", __LINE__);
 			return *this;
 		}
-
 		if (p_scene == NULL) {
 			Log("Game::SetCamera: can't set camera without an active scene, use Game::SetScene first", __LINE__);
 			return *this;
@@ -87,31 +58,46 @@ namespace Odin {
 		return *this;
 	}
 	
-	inline void Game::Init(void) {
-		p_Init();
-	}
 	inline void Game::Update(void) {
 		BaseGame::Update();
+		bool WINDOW = m_window != NULL;
+		
+		while(SDL_PollEvent(&p_event)) {
+			if (p_event.type == SDL_QUIT) Quit();
+			
+			if (WINDOW) m_window->Update(&p_event);
+			Input.HandleEvents(&p_event);
+		}
+		
+		Input.Update();
 		
 		if (p_scene != NULL) {
 			p_scene->Update();
 		}
-		
+	}
+	inline void Game::Render(void) {
 		m_renderer->Render(p_camera, p_scene);
+		if (m_window != NULL) m_window->Swap();
 	}
 	inline void Game::Clear(void) {
 		BaseGame::Clear();
 		p_camera = NULL;
 	}
 	
-	inline Window* Game::GetWindow(void) {
-		return m_window;
-	}
 	inline Game& Game::SetWindow(Window* window) {
 		if (window == NULL || window == m_window) {
 			return *this;
 		}
 		m_window = window;
+		SetSurface(window->GetSDLSurface());
+		return *this;
+	}
+	inline Game& Game::SetSurface(SDL_Surface* surface) {
+		if (surface == NULL || surface == m_surface) {
+			return *this;
+		}
+		m_surface = surface;
+		m_renderer->SetSurface(m_surface);
 		return *this;
 	}
 }

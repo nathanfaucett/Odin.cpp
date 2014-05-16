@@ -4,11 +4,11 @@
 namespace Odin {
 
 	inline Transform::Transform(void) : Component() {
+		
 		m_parent = NULL;
 		m_root = this;
 		
 		scale.Set(1.0f, 1.0f, 1.0f);
-		p_updateOrder = -9999;
 	}
 
 	inline Transform::~Transform(void) {
@@ -51,18 +51,16 @@ namespace Odin {
 		}
 	}
 
-	inline void Transform::p_Init(void) {
-
+	inline void Transform::LookAt(Vec3f& target, Vec3f& up) {
+		m_LookAtMat.LookAt(position, target, up);
+		rotation.FromMatrix(m_LookAtMat);
 	}
 
-	inline void Transform::p_Start(void) {
-
+	inline void Transform::LookAt(Transform* target, Vec3f& up) {
+		m_LookAtMat.LookAt(position, target->position, up);
+		rotation.FromMatrix(m_LookAtMat);
 	}
-
-	inline void Transform::p_Sort(void) {
-		p_order = float32(m_depth);
-	}
-
+	
 	inline void Transform::Update(void) {
 
 		matrix.Compose(position, scale, rotation);
@@ -123,7 +121,7 @@ namespace Odin {
 			m_UpdateDepth(this, depth);
 
 			if ((scene = GetScene()) != NULL) {
-				scene->SortType(this);
+				//scene->SortType(this);
 			}
 
 		} else {

@@ -62,18 +62,6 @@ namespace Odin {
 		return *this;
 	}
 
-	inline void Camera::p_Init(void) {
-		Component::p_Init();
-	}
-
-	inline void Camera::p_Start(void) {
-		Component::p_Start();
-	}
-
-	inline void Camera::p_Sort(void) {
-		p_order = m_active ? 0.0f : 1.0f;
-	}
-
 	inline void Camera::Update(void) {
 		if (!m_active) {
 			return;
@@ -180,6 +168,9 @@ namespace Odin {
 	inline float32 Camera::GetWidth(void) {
 		return m_width;
 	}
+	inline float32 Camera::GetInvWidth(void) {
+		return m_invWidth;
+	}
 	inline Camera& Camera::SetHeight(float32 height) {
 		m_height = height;
 		m_invHeight = 1.0f / m_height;
@@ -190,6 +181,9 @@ namespace Odin {
 	}
 	inline float32 Camera::GetHeight(void) {
 		return m_height;
+	}
+	inline float32 Camera::GetInvHeight(void) {
+		return m_invHeight;
 	}
 	inline float32 Camera::GetAspect(void) {
 		return m_aspect;
@@ -241,6 +235,15 @@ namespace Odin {
 		m_orthographic = !m_orthographic;
 		m_needsUpdate = true;
 		return *this;
+	}
+	
+	inline Camera& Camera::SetOrthographicSize(float32 orthographicSize) {
+		m_orthographicSize = orthographicSize;
+		m_needsUpdate = true;
+		return *this;
+	}
+	inline float32 Camera::GetOrthographicSize(void) {
+		return m_orthographicSize;
 	}
 }
 

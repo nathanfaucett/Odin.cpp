@@ -1,5 +1,5 @@
-#ifndef ODIN_BASE_H
-#define ODIN_BASE_H
+#ifndef ODIN_CORE_HPP
+#define ODIN_CORE_HPP
 
 #include <iostream>
 #include <chrono>
@@ -8,13 +8,16 @@
 #include <cstdio>
 #include <string>
 #include <functional>
-#include <assert.h>
 #include <unordered_map>
+#include <regex>
 
 #include "typedefs.hpp"
 #include "os.hpp"
 #include "time.hpp"
 #include "enums.hpp"
+
+#define GLSL(version, src) (version >= 330 ? "#version " #version " core\n" #src : "#version " #version "\n" #src)
+#define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
 namespace Odin{
 	

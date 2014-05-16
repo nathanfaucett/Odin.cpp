@@ -943,33 +943,68 @@ namespace Odin {
 			}
 	} Mathf;
 
+	template<typename Type> inline void Vec2Sub(Vec2<Type>& a, Vec2<Type>& b, Vec2<Type>& out) {
+		out.x = a.x - b.x;
+		out.y = a.y - b.y;
+	}
+	template<typename Type> inline void Vec2Add(Vec2<Type>& a, Vec2<Type>& b, Vec2<Type>& out) {
+		out.x = a.x + b.x;
+		out.y = a.y + b.y;
+	}
+	template <typename Type> inline Type Vec2Cross(Vec3<Type>& a, Vec3<Type>& b) {
+		return a.x * b.y - a.y * b.x;
+	}
 	template<typename Type> inline Type Vec2LengthSq(Type x, Type y) {
 
 		return x * x + y * y;
 	}
-
 	template<typename Type> inline Type Vec2Length(Type x, Type y) {
 		Type length = x * x + y * y;
 
 		return length == static_cast<Type>(0) ? static_cast<Type>(0) : Mathf.Sqrt(length);
 	}
 
+	template<typename Type> inline void Vec3Sub(Vec3<Type>& a, Vec3<Type>& b, Vec3<Type>& out) {
+		out.x = a.x - b.x;
+		out.y = a.y - b.y;
+		out.z = a.z - b.z;
+	}
+	template<typename Type> inline void Vec3Add(Vec3<Type>& a, Vec3<Type>& b, Vec3<Type>& out) {
+		out.x = a.x + b.x;
+		out.y = a.y + b.y;
+		out.z = a.z + b.z;
+	}
+	template <typename Type> inline void Vec3Cross(Vec3<Type>& a, Vec3<Type>& b, Vec3<Type>& out) {
+		out.x = a.y * b.z - a.z * b.y;
+		out.x = a.z * b.x - a.x * b.z;
+		out.x = a.x * b.y - a.y * b.x;
+	}
 	template<typename Type> inline Type Vec3LengthSq(Type x, Type y, Type z) {
 
 		return x * x + y * y + z * z;
 	}
-
 	template<typename Type> inline Type Vec3Length(Type x, Type y, Type z) {
 		Type length = x * x + y * y + z * z;
 
 		return length == static_cast<Type>(0) ? static_cast<Type>(0) : Mathf.Sqrt(length);
 	}
 
+	template<typename Type> inline void Vec4Sub(Vec4<Type>& a, Vec4<Type>& b, Vec4<Type>& out) {
+		out.x = a.x - b.x;
+		out.y = a.y - b.y;
+		out.z = a.z - b.z;
+		out.w = a.w - b.w;
+	}
+	template<typename Type> inline void Vec4Add(Vec4<Type>& a, Vec4<Type>& b, Vec4<Type>& out) {
+		out.x = a.x + b.x;
+		out.y = a.y + b.y;
+		out.z = a.z + b.z;
+		out.w = a.w + b.w;
+	}
 	template<typename Type> inline Type Vec4LengthSq(Type x, Type y, Type z, Type w) {
 
 		return x * x + y * y + z * z + w * w;
 	}
-
 	template<typename Type> inline Type Vec4Length(Type x, Type y, Type z, Type w) {
 		Type length = x * x + y * y + z * z + w * w;
 
