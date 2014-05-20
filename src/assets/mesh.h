@@ -54,6 +54,8 @@ namespace Odin {
 			int32 m_tangentLocation;
 			int32 m_uvLocation;
 			int32 m_uv2Location;
+			
+			inline static void m_BuildPlane(Mesh* mesh, int32 u, int32 v, int32 udir, int32 vdir, float32 width, int32 ws, float32 height, int32 hs, float32 depth, int32 ds);
 		protected:
 
 		public:
@@ -74,6 +76,10 @@ namespace Odin {
 			
 			inline Mesh(std::string name, std::string src = "");
 			inline ~Mesh(void);
+			
+			inline static Mesh* Cube(std::string name, float32 width = 1.0f, float32 height = 1.0f, float32 depth = 1.0f, int32 widthSegments = 1, int32 heightSegments = 1, int32 depthSegments = 1);
+			inline static Mesh* Plane(std::string name, float32 width = 1.0f, float32 height = 1.0f, int32 widthSegments = 1, int32 heightSegments = 1);
+			
 			
 			inline void Load(void);
 			

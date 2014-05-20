@@ -7,6 +7,7 @@ namespace Odin {
 		
 		m_parent = NULL;
 		m_root = this;
+		m_depth = 0;
 		
 		scale.Set(1.0f, 1.0f, 1.0f);
 	}
@@ -61,6 +62,11 @@ namespace Odin {
 		rotation.FromMatrix(m_LookAtMat);
 	}
 	
+	inline void Transform::p_Sort(void) {
+		Array<Transform*>* components = GetScene()->GetComponents<Transform>();
+		components->Sort(Sort);
+	}
+	
 	inline void Transform::Update(void) {
 
 		matrix.Compose(position, scale, rotation);
@@ -78,6 +84,10 @@ namespace Odin {
 		m_root = this;
 		m_depth = 0;
 		m_children.Clear();
+	}
+	
+	inline float32 Transform::Sort(Transform* a, Transform* b) {
+		return static_cast<float32>(a->m_depth) - static_cast<float32>(b->m_depth);
 	}
 
 	inline void Transform::UpdateMatrices(const Mat4f& viewMatrix) {
@@ -119,9 +129,9 @@ namespace Odin {
 			m_root = root;
 
 			m_UpdateDepth(this, depth);
-
+			
 			if ((scene = GetScene()) != NULL) {
-				//scene->SortType(this);
+				scene->SortType<Transform>();
 			}
 
 		} else {
@@ -158,7 +168,6 @@ namespace Odin {
 			m_root = root;
 
 			m_UpdateDepth(this, depth);
-
 		} else {
 			Log("Transform::RemoveChild child not a child of this Transform", __LINE__);
 		}

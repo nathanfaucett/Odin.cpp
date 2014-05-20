@@ -221,7 +221,7 @@ namespace Odin {
 	}
 
 	template <typename Type> inline void Array<Type>::Sort(std::function<float32(const Type& a, const Type& b)> sortFunction) {
-
+		if (m_length < 2) return;
 		m_QuickSort(sortFunction, 0, m_length - 1);
 	}
 

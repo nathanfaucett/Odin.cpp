@@ -17,6 +17,7 @@ namespace Odin {
 			Mat4f m_LookAtMat;
 
 		protected:
+			inline void p_Sort(void);
 
 		public:
 			Vec3f position, scale;
@@ -38,6 +39,7 @@ namespace Odin {
 			
 			inline void Update(void);
 			inline void Clear(void);
+			inline static float32 Sort(Transform* a, Transform* b);
 			inline void UpdateMatrices(const Mat4f& viewMatrix);
 
 			inline int32 GetDepth(void);

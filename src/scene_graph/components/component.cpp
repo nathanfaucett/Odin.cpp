@@ -26,6 +26,10 @@ namespace Odin {
 	inline void Component::p_Start(void) {
 		
 	}
+	
+	inline void Component::p_Sort(void) {
+		
+	}
 
 	inline void Component::Update(void) {
 
@@ -35,6 +39,10 @@ namespace Odin {
 		if (p_gameObject != NULL) {
 			p_gameObject->RemoveComponent(this);
 		}
+	}
+	
+	inline float32 Component::Sort(Component* a, Component* b) {
+		return static_cast<float32>(a->GetInstanceID()) - static_cast<float32>(b->GetInstanceID());
 	}
 
 	

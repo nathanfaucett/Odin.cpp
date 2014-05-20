@@ -51,19 +51,19 @@ namespace Odin {
 	}
 
 	inline void Delay(int16 s) {
-		SDL_Delay(static_cast<uint32>(s * 1000));
+		SDL_Delay(static_cast<uint32>(abs(s) * 1000));
 	}
 	inline void Delay(int32 s) {
-		SDL_Delay(static_cast<uint32>(s * 1000));
+		SDL_Delay(static_cast<uint32>(abs(s) * 1000));
 	}
 	inline void Delay(int64 s) {
-		SDL_Delay(static_cast<uint32>(s * 1000));
+		SDL_Delay(static_cast<uint32>(abs(s) * 1000));
 	}
 	inline void Delay(float32 s) {
-		SDL_Delay(static_cast<uint32>(s * 1000));
+		SDL_Delay(static_cast<uint32>(fabs(s) * 1000));
 	}
 	inline void Delay(float64 s) {
-		SDL_Delay(static_cast<uint32>(s * 1000));
+		SDL_Delay(static_cast<uint32>(fabs(s) * 1000));
 	}
 
 	inline void SDLQuitError(std::string msg) {

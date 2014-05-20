@@ -36,4 +36,4 @@ if (NOT EMSCRIPTEN)
  add_definitions(-lSDL2 -lSDL2_image -lGL -lGLU -lGLEW)
 endif(NOT EMSCRIPTEN)
 
-add_definitions(-Wall -Wwrite-strings -g -std=c++1y)
+add_definitions(-Wall -Wwrite-strings -g -std=c++11)

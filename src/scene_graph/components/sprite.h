@@ -11,11 +11,12 @@ namespace Odin {
 			int32 m_x, m_y, m_w, m_h;
 			
 		protected:
+			inline void p_Sort(void);
 
 		public:
 			uint32 layer;
 			int32 z;
-			Texture* texture;
+			Material* material;
 			
 			inline Sprite(void);
 			inline Sprite(const Sprite&) = default;

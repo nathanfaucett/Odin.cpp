@@ -11,6 +11,7 @@ namespace Odin {
 		protected:
 			inline void p_Init(void);
 			inline void p_Start(void);
+			inline void p_Sort(void);
 
 		public:
 			Mesh* mesh;
@@ -26,6 +27,7 @@ namespace Odin {
 			
 			inline void Update(void);
 			inline void Clear(void);
+			inline static float32 Sort(MeshFilter* a, MeshFilter* b);
 			
 			inline MeshFilter& operator=(const MeshFilter&)& = default;
 			inline MeshFilter& operator=(MeshFilter&&)& = default;

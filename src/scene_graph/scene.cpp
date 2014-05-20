@@ -18,18 +18,29 @@ namespace Odin {
 	
 	inline void Scene::m_Sort(void) {
 		
-		for (auto it = m_componentsNeedsSort.begin(); it != m_componentsNeedsSort.end(); ++it) {
-			if (it->second == true) {
-				
+		for (auto it = m_components.begin(); it != m_components.end(); ++it) {
+			const std::type_info* type = it->first;
+			Array<Component*>* components = it->second;
+			
+			if (m_componentsNeedsSort[type] == true) {
+				(*components)[0]->p_Sort();
+				m_componentsNeedsSort[type] = false;
 			}
 		}
 	}
-	template <typename Type> inline void Scene::m_SortTypes(void) {
+	
+	template <typename Type> inline void Scene::SortType(void) {
 		const std::type_info* type = &typeid(Type);
-		Array<Type*>* components = reinterpret_cast<Array<Type*>*>(m_components[type]);
+		Array<Component*>* components = m_components[type];
 		
-		components->Sort(Type::Sort);
-		m_componentsNeedsSort[type] = false;
+		if (components != NULL) {
+			Component* component = (*components)[0];
+			
+			if (component != NULL) {
+				component->p_Sort();
+				m_componentsNeedsSort[type] = false;
+			}
+		}
 	}
 	
 	inline Scene* Scene::Clone(void) {

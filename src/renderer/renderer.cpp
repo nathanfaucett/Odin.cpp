@@ -4,89 +4,26 @@
 namespace Odin {
 	
 	inline Renderer::Renderer(void) : OpenGLRenderer() {
-		m_spriteBuffersInit = false;
 		m_clearColor = true;
 		m_clearDepth = true;
 		m_clearStencil = true;
 		m_width = 1.0f;
 		m_height = 1.0f;
-		
-		m_spriteVertexBuffers = 0;
-		m_spriteProgram = 0;
 	}
 	inline Renderer::~Renderer(void) {
 		
 	}
 	
-	inline void Renderer::m_InitSpriteBuffers(void) {
-		if (m_spriteBuffersInit) return;
-		
-		float32 vertexBuffers[12] = {
-			-0.5f, 0.5f, 0.0f,
-			-0.5f, -0.5f, 0.0f,
-			0.5f, 0.5f, 0.0f,
-			0.5f, -0.5f, 0.0f
-		};
-		m_spriteVertexBuffers = CreateVertexBuffer<float32>(vertexBuffers, sizeof(vertexBuffers));
-		
-		float32 uvBuffers[8] = {
-			0.0f, 0.0f,
-			0.0f, 1.0f,
-			1.0f, 0.0f,
-			1.0f, 1.0f
-		};
-		m_spriteUvBuffers = CreateVertexBuffer<float32>(uvBuffers, sizeof(uvBuffers));
-		
-		std::string vertex = GLSL(110,
-			in vec3 position;
-			in vec2 uv;
-			
-			uniform mat4 projection; 
-			uniform mat4 modelView; 
-			
-			varying vec2 vUv;
-			
-			void main(void) {
-				gl_Position = projection * modelView * vec4(position, 1.0f);
-				vUv = uv;
-			}
-		);
-		std::string fragment = GLSL(110,
-			uniform sampler2D texture;
-			out vec4 fragColor;
-			
-			varying vec2 vUv;
-			
-			void main(void) {
-				fragColor = texture2D(texture, vUv);
-			}
-		);
-		
-		m_spriteProgram = CreateProgram(vertex, fragment);
-		
-		m_spritePosition = glGetAttribLocation(m_spriteProgram, "position");
-		m_spriteUv = glGetAttribLocation(m_spriteProgram, "uv");
-		m_spriteTexture = glGetUniformLocation(m_spriteProgram, "texture");
-		m_spriteProjection = glGetUniformLocation(m_spriteProgram, "projection");
-		m_spriteModelView = glGetUniformLocation(m_spriteProgram, "modelView");
-		
-		m_spriteBuffersInit = true;
-	}
-	
 	inline void Renderer::m_RenderSprite(Camera* camera, Sprite* sprite, Transform* transform) {
-		m_InitSpriteBuffers();
+		Material* material = sprite->material;
+		if (material == NULL) return;
 		
-		SetBlending(Blending::Default);
-		SetCullFace(CullFace::Back);
+		CreateMaterial(material);
+		CreateSpriteAttributes();
+		SetProgram(material->GetOpenGLShader()->program);
 		
-		SetProgram(m_spriteProgram);
-		
-		BindBuffer(m_spritePosition, m_spriteVertexBuffers, GL_ARRAY_BUFFER, 3, GL_FLOAT, 0);
-		BindBuffer(m_spriteUv, m_spriteUvBuffers, GL_ARRAY_BUFFER, 2, GL_FLOAT, 0);
-		
-		glUniformMatrix4fv(m_spriteProjection, 1, false, camera->projection.GetArray());
-		glUniformMatrix4fv(m_spriteModelView, 1, false, transform->modelView.GetArray());
-		BindTexture(m_spriteTexture, sprite->texture);
+		BindMaterial(material, camera->projection, camera->view, transform);
+		BindSpriteAttributes(material);
 		
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	}
@@ -139,8 +76,6 @@ namespace Odin {
 		
 		Array<Sprite*>* sprites = scene->GetComponents<Sprite>();
 		if (sprites != NULL) {
-			DisableAttributes();
-			
 			for (i = 0, il = sprites->Length(); i < il; i++) {
 				Sprite* sprite = (*sprites)[i];
 				GameObject* gameObject = sprite->GetGameObject();

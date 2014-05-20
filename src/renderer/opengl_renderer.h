@@ -47,6 +47,11 @@ namespace Odin {
 			int32 m_stencilReferenceValue;
 			uint32 m_stencilMask;
 			
+			bool m_spriteAttributesInit;
+			uint32 m_spriteVertexBuffers;
+			
+			uint32 m_currentVertexBuffer;
+			
 			inline void m_ClearGL(void);
 			inline void m_InitGL(void);
 
@@ -75,6 +80,7 @@ namespace Odin {
 			inline OpenGLShader* UpdateShader(OpenGLShader* openGLShader, std::string& vertexShaderSource, std::string& fragmentShaderSource);
 			inline void CreateMaterial(Material* material);
 			
+			inline void CreateSpriteAttributes(void);
 			inline void CreateMeshAttributes(Mesh* mesh);
 			
 			template <typename Type> inline uint32 CreateVertexBuffer(Type items[], int32 size, uint32 type = GL_ARRAY_BUFFER, uint32 draw = GL_STATIC_DRAW);
@@ -98,6 +104,7 @@ namespace Odin {
 			inline void BindBuffer(int32 location, uint32 buffer, uint32 arrayType = GL_ARRAY_BUFFER, int32 itemSize = 4, uint32 type = GL_FLOAT, int32 stride = 0, int32 first = 0);
 			inline void BindTexture(int32 location, Texture* texture);
 			inline void BindMaterial(Material* material, Mat4f& projectionMatrix, Mat4f& viewMatrix, Transform* transform);
+			inline void BindSpriteAttributes(Material* material);
 			inline void BindMeshAttributes(Material* material, Mesh* mesh);
 			
 			inline bool GetProgramForce(void);

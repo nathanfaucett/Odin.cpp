@@ -21,10 +21,8 @@ namespace Odin {
 
 			inline void m_AddComponent(Component* component);
 			inline void m_RemoveComponent(Component* component);
-			
-			inline void m_Sort(void);
-			template <typename Type> inline void m_SortTypes(void);
 
+			inline void m_Sort(void);
 		protected:
 
 			inline void p_Init(void);
@@ -37,7 +35,9 @@ namespace Odin {
 			inline ~Scene(void);
 			
 			inline Scene* Clone(void);
-			inline Scene& Copy(const Scene& other);
+			inline Scene& Copy(const Scene& other);			
+
+			template <typename Type> inline void SortType(void);
 
 			inline Scene& AddGameObject(GameObject* gameObject);
 			inline Scene& RemoveGameObject(GameObject* gameObject);

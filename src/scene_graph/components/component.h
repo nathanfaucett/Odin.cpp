@@ -16,6 +16,7 @@ namespace Odin {
 			
 			inline virtual void p_Init(void);
 			inline virtual void p_Start(void);
+			inline virtual void p_Sort(void);
 
 		public:
 			inline Component(void);
@@ -28,6 +29,7 @@ namespace Odin {
 
 			inline virtual void Update(void);
 			inline virtual void Clear(void);
+			inline static float32 Sort(Component* a, Component* b);
 			
 			inline GameObject* GetGameObject(void);
 			inline Scene* GetScene(void);

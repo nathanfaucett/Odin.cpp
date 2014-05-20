@@ -35,6 +35,9 @@ namespace Odin {
 		m_precision = "highp";
 		m_extensions.Clear();
 
+		m_spriteAttributesInit = false;
+		m_spriteVertexBuffers = 0;
+		
 		m_maxAnisotropy = 0.0f;
 		m_maxTextures = 0;
 		m_maxVertexTextures = 0;
@@ -73,6 +76,8 @@ namespace Odin {
 		m_stencilFunction = StencilFunction::Always;
 		m_stencilReferenceValue = 0;
 		m_stencilMask = 1;
+		
+		m_currentVertexBuffer = 0;
 	}
 	
 	inline void OpenGLRenderer::m_InitGL(void) {
@@ -286,6 +291,35 @@ namespace Odin {
 		}
 		
 		material->m_needsUpdate = false;
+	}
+	
+	inline void OpenGLRenderer::CreateSpriteAttributes(void) {
+		if (m_spriteAttributesInit) return;
+		
+		float32 vertexBuffers[48] = {
+			-0.5f, 0.5f, 0.0f,
+			0.0f, 0.0f, 1.0f,
+			0.0f, 0.0f,
+			0.0f, 0.0f, 0.0f, 1.0f,
+			
+			-0.5f, -0.5f, 0.0f,
+			0.0f, 0.0f, 1.0f,
+			0.0f, 1.0f,
+			0.0f, 1.0f, 0.0f, 1.0f,
+			
+			0.5f, 0.5f, 0.0f,
+			0.0f, 0.0f, 1.0f,
+			1.0f, 0.0f,
+			1.0f, 0.0f, 0.0f, 1.0f,
+			
+			0.5f, -0.5f, 0.0f,
+			0.0f, 0.0f, 1.0f,
+			1.0f, 1.0f,
+			1.0f, 1.0f, 0.0f, 1.0f
+		};
+		m_spriteVertexBuffers = CreateVertexBuffer<float32>(vertexBuffers, sizeof(vertexBuffers));
+		
+		m_spriteAttributesInit = true;
 	}
 	
 	inline void OpenGLRenderer::CreateMeshAttributes(Mesh* mesh) {
@@ -579,17 +613,17 @@ namespace Odin {
 	inline void OpenGLRenderer::BindTexture(int32 location, Texture* texture) {
 		bool& needsUpdate = texture->m_needsUpdate;
 		uint32 textureID = CreateTexture(texture);
-		
+
 		if (m_textureIndex >= m_maxTextures) {
 			LogError("OpenGLRenderer::BindTexture(int32 location, Texture* texture) Max textures excedded for this machine "+ ToString(m_maxTextures), __LINE__);
 			return;
 		}
-		
+
 		if (needsUpdate || (m_activeTextureLocation != location && m_activeTexture != textureID)) {
 			glActiveTexture(GL_TEXTURE0 + m_textureIndex);
 			glBindTexture(GL_TEXTURE_2D, textureID);
 			glUniform1i(location, m_textureIndex);
-			
+
 			if (m_activeTextureLocation != location && m_activeTexture != textureID) {
 				m_textureIndex++;
 			}
@@ -685,21 +719,51 @@ namespace Odin {
 		}
 	}
 	
+	inline void OpenGLRenderer::BindSpriteAttributes(Material* material) {
+		if (m_currentVertexBuffer == m_spriteVertexBuffers) return;
+		m_currentVertexBuffer = m_spriteVertexBuffers;
+		DisableAttributes();
+		
+		OpenGLShader* openGLShader = material->m_openGLShader;
+		std::unordered_map<std::string, Attribute*>& shaderAttributes = openGLShader->attributes;
+		
+		Attribute* position = shaderAttributes["position"];
+		if (position != NULL) {
+			BindBuffer(position->location, m_spriteVertexBuffers, GL_ARRAY_BUFFER, 3, GL_FLOAT, (BYTES_PER_FLOAT32 * 12), 0);
+		}
+		Attribute* normal = shaderAttributes["normal"];
+		if (normal != NULL) {
+			BindBuffer(normal->location, m_spriteVertexBuffers, GL_ARRAY_BUFFER, 3, GL_FLOAT, (BYTES_PER_FLOAT32 * 12), (BYTES_PER_FLOAT32 * 3));
+		}
+		Attribute* uv = shaderAttributes["uv"];
+		if (uv != NULL) {
+			BindBuffer(uv->location, m_spriteVertexBuffers, GL_ARRAY_BUFFER, 2, GL_FLOAT, (BYTES_PER_FLOAT32 * 12), (BYTES_PER_FLOAT32 * 6));
+		}
+		Attribute* tangent = shaderAttributes["tangent"];
+		if (tangent != NULL) {
+			BindBuffer(tangent->location, m_spriteVertexBuffers, GL_ARRAY_BUFFER, 4, GL_FLOAT, (BYTES_PER_FLOAT32 * 12), (BYTES_PER_FLOAT32 * 3));
+		}
+	}
+	
 	inline void OpenGLRenderer::BindMeshAttributes(Material* material, Mesh* mesh) {
+		if (m_currentVertexBuffer == mesh->m_vertexBuffer) return;
+		m_currentVertexBuffer = mesh->m_vertexBuffer;
+		DisableAttributes();
+		
 		OpenGLShader* openGLShader = material->m_openGLShader;
 		std::unordered_map<std::string, Attribute*>& shaderAttributes = openGLShader->attributes;
 		
 		Attribute* position = shaderAttributes["position"];
 		if (position != NULL && mesh->m_positionLocation != -1) {
-			BindBuffer(position->location, mesh->m_vertexBuffer, GL_ARRAY_BUFFER, 3, GL_FLOAT, (BYTES_PER_FLOAT32 * mesh->m_stride), mesh->m_positionLocation);
+			BindBuffer(position->location, mesh->m_vertexBuffer, GL_ARRAY_BUFFER, 3, GL_FLOAT, (BYTES_PER_FLOAT32 * mesh->m_stride), (BYTES_PER_FLOAT32 * mesh->m_positionLocation));
 		}
 		Attribute* normal = shaderAttributes["normal"];
 		if (normal != NULL && mesh->m_normalLocation != -1) {
-			BindBuffer(normal->location, mesh->m_vertexBuffer, GL_ARRAY_BUFFER, 3, GL_FLOAT, (BYTES_PER_FLOAT32 * mesh->m_stride), mesh->m_normalLocation);
+			BindBuffer(normal->location, mesh->m_vertexBuffer, GL_ARRAY_BUFFER, 3, GL_FLOAT, (BYTES_PER_FLOAT32 * mesh->m_stride), (BYTES_PER_FLOAT32 * mesh->m_normalLocation));
 		}
 		Attribute* uv = shaderAttributes["uv"];
 		if (uv != NULL && mesh->m_uvLocation != -1) {
-			BindBuffer(uv->location, mesh->m_vertexBuffer, GL_ARRAY_BUFFER, 2, GL_FLOAT, (BYTES_PER_FLOAT32 * mesh->m_stride), mesh->m_uvLocation);
+			BindBuffer(uv->location, mesh->m_vertexBuffer, GL_ARRAY_BUFFER, 2, GL_FLOAT, (BYTES_PER_FLOAT32 * mesh->m_stride), (BYTES_PER_FLOAT32 * mesh->m_uvLocation));
 		}
 		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->m_indexBuffer);

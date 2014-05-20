@@ -4,7 +4,7 @@
 namespace Odin {
 
 	inline Sprite::Sprite(void) : Component() {
-		texture = NULL;
+		material = NULL;
 		
 		layer = 0;
 		z = 0;
@@ -30,7 +30,7 @@ namespace Odin {
 	
 	inline Sprite& Sprite::Copy(const Sprite& other) {
 		
-		texture = other.texture;
+		material = other.material;
 		layer = other.layer;
 		z = other.z;
 		m_alpha = other.m_alpha;
@@ -46,13 +46,18 @@ namespace Odin {
 		
 		return *this;
 	}
+	
+	inline void Sprite::p_Sort(void) {
+		Array<Sprite*>* components = GetScene()->GetComponents<Sprite>();
+		components->Sort(Sort);
+	}
 
 	inline void Sprite::Update(void) {
-
+		
 	}
 
 	inline void Sprite::Clear(void) {
-		texture = NULL;
+		material = NULL;
 		layer = 0;
 		z = 0;
 		m_alpha = 1.0f;
@@ -68,7 +73,6 @@ namespace Odin {
 	}
 	
 	inline float32 Sprite::Sort(Sprite* a, Sprite* b) {
-		std::cout << "RIGHT\n";
 		uint32 layer = a->layer - b->layer;
 		
 		if (layer == 0) {

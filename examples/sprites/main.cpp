@@ -36,6 +36,33 @@ class Mover : public Component {
 		inline Mover& operator=(const Mover&)& = default;
 		inline Mover& operator=(Mover&&)& = default;
 };
+class Rotator : public Component {
+	public:
+		Vec2f velocity;
+		
+		inline Rotator(void) : Component() {}
+		inline Rotator(const Rotator&) = default;
+		inline Rotator(Rotator&&) = default;
+		inline ~Rotator(void) {}
+
+		inline Rotator* Clone(void) {
+			return &((new Rotator())->Copy(*this));
+		}
+		inline Rotator& Copy(const Rotator& other) {
+			Component::Copy(static_cast<Component>(other));
+			return *this;
+		}
+		
+		inline void Update(void) {
+			Transform* transform = GetComponent<Transform>();
+			if (transform == NULL) return;
+			float32 dt = Mathf.PI * 0.5f * Time.delta;
+			transform->rotation.Rotate(dt, dt, dt);
+		}
+		
+		inline Rotator& operator=(const Rotator&)& = default;
+		inline Rotator& operator=(Rotator&&)& = default;
+};
 
 Game* game = new Game();
 
@@ -49,32 +76,15 @@ int main (int argc, char* argv[]) {
 	
 	Init();
 	
-	Assets.Add(new Texture("face", "../assets/images/face.png"));
+	Texture* face = new Texture("face", "../assets/images/face.png");
+	Assets.Add(face);
 	
-	Mesh* plane = new Mesh("plane");
-	
-	plane->vertices.Push(new Vec3f(0.5f, 0.5f, 0.0f));
-	plane->vertices.Push(new Vec3f(-0.5f, 0.5f, 0.0f));
-	plane->vertices.Push(new Vec3f(-0.5f, -0.5f, 0.0f));
-	plane->vertices.Push(new Vec3f(0.5f, -0.5f, 0.0f));
-	
-	plane->normals.Push(new Vec3f(0.0f, 0.0f, 1.0f));
-	plane->normals.Push(new Vec3f(0.0f, 0.0f, 1.0f));
-	plane->normals.Push(new Vec3f(0.0f, 0.0f, 1.0f));
-	plane->normals.Push(new Vec3f(0.0f, 0.0f, 1.0f));
-	
-	plane->uv.Push(new Vec2f(1.0f, 0.0f));
-	plane->uv.Push(new Vec2f(0.0f, 0.0f));
-	plane->uv.Push(new Vec2f(0.0f, 1.0f));
-	plane->uv.Push(new Vec2f(1.0f, 1.0f));
-	
-	plane->triangles = new uint32[6]{
-		0, 1, 2,
-		0, 2, 3,
-	};
-	plane->triangleCount = 6;
-	
+	Mesh* plane = Mesh::Plane("plane", 1.0f, 1.0f, 1, 1);
 	Assets.Add(plane);
+	
+	Mesh* cube = Mesh::Cube("cube", 1.0f, 1.0f, 1.0f, 1, 1, 1);
+	Assets.Add(cube);
+	
 	
 	Material* material = new Material("material");
 	material->vertex = GLSL(110,
@@ -108,14 +118,13 @@ int main (int argc, char* argv[]) {
 	);
 	material->SetSide(Side::FrontAndBack);
 	material->uniforms["texture"] = new MaterialUniformSampler2D(Assets.Get<Texture>("face"));
-	static_cast<MaterialUniform3f*>(material->uniforms["diffuseColor"])->value.Set(1.0f, 0.5f, 0.25f);
+	static_cast<MaterialUniform3f*>(material->uniforms["diffuseColor"])->value.Set(1.0f, 1.0f, 1.0f);
 	
 	Assets.Add(material);
 	
 	Assets.Load();
 
 	Scene* scene = new Scene();
-	game->SetScene(scene);
 
 	GameObject* cameraObject = new GameObject();
 	Transform* cameraTransform = new Transform();
@@ -131,7 +140,7 @@ int main (int argc, char* argv[]) {
 		spriteTransform->position.Set(Mathf.RandFloat(-1.0f, 1.0f), Mathf.RandFloat(-1.0f, 1.0f), Mathf.RandFloat(-5.0f, -2.0f));
 		spriteObject->AddComponent(spriteTransform);
 		Sprite* sprite = new Sprite();
-		sprite->texture = Assets.Get<Texture>("face");
+		sprite->material = Assets.Get<Material>("material");
 		spriteObject->AddComponent(sprite);
 		spriteObject->AddComponent(new Mover());
 		scene->AddGameObject(spriteObject);
@@ -140,16 +149,15 @@ int main (int argc, char* argv[]) {
 	for (uint32 i = 0, il = 10; i < il; i++) {
 		GameObject* meshObject = new GameObject();
 		Transform* meshTransform = new Transform();
-		meshTransform->position.Set(Mathf.RandFloat(-1.0f, 1.0f), Mathf.RandFloat(-1.0f, 1.0f), Mathf.RandFloat(-1.0f, 1.0f));
+		meshTransform->position.Set(Mathf.RandFloat(-5.0f, 5.0f), Mathf.RandFloat(-5.0f, 5.0f), Mathf.RandFloat(-5.0f, 5.0f));
 		meshObject->AddComponent(meshTransform);
 		MeshFilter* meshFilter = new MeshFilter();
-		meshFilter->mesh = Assets.Get<Mesh>("plane");
+		meshFilter->mesh = Mathf.Random() >= 0.5f ? Assets.Get<Mesh>("cube") : Assets.Get<Mesh>("plane");
 		meshFilter->material = Assets.Get<Material>("material");
 		meshObject->AddComponent(meshFilter);
+		meshObject->AddComponent<Rotator>();
 		scene->AddGameObject(meshObject);
 	}
-	
-	game->SetCamera(cameraObject);
 	
 	Window* window = new Window("Sprites Test");
 	window->SetOpenGL();
@@ -159,31 +167,34 @@ int main (int argc, char* argv[]) {
 	
 	game->SetWindow(window);
 	
+	game->SetScene(scene);
+	game->SetCamera(cameraObject);
+	
 	GameConfig.fps = 60;
 	
 	#ifdef EMSCRIPTEN
 	emscripten_set_main_loop(loop, GameConfig.fps, 1);
 	#else
-	float64 LAST_TIME = Time.Now64(),
-			TARGET_TIME = 1.0 / GameConfig.fps,
-			FRAME_TIME = 0.0,
-			DELAY_TIME = 0.0;
-			
-	uint32 FRAME = 0,
-		   TARGET_FPS = GameConfig.fps;
+	uint32 CURRENT_TICKS = SDL_GetTicks(),
+		   LAST_TICKS = CURRENT_TICKS,
+		   DELTA = 0,
+		   LAST = CURRENT_TICKS,
+		   GAME_TICKS = (1.0f / GameConfig.fps) * 1000;
 
 	while(game->IsRunning()) {
-		FRAME++;
-		if (Time.Now64() - LAST_TIME >= 1.0) {
-			LAST_TIME = Time.Now64();
-			FRAME_TIME = 1.0 / (FRAME - TARGET_FPS);
-			
-			DELAY_TIME = Mathf.Clamp(0.0, TARGET_TIME, TARGET_TIME - FRAME_TIME);
-			std::cout << DELAY_TIME << " " << Time.fps << std::endl;
-			FRAME = 0;
-		}
 		loop();
-		Delay(DELAY_TIME);
+		
+		CURRENT_TICKS = SDL_GetTicks();
+		DELTA = CURRENT_TICKS - LAST_TICKS;
+		LAST_TICKS = CURRENT_TICKS;
+		
+		LAST += DELTA;
+		if (LAST > 1000) {
+			std::cout << Time.fps << std::endl;
+			LAST = 0;
+		}
+		
+		if (DELTA <= GAME_TICKS) SDL_Delay(Mathf.Clamp(0, GAME_TICKS, DELTA - GAME_TICKS));
 	}
 	#endif
 	

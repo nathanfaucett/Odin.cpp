@@ -14,6 +14,11 @@ namespace Odin {
 		Clear();
 	}
 	
+	inline void MeshFilter::p_Sort(void) {
+		Array<MeshFilter*>* components = GetScene()->GetComponents<MeshFilter>();
+		components->Sort(Sort);
+	}
+	
 	inline MeshFilter* MeshFilter::Clone(void) {
 		return &((new MeshFilter())->Copy(*this));
 	}
@@ -36,6 +41,10 @@ namespace Odin {
 
 	inline void MeshFilter::Update(void) {
 
+	}
+	
+	inline float32 MeshFilter::Sort(MeshFilter* a, MeshFilter* b) {
+		return (a->mesh == b->mesh) ? 0.0f : 1.0;
 	}
 
 	inline void MeshFilter::Clear(void) {
