@@ -2,14 +2,17 @@
 #define ODIN_CORE_HPP
 
 #include <iostream>
+#include <fstream>
 #include <chrono>
 #include <iomanip>
 #include <sstream>
 #include <cstdio>
 #include <string>
 #include <functional>
+#include <map>
 #include <unordered_map>
 #include <regex>
+#include <cassert>
 
 #include "typedefs.hpp"
 #include "os.hpp"
@@ -82,6 +85,24 @@ namespace Odin{
 	inline std::string ToString(bool x, int32 precision = 0) {
 
 		return x ? "true" : "false";
+	}
+	
+	inline std::string LoadFile(std::string filename) {
+		std::ifstream in(filename, std::ios::in | std::ios::binary);
+		
+		if (in) {
+			std::string contents;
+			
+			in.seekg(0, std::ios::end);
+			contents.resize(in.tellg());
+			in.seekg(0, std::ios::beg);
+			in.read(&contents[0], contents.size());
+			in.close();
+			
+			return contents;
+		}
+		
+		throw(errno);
 	}
 }
 

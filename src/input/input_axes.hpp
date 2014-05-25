@@ -17,8 +17,8 @@ namespace Odin {
 				Horizontal->name = "Horizontal";
 				Horizontal->posInputButton = "Right";
 				Horizontal->negInputButton = "Left";
-				Horizontal->altPosInputButton = "A";
-				Horizontal->altNegInputButton = "D";
+				Horizontal->altPosInputButton = "D";
+				Horizontal->altNegInputButton = "A";
 				Add(Horizontal);
 				
 				InputAxis* Vertical = new InputAxis();

@@ -296,24 +296,32 @@ namespace Odin {
 	inline void OpenGLRenderer::CreateSpriteAttributes(void) {
 		if (m_spriteAttributesInit) return;
 		
-		float32 vertexBuffers[48] = {
+		float32 vertexBuffers[68] = {
 			-0.5f, 0.5f, 0.0f,
 			0.0f, 0.0f, 1.0f,
+			0.0f, 0.0f, 0.0f,
+			0.0f, 0.0f,
 			0.0f, 0.0f,
 			0.0f, 0.0f, 0.0f, 1.0f,
 			
 			-0.5f, -0.5f, 0.0f,
 			0.0f, 0.0f, 1.0f,
+			0.0f, 1.0f, 0.0f,
+			0.0f, 1.0f,
 			0.0f, 1.0f,
 			0.0f, 1.0f, 0.0f, 1.0f,
 			
 			0.5f, 0.5f, 0.0f,
 			0.0f, 0.0f, 1.0f,
+			1.0f, 1.0f, 0.0f,
+			1.0f, 0.0f,
 			1.0f, 0.0f,
 			1.0f, 0.0f, 0.0f, 1.0f,
 			
 			0.5f, -0.5f, 0.0f,
 			0.0f, 0.0f, 1.0f,
+			1.0f, 0.0f, 0.0f,
+			1.0f, 1.0f,
 			1.0f, 1.0f,
 			1.0f, 1.0f, 0.0f, 1.0f
 		};
@@ -432,11 +440,40 @@ namespace Odin {
 			mesh->m_vertexBuffer = UpdateVertexBuffer<float32>(mesh->m_vertexBuffer, vertexArray, sizeof(vertexArray), GL_ARRAY_BUFFER, GL_STATIC_DRAW);
 		}
 		if (mesh->m_indexBuffer == 0) {
-			mesh->m_indexBuffer = CreateVertexBuffer<uint32>(mesh->triangles, mesh->triangleCount * BYTES_PER_UINT32, GL_ELEMENT_ARRAY_BUFFER, GL_STATIC_DRAW);
+			uint32* array = mesh->indices.GetArray();
+			mesh->m_indexBuffer = CreateVertexBuffer<uint32>(array, mesh->indices.Length() * BYTES_PER_UINT32, GL_ELEMENT_ARRAY_BUFFER, GL_STATIC_DRAW);
 		} else {
-			mesh->m_indexBuffer = UpdateVertexBuffer<uint32>(mesh->m_indexBuffer, mesh->triangles, mesh->triangleCount * BYTES_PER_UINT32, GL_ELEMENT_ARRAY_BUFFER, GL_STATIC_DRAW);
+			uint32* array = mesh->indices.GetArray();
+			mesh->m_indexBuffer = UpdateVertexBuffer<uint32>(mesh->m_indexBuffer, array, mesh->indices.Length() * BYTES_PER_UINT32, GL_ELEMENT_ARRAY_BUFFER, GL_STATIC_DRAW);
 		}
 		
+		Array<uint32>& indices = mesh->indices;
+		uint32 lineCount = mesh->indices.Length() * 2,
+			   triangleIndex = 0;
+
+		index = 0;
+		uint32 lineBuffer[lineCount];
+
+		for (i = 0, il = mesh->indices.Length(); i < il; i += 3) {
+
+			lineBuffer[index] = indices[triangleIndex];
+			lineBuffer[index + 1] = indices[triangleIndex + 1];
+
+			lineBuffer[index + 2] = indices[triangleIndex];
+			lineBuffer[index + 3] = indices[triangleIndex + 2];
+
+			lineBuffer[index + 4] = indices[triangleIndex + 1];
+			lineBuffer[index + 5] = indices[triangleIndex + 2];
+			
+			triangleIndex += 3;
+			index += 6;
+		}
+		if (mesh->m_lineBuffer == 0) {
+			mesh->m_lineBuffer = CreateVertexBuffer<uint32>(lineBuffer, lineCount * BYTES_PER_UINT32, GL_ELEMENT_ARRAY_BUFFER, GL_STATIC_DRAW);
+		} else {
+			mesh->m_lineBuffer = UpdateVertexBuffer<uint32>(mesh->m_lineBuffer, lineBuffer, lineCount * BYTES_PER_UINT32, GL_ELEMENT_ARRAY_BUFFER, GL_STATIC_DRAW);
+		}
+
 		mesh->m_needsUpdate = false;
 	}
 	
@@ -729,19 +766,27 @@ namespace Odin {
 		
 		Attribute* position = shaderAttributes["position"];
 		if (position != NULL) {
-			BindBuffer(position->location, m_spriteVertexBuffers, GL_ARRAY_BUFFER, 3, GL_FLOAT, (BYTES_PER_FLOAT32 * 12), 0);
+			BindBuffer(position->location, m_spriteVertexBuffers, GL_ARRAY_BUFFER, 3, GL_FLOAT, (BYTES_PER_FLOAT32 * 17), 0);
 		}
 		Attribute* normal = shaderAttributes["normal"];
 		if (normal != NULL) {
-			BindBuffer(normal->location, m_spriteVertexBuffers, GL_ARRAY_BUFFER, 3, GL_FLOAT, (BYTES_PER_FLOAT32 * 12), (BYTES_PER_FLOAT32 * 3));
+			BindBuffer(normal->location, m_spriteVertexBuffers, GL_ARRAY_BUFFER, 3, GL_FLOAT, (BYTES_PER_FLOAT32 * 17), (BYTES_PER_FLOAT32 * 3));
+		}
+		Attribute* color = shaderAttributes["color"];
+		if (color != NULL) {
+			BindBuffer(color->location, m_spriteVertexBuffers, GL_ARRAY_BUFFER, 3, GL_FLOAT, (BYTES_PER_FLOAT32 * 17), (BYTES_PER_FLOAT32 * 6));
 		}
 		Attribute* uv = shaderAttributes["uv"];
 		if (uv != NULL) {
-			BindBuffer(uv->location, m_spriteVertexBuffers, GL_ARRAY_BUFFER, 2, GL_FLOAT, (BYTES_PER_FLOAT32 * 12), (BYTES_PER_FLOAT32 * 6));
+			BindBuffer(uv->location, m_spriteVertexBuffers, GL_ARRAY_BUFFER, 2, GL_FLOAT, (BYTES_PER_FLOAT32 * 17), (BYTES_PER_FLOAT32 * 9));
+		}
+		Attribute* uv2 = shaderAttributes["uv2"];
+		if (uv2 != NULL) {
+			BindBuffer(uv2->location, m_spriteVertexBuffers, GL_ARRAY_BUFFER, 2, GL_FLOAT, (BYTES_PER_FLOAT32 * 17), (BYTES_PER_FLOAT32 * 11));
 		}
 		Attribute* tangent = shaderAttributes["tangent"];
 		if (tangent != NULL) {
-			BindBuffer(tangent->location, m_spriteVertexBuffers, GL_ARRAY_BUFFER, 4, GL_FLOAT, (BYTES_PER_FLOAT32 * 12), (BYTES_PER_FLOAT32 * 3));
+			BindBuffer(tangent->location, m_spriteVertexBuffers, GL_ARRAY_BUFFER, 4, GL_FLOAT, (BYTES_PER_FLOAT32 * 17), (BYTES_PER_FLOAT32 * 13));
 		}
 	}
 	
@@ -761,12 +806,28 @@ namespace Odin {
 		if (normal != NULL && mesh->m_normalLocation != -1) {
 			BindBuffer(normal->location, mesh->m_vertexBuffer, GL_ARRAY_BUFFER, 3, GL_FLOAT, (BYTES_PER_FLOAT32 * mesh->m_stride), (BYTES_PER_FLOAT32 * mesh->m_normalLocation));
 		}
+		Attribute* color = shaderAttributes["color"];
+		if (color != NULL && mesh->m_colorLocation != -1) {
+			BindBuffer(color->location, mesh->m_vertexBuffer, GL_ARRAY_BUFFER, 3, GL_FLOAT, (BYTES_PER_FLOAT32 * mesh->m_stride), (BYTES_PER_FLOAT32 * mesh->m_colorLocation));
+		}
 		Attribute* uv = shaderAttributes["uv"];
 		if (uv != NULL && mesh->m_uvLocation != -1) {
 			BindBuffer(uv->location, mesh->m_vertexBuffer, GL_ARRAY_BUFFER, 2, GL_FLOAT, (BYTES_PER_FLOAT32 * mesh->m_stride), (BYTES_PER_FLOAT32 * mesh->m_uvLocation));
 		}
+		Attribute* uv2 = shaderAttributes["uv2"];
+		if (uv2 != NULL && mesh->m_uvLocation != -1) {
+			BindBuffer(uv2->location, mesh->m_vertexBuffer, GL_ARRAY_BUFFER, 2, GL_FLOAT, (BYTES_PER_FLOAT32 * mesh->m_stride), (BYTES_PER_FLOAT32 * mesh->m_uv2Location));
+		}
+		Attribute* tangent = shaderAttributes["tangent"];
+		if (tangent != NULL && mesh->m_tangentLocation != -1) {
+			BindBuffer(tangent->location, mesh->m_vertexBuffer, GL_ARRAY_BUFFER, 4, GL_FLOAT, (BYTES_PER_FLOAT32 * mesh->m_stride), (BYTES_PER_FLOAT32 * mesh->m_tangentLocation));
+		}
 		
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->m_indexBuffer);
+		if (material->m_wireframe) {
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->m_lineBuffer);
+		} else {
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->m_indexBuffer);
+		}
 	}
 
 	inline bool OpenGLRenderer::GetProgramForce(void) {

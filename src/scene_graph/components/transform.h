@@ -37,11 +37,16 @@ namespace Odin {
 			inline void LookAt(Vec3f& target, Vec3f& up = Vec3f::Up);
 			inline void LookAt(Transform* target, Vec3f& up = Vec3f::Up);
 			
+			inline void ToWorld(Vec3f& v);
+			inline void ToLocal(Vec3f& v);
+			
 			inline void Update(void);
 			inline void Clear(void);
 			inline static float32 Sort(Transform* a, Transform* b);
 			inline void UpdateMatrices(const Mat4f& viewMatrix);
 
+			inline Transform* GetParent(void);
+			inline Transform* GetRoot(void);
 			inline int32 GetDepth(void);
 			inline uint32 GetChildCount(void);
 

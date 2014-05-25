@@ -137,6 +137,7 @@ namespace Odin {
 		}
 
 		array[length] = item;
+		
 		delete []m_array;
 		m_array = array;
 	}
@@ -216,7 +217,7 @@ namespace Odin {
 		return m_length;
 	}
 	
-	template <typename Type> inline Type& Array<Type>::GetArray(void) {
+	template <typename Type> inline Type* Array<Type>::GetArray(void) {
 		return m_array;
 	}
 

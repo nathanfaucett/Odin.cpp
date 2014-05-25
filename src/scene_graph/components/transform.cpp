@@ -62,6 +62,13 @@ namespace Odin {
 		rotation.FromMatrix(m_LookAtMat);
 	}
 	
+	inline void Transform::ToWorld(Vec3f& v) {
+		v *= matrixWorld;
+	}
+	inline void Transform::ToLocal(Vec3f& v) {
+		v *= -matrixWorld;
+	}
+	
 	inline void Transform::p_Sort(void) {
 		Array<Transform*>* components = GetScene()->GetComponents<Transform>();
 		components->Sort(Sort);
@@ -96,6 +103,14 @@ namespace Odin {
 		Mat3InverseMat4<float32>(modelView, normalMatrix).Transpose();
 	}
 
+	
+	inline Transform* Transform::GetParent(void) {
+		return m_parent;
+	}
+	inline Transform* Transform::GetRoot(void) {
+		return m_root;
+	}
+	
 	inline int32 Transform::GetDepth(void) {
 
 		return m_depth;

@@ -71,6 +71,7 @@ namespace Odin {
 
 #include "scene_graph/components/component.h"
 #include "scene_graph/components/transform.h"
+#include "scene_graph/components/bone.h"
 #include "scene_graph/components/camera.h"
 #include "scene_graph/components/mesh_filter.h"
 #include "scene_graph/components/sprite.h"
@@ -103,6 +104,7 @@ namespace Odin {
 
 #include "scene_graph/components/component.cpp"
 #include "scene_graph/components/transform.cpp"
+#include "scene_graph/components/bone.cpp"
 #include "scene_graph/components/camera.cpp"
 #include "scene_graph/components/mesh_filter.cpp"
 #include "scene_graph/components/sprite.cpp"

@@ -167,6 +167,10 @@ namespace Odin {
 		}
 	}
 
+	inline BaseGame* Scene::GetGame(void) {
+		return m_game;
+	}
+	
 	inline uint32 Scene::GetGameObjectCount(void) {
 		return m_gameObjectCount;
 	}

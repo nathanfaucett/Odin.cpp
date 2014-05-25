@@ -57,6 +57,13 @@ namespace Odin {
 
 		return *this;
 	}
+	inline GameObject* Game::GetCamera(void) {
+		if (p_camera != NULL) {
+			return p_camera->GetGameObject();
+		}
+		
+		return NULL;
+	}
 	
 	inline void Game::Update(void) {
 		BaseGame::Update();

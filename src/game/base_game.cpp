@@ -50,6 +50,9 @@ namespace Odin {
 
 		return *this;
 	}
+	inline Scene* BaseGame::GetScene(void) {
+		return p_scene;
+	}
 }
 
 #endif

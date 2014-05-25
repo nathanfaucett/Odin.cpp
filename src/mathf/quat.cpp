@@ -368,11 +368,21 @@ namespace Odin {
 		       );
 	}
 
-	template <typename Type> inline Quat<Type>& Quat<Type>::calculateW(void) {
+	template <typename Type> inline Quat<Type>& Quat<Type>::CalculateW(void) {
 
 		w = -Mathf.Sqrt(abs(static_cast<Type>(1) - x * x - y * y - z * z));
 
 		return *this;
+	}
+	
+	template <typename Type> inline Type Quat<Type>::GetRotationX(void) {
+		return Mathf.Atan2(static_cast<Type>(2) * (y*z + x*w), -(x * x) - y * y + z * z + w * w);
+	}
+	template <typename Type> inline Type Quat<Type>::GetRotationY(void) {
+		return Mathf.Asin(static_cast<Type>(-2) * (x * z - y * w));
+	}
+	template <typename Type> inline Type Quat<Type>::GetRotationZ(void) {
+		return Mathf.Atan2(static_cast<Type>(2) * (x * y + z * w), x * x - y * y - z * z + w * w);
 	}
 
 	template <typename Type> inline Quat<Type>& Quat<Type>::RotateX(Type angle) {

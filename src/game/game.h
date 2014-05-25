@@ -23,6 +23,7 @@ namespace Odin {
 			inline ~Game(void);
 
 			inline virtual Game& SetCamera(GameObject* gameObject);
+			inline virtual GameObject* GetCamera(void);
 
 			inline virtual void Update(void);
 			inline virtual void Render(void);

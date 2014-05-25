@@ -7,6 +7,7 @@ namespace Odin {
 
 		private:
 			bool m_visible;
+			Array<Bone*> m_bones;
 			
 		protected:
 			inline void p_Init(void);

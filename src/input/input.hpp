@@ -147,15 +147,15 @@ namespace Odin {
 						default:
 							continue;
 					}
-					
+
 					if (neg) value -= sensitivity * dt;
 					if (pos) value += sensitivity * dt;
 	
 					if (!pos && !neg && value != 0.0f) {
-						float32 tmp = abs(value);
+						float32 tmp = Mathf.Abs(value);
 						value -= Mathf.Clamp(Mathf.Sign(value) * axis->gravity * dt, -tmp, tmp);
 					}
-	
+
 					value = Mathf.Clamp(value, -1.0f, 1.0f);
 					if (Mathf.Abs(value) <= axis->dead) value = 0.0f;
 	

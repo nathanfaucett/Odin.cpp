@@ -27,6 +27,7 @@ namespace Odin {
 			inline bool IsRunning(void);
 			
 			inline virtual BaseGame& SetScene(Scene* scene);
+			inline virtual Scene* GetScene(void);
 			
 			inline BaseGame& operator=(const BaseGame&)& = default;
 			inline BaseGame& operator=(BaseGame&&)& = default;

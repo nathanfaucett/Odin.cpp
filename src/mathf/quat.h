@@ -96,8 +96,12 @@ namespace Odin {
 			inline Quat<Type>& operator -(void);
 			inline Quat<Type> Inverse(void);
 
-			inline Quat<Type>& calculateW(void);
+			inline Quat<Type>& CalculateW(void);
 
+			inline Type GetRotationX(void);
+			inline Type GetRotationY(void);
+			inline Type GetRotationZ(void);
+			
 			inline Quat<Type>& RotateX(Type angle);
 			inline Quat<Type>& RotateY(Type angle);
 			inline Quat<Type>& RotateZ(Type angle);

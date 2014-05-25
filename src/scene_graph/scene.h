@@ -42,6 +42,7 @@ namespace Odin {
 			inline Scene& AddGameObject(GameObject* gameObject);
 			inline Scene& RemoveGameObject(GameObject* gameObject);
 
+			inline BaseGame* GetGame(void);
 			inline uint32 GetGameObjectCount(void);
 			template <typename Type> inline Array<Type*>* GetComponents(void);
 			

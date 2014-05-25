@@ -25,7 +25,11 @@ namespace Odin {
 		BindMaterial(material, camera->projection, camera->view, transform);
 		BindSpriteAttributes(material);
 		
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+		if (material->GetWireframe()) {
+			glDrawArrays(GL_LINE_STRIP, 0, 4);
+		} else {
+			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+		}
 	}
 	
 	inline void Renderer::m_RenderMeshFilter(Camera* camera, MeshFilter* meshFilter, Transform* transform) {
@@ -40,7 +44,11 @@ namespace Odin {
 		BindMaterial(material, camera->projection, camera->view, transform);
 		BindMeshAttributes(material, mesh);
 		
-		glDrawElements(GL_TRIANGLES, mesh->triangleCount, GL_UNSIGNED_INT, BUFFER_OFFSET(0));
+		if (material->GetWireframe()) {
+			glDrawElements(GL_LINES, mesh->indices.Length(), GL_UNSIGNED_INT, BUFFER_OFFSET(0));
+		} else {
+			glDrawElements(GL_TRIANGLES, mesh->indices.Length(), GL_UNSIGNED_INT, BUFFER_OFFSET(0));
+		}
 	}
 	
 	inline void Renderer::UseClearColor(bool value) {
